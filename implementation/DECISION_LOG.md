@@ -224,3 +224,12 @@
   `RESPONSIVE_MATRIX.md` Phase 6 note). Other screens with similarly "stackable" sections
   (e.g. Order Review, RFQ) could adopt the same `.splitRow` pattern later if a tablet-usability
   gap is found for them - none was flagged this phase.
+
+## IDI-025 - Route-transition Suspense fallback: `Spinner` primitive instead of `null`
+- **Status:** Accepted
+- **Context:** Every lazy-loaded route (`withSuspense` in `AppRouter.tsx`) fell back to `null` while its
+  chunk loaded, so slower connections would see a blank flash between screens.
+- **Decision:** Added `src/components/primitives/Spinner.tsx` (accessible `role="status"`, brand-red
+  ring, `prefers-reduced-motion`-aware - static ring instead of spin) and used it as the `withSuspense`
+  fallback (`<Spinner fullSection />`, `min-height: 60vh` so it doesn't collapse the layout mid-transition).
+- **Consequences:** No new dependency. Reusable for any other async-loading state that needs a spinner.

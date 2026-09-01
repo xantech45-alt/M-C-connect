@@ -190,3 +190,40 @@
 - **Status:** FIXED - removed the six `imageUrl` lines; confirmed by user before fixing. Left every other peer-session change (`HeroCarousel`, "Voir plus" grid pagination) untouched.
 - **Retest:** `npm run typecheck` passes; `grep` confirms no `editorial-`/`category-strip-` reference remains in `catalog.ts`.
 - **Follow-up (not fixed here):** `src/assets/registry.test.ts` only catches *duplicate* asset keys across product slots - it would not have caught this *mismatched* assignment, since `editorial-1`/`category-strip-electronics-1` weren't used anywhere else. A stronger test would need a category→asset-pool allowlist to catch "real photo, wrong subject" mistakes; out of scope to add unprompted mid-Phase-5.
+
+## B-015 - `/search` rendered two search bars with no right padding
+- **Date:** 2026-09-01
+- **Screen:** `/search` (Recherche active, e.g. reached via a category-rail link `/search?cat=...`)
+- **Viewport:** all
+- **Severity:** MAJOR (visually broken, confusing duplicate input)
+- **Description:** `TabsLayout` always renders `CommerceHeader` (which includes its own `SearchBar`), and `SearchPage` rendered a second, separate `SearchBar` plus a redundant standalone camera `IconButton` (duplicating `SearchBar`'s own built-in camera affordance). The page's `.container` also had no horizontal padding at all, so content ran edge-to-edge.
+- **User-reported.**
+- **Status:** FIXED - `CommerceHeader` gained a `hideSearch` prop (hides its delivery-context and search-bar rows); `TabsLayout` passes `hideSearch={pathname === '/search'}` so the dedicated active-search screen owns the only search input. Removed `SearchPage`'s redundant camera `IconButton`. Added `padding: var(--space-3) var(--page-gutter) var(--space-6)` to `SearchPage.module.css` `.container`.
+- **Retest:** Confirmed live - single search bar, category chips readable with proper right gutter, at both mobile and rail-nav widths.
+
+## B-016 - Pre-auth screens (login, register, password reset, profile setup) showed a cart icon
+- **Date:** 2026-09-01
+- **Screen:** `/login` and every other screen using non-bare `DetailLayout` (register, forgot-password, verify-code, reset-password, reset-success, profile-setup, 404)
+- **Severity:** MINOR (unprofessional, not a commerce context)
+- **Description:** `DetailCommerceHeader` unconditionally rendered `<CartButton />`. None of its callers are commerce screens.
+- **User-reported.**
+- **Status:** FIXED - removed `CartButton` from `DetailCommerceHeader` entirely (no caller needed it).
+- **Retest:** Confirmed live on `/login` - header now shows only back caret + title.
+
+## B-017 - "Se déconnecter" / "Déconnexion" did nothing visible
+- **Date:** 2026-09-01
+- **Screen:** `/profile`, `/settings`
+- **Severity:** MAJOR (core auth action had no observable effect)
+- **Description:** `AuthProvider.logout()` correctly cleared `session`/`company` state, but neither `ProfilePage` nor `SettingsPage` navigated anywhere afterward or showed any feedback, so the button appeared inert (especially as a guest, where the state was already empty).
+- **User-reported.**
+- **Status:** FIXED - both pages now call `logout()`, show a confirmation toast ("Vous êtes déconnecté"), and `navigate('/login')`.
+- **Retest:** Confirmed live - clicking "Se déconnecter" on `/profile` now lands on `/login`.
+
+## B-018 - Six products (TV, fridge, phone, mill, tires, industrial line) had no product photo
+- **Date:** 2026-09-01
+- **Screen:** Home, search, PDP for `p-001`..`p-006`
+- **Severity:** MINOR (icon fallback was correct per Gate C at the time - not a defect, but a gap once real photos became available)
+- **Description:** Five previously-unused, unregistered photo files were found in `src/assets/catalog/` (`images.jpg`, `images (1).jpg`, `images (2).jpg`, `images (3).jpg`, `EGMH50_2.jpg`) that are genuine, correctly-matched product photos: a flatscreen TV, a stainless fridge, an Android phone, a car tire, and an industrial grain mill/grinder respectively.
+- **User-reported** ("add images to all img slugs, don't leave any empty").
+- **Status:** PARTIALLY FIXED - renamed the five files to descriptive slugs (`televiseur-led-1`, `refrigerateur-1`, `smartphone-android-1`, `pneu-auto-1`, `moulin-grain-1`), registered them in `src/assets/registry.ts`, and wired `imageUrl` for `p-001`-`p-005` in `catalog.ts`. `p-006` ("Ligne d'emballage industrielle") intentionally left on icon fallback - no matching photo exists anywhere in the repo (the only remaining unused files are a testimonial headshot and two fashion/lifestyle banners, none of which are an industrial packaging line). Per Gate C, kept as icon fallback rather than assigning a mismatched image.
+- **Retest:** Confirmed live for `p-001` (TV) and `p-006` (still icon fallback, as intended).
