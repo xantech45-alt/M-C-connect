@@ -1,0 +1,108 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding-bottom: calc(var(--sticky-bar-height) + var(--space-4));
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--font-size-title-lg);
+  font-weight: 700;
+  margin: 0;
+}
+
+.body {
+  font-size: var(--font-size-body);
+  color: var(--slate);
+  margin: var(--space-1) 0 0;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  min-height: var(--tap-min);
+}
+
+.optionActive {
+  border-color: var(--mc-red);
+  background: var(--mc-red-tint);
+}
+
+.radio {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--mc-red);
+  flex: 0 0 auto;
+}
+
+.optionIcon {
+  width: 40px;
+  height: 40px;
+  background: var(--surface);
+  color: var(--mc-red);
+  border-radius: var(--radius-md);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.optionActive .optionIcon {
+  background: var(--white);
+}
+
+.optionText {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.optionText strong {
+  font-size: var(--font-size-body-lg);
+  font-weight: 600;
+}
+
+.optionSub {
+  font-size: var(--font-size-caption);
+  color: var(--slate);
+}
+
+.check {
+  color: var(--mc-red);
+  flex: 0 0 auto;
+}
+
+.h2 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--font-size-title-md);
+  font-weight: 700;
+  margin: 0 0 var(--space-2);
+}
+
+.noteList {
+  margin: 0;
+  padding-left: var(--space-5);
+  font-size: var(--font-size-body);
+  color: var(--ink);
+  line-height: 1.6;
+}

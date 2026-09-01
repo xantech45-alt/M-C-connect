@@ -1,0 +1,15 @@
+.root {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--surface);
+  padding-top: var(--safe-top);
+  /* Reserve space for the fixed bottom nav */
+  padding-bottom: calc(var(--bottom-nav-height) + var(--safe-bottom));
+  /* Prevent any child overflow from causing horizontal scroll
+     that could appear to move the fixed bottom nav. */
+  overflow-x: hidden;
+}
+
+.outlet {
+  display: block;
+}

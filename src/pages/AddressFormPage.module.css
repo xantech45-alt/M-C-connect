@@ -1,0 +1,38 @@
+.container {
+  padding: var(--page-gutter);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.selectWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.selectLabel {
+  font-size: var(--font-size-body);
+  color: var(--slate);
+  font-weight: 500;
+}
+
+.select {
+  min-height: var(--tap-min);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-body-lg);
+  font-family: inherit;
+  background: var(--white);
+  color: var(--ink);
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--mc-red);
+  box-shadow: 0 0 0 3px var(--mc-red-tint);
+}

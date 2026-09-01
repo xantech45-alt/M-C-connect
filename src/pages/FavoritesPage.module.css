@@ -1,0 +1,27 @@
+.container {
+  padding: var(--space-3) var(--page-gutter) var(--space-8);
+}
+
+.count {
+  font-size: var(--font-size-caption);
+  color: var(--slate);
+  margin: 0 0 var(--space-3);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+@media (min-width: 600px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}

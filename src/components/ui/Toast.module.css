@@ -1,0 +1,37 @@
+.region {
+  position: fixed;
+  top: calc(var(--safe-top) + var(--space-3));
+  left: var(--page-gutter);
+  right: var(--page-gutter);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  z-index: 100;
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  color: var(--white);
+  box-shadow: var(--elev-3);
+}
+
+.success {
+  background: var(--success);
+}
+
+.error {
+  background: var(--mc-red-deep);
+}
+
+.info {
+  background: var(--info);
+}
+
+.warning {
+  background: var(--warning);
+}

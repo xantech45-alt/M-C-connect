@@ -1,0 +1,156 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--page-gutter) var(--space-6);
+}
+
+.title {
+  font-size: var(--font-size-title-lg);
+  font-weight: 700;
+  margin: 0;
+}
+
+.subtitle {
+  font-size: var(--font-size-body);
+  color: var(--slate);
+  margin: 2px 0 0;
+}
+
+.kpis {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+
+.kpiHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-1);
+}
+
+@media (min-width: 600px) {
+  .kpiHead {
+    margin-bottom: var(--space-2);
+  }
+}
+
+.kpiLabel {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  color: var(--slate);
+  font-size: var(--font-size-caption);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.kpiValue {
+  display: block;
+  font-size: var(--font-size-display-md);
+  color: var(--ink);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+.kpiSub {
+  display: block;
+  font-size: var(--font-size-caption);
+  color: var(--slate);
+  margin-top: 2px;
+}
+
+.chart {
+  width: 100%;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: inherit;
+}
+
+.itemRight {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.amount {
+  font-size: var(--font-size-body);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.chevron {
+  color: var(--slate-soft);
+  flex: 0 0 auto;
+}
+
+.id {
+  display: block;
+  font-size: var(--font-size-caption);
+  color: var(--slate);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.name {
+  display: block;
+  font-size: var(--font-size-body-lg);
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.seeAll {
+  color: var(--mc-red);
+  font-size: var(--font-size-body);
+  font-weight: 600;
+  text-decoration: none;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.periodNote {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--font-size-caption);
+  color: var(--slate);
+}
+
+@media (min-width: 600px) {
+  .kpis {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .amount {
+    display: none;
+  }
+}
+
+@media (min-width: 900px) {
+  .amount {
+    display: inline;
+  }
+}

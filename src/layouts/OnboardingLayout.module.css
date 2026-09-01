@@ -1,0 +1,9 @@
+.root {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--white);
+  padding-top: var(--safe-top);
+  padding-bottom: var(--safe-bottom);
+  display: flex;
+  flex-direction: column;
+}

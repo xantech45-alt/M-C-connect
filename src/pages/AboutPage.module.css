@@ -1,0 +1,70 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--page-gutter) var(--space-8);
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-3);
+  padding: var(--space-6) var(--space-3);
+}
+
+.tagline {
+  font-size: var(--font-size-body-lg);
+  color: var(--slate);
+  max-width: 320px;
+  margin: 0;
+}
+
+.textCard {
+  padding: var(--space-4);
+}
+
+.paragraph {
+  font-size: var(--font-size-body);
+  color: var(--ink);
+  margin: 0;
+}
+
+.paragraph + .paragraph {
+  margin-top: var(--space-3);
+}
+
+.pillars {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+.pillar {
+  padding: var(--space-3);
+}
+
+.pillarIcon {
+  width: 36px;
+  height: 36px;
+  background: var(--mc-red-tint);
+  color: var(--mc-red);
+  border-radius: var(--radius-md);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pillarTitle {
+  font-size: var(--font-size-body);
+  font-weight: 700;
+  color: var(--ink);
+  margin: var(--space-2) 0 0;
+}
+
+.pillarBody {
+  font-size: var(--font-size-caption);
+  color: var(--slate);
+  margin: 4px 0 0;
+}

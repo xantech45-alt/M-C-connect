@@ -1,0 +1,13 @@
+.root {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--surface);
+  padding-top: var(--safe-top);
+  /* Reserve space for the fixed bottom nav (64 + safe-area) */
+  padding-bottom: calc(var(--bottom-nav-height) + var(--safe-bottom));
+}
+
+.outlet {
+  /* Page gutter is applied per-page; outlet is just a flex column */
+  display: block;
+}

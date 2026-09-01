@@ -1,0 +1,54 @@
+.root {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: inherit;
+}
+
+.mark {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  width: 44px;
+  height: 32px;
+  background: var(--mc-red);
+  color: var(--white);
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.01em;
+  padding: 0 4px;
+}
+
+.mark::before {
+  content: 'M';
+  font-weight: 800;
+  line-height: 1;
+}
+
+.mark > .amp {
+  font-weight: 800;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.mark::after {
+  content: 'C';
+  font-weight: 800;
+  line-height: 1;
+}
+
+.text {
+  font-size: var(--font-size-body-lg);
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+.full .mark {
+  width: 56px;
+  height: 40px;
+  font-size: 16px;
+}

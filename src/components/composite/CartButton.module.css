@@ -1,0 +1,54 @@
+.root {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tap-min);
+  height: var(--tap-min);
+  background: transparent;
+  border: 0;
+  color: var(--ink);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+}
+
+.root:hover {
+  background: var(--surface);
+}
+
+.withLabel {
+  width: auto;
+  padding: 0 var(--space-2);
+  gap: var(--space-1);
+}
+
+.badge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  background: var(--mc-red);
+  color: var(--white);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-variant-numeric: tabular-nums;
+  /* Crisp edge against the white header */
+  box-shadow: 0 0 0 2px var(--white);
+}
+
+.withLabel .badge {
+  position: static;
+  margin-left: var(--space-1);
+}
+
+.label {
+  font-size: var(--font-size-body);
+  font-weight: 500;
+}

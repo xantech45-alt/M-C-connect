@@ -1,0 +1,111 @@
+.root {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--surface);
+  padding-top: var(--safe-top);
+  padding-bottom: var(--safe-bottom);
+}
+
+.fullScreen {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--ink);
+  padding-top: var(--safe-top);
+  padding-bottom: var(--safe-bottom);
+}
+
+.appBar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: var(--app-bar-height);
+  padding: 0 var(--page-gutter);
+  background: var(--white);
+  border-bottom: var(--border-hairline);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.backBtn {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: calc(var(--space-2) * -1);
+  border-radius: var(--radius-full);
+  color: var(--ink);
+}
+
+.backBtn:hover {
+  background: var(--surface);
+}
+
+.title {
+  font-size: var(--font-size-title-lg);
+  line-height: var(--line-height-title-lg);
+  font-weight: 600;
+  color: var(--ink);
+  flex: 1;
+  margin: 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.content {
+  padding: var(--space-3) var(--page-gutter) var(--space-6);
+}
+
+@media (min-width: 600px) {
+  .content {
+    padding: var(--space-4) var(--page-gutter) var(--space-8);
+  }
+}
+
+/* ── Bare mode (nested inside TabsLayout) ───────────────── */
+.bare {
+  display: flex;
+  flex-direction: column;
+}
+
+.bareHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: var(--app-bar-height);
+  padding: 0 var(--page-gutter);
+  background: var(--white);
+  border-bottom: var(--border-hairline);
+  position: sticky;
+  top: var(--app-bar-height); /* sit directly under the CommerceHeader */
+  z-index: 30;
+}
+
+.bareTitle {
+  font-size: var(--font-size-title-md);
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bareContent {
+  padding: var(--space-3) var(--page-gutter) var(--space-6);
+}
+
+@media (min-width: 600px) {
+  .bareContent {
+    padding: var(--space-4) var(--page-gutter) var(--space-8);
+  }
+}

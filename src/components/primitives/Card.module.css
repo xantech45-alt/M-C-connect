@@ -1,0 +1,20 @@
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+}
+
+@media (min-width: 600px) {
+  .card {
+    padding: var(--space-4);
+  }
+}
+
+.flat {
+  box-shadow: none;
+}
+
+.elevated {
+  box-shadow: var(--elev-1);
+}

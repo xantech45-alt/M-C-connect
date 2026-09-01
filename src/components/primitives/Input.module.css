@@ -1,0 +1,83 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.label {
+  font-size: var(--font-size-body);
+  color: var(--slate);
+  font-weight: 500;
+}
+
+.field {
+  position: relative;
+  display: flex;
+}
+
+.input {
+  width: 100%;
+  min-height: var(--tap-min);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-body-lg);
+  font-family: inherit;
+  background: var(--white);
+  color: var(--ink);
+}
+
+.hasTrailing {
+  padding-right: var(--space-10);
+}
+
+.trailing {
+  position: absolute;
+  right: var(--space-1);
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trailing button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: 0;
+  color: var(--slate);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+}
+
+.trailing button:hover {
+  color: var(--ink);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--mc-red);
+  box-shadow: 0 0 0 3px var(--mc-red-tint);
+}
+
+.input::placeholder {
+  color: var(--slate);
+}
+
+.helper {
+  font-size: var(--font-size-caption);
+  color: var(--slate);
+}
+
+.error {
+  font-size: var(--font-size-caption);
+  color: var(--mc-red-deep);
+}
+
+.invalid {
+  border-color: var(--mc-red);
+}

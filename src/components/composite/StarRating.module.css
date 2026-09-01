@@ -1,0 +1,29 @@
+.root {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.stars {
+  display: inline-flex;
+  gap: 1px;
+}
+
+.filled {
+  color: var(--warning);
+}
+
+.empty {
+  color: var(--border);
+}
+
+.value {
+  font-size: var(--font-size-caption);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.count {
+  font-size: var(--font-size-caption);
+  color: var(--slate);
+}

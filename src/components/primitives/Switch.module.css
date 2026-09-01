@@ -1,0 +1,26 @@
+.switch {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 26px;
+  border-radius: var(--radius-full);
+  background: var(--border);
+  border: 0;
+  padding: 3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.switchOn {
+  background: var(--mc-red);
+  justify-content: flex-end;
+}
+
+.thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--white);
+  box-shadow: var(--elev-1);
+  transition: transform var(--motion-fast) ease;
+}

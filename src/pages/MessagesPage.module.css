@@ -1,0 +1,143 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--page-gutter) var(--space-6);
+}
+
+.banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.bannerIcon {
+  width: 32px;
+  height: 32px;
+  background: var(--mc-red-tint);
+  color: var(--mc-red);
+  border-radius: var(--radius-md);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.bannerText {
+  margin: 0;
+  font-size: var(--font-size-caption);
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: inherit;
+  min-height: var(--tap-min);
+}
+
+@media (min-width: 600px) {
+  .item {
+    padding: var(--space-4);
+  }
+}
+
+.item:hover {
+  border-color: var(--slate-soft);
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  background: var(--mc-red-tint);
+  color: var(--mc-red);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+@media (min-width: 600px) {
+  .avatar {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.subject {
+  font-size: var(--font-size-body-lg);
+  font-weight: 600;
+  margin: 0;
+  color: var(--ink);
+  line-height: 1.3;
+}
+
+.date {
+  font-size: var(--font-size-caption);
+  color: var(--slate);
+  flex: 0 0 auto;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.preview {
+  margin: 0;
+  font-size: var(--font-size-body);
+  color: var(--slate);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.meta {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.tag {
+  font-size: var(--font-size-caption);
+  color: var(--slate);
+  font-weight: 600;
+}
+
+.chevron {
+  color: var(--slate-soft);
+  flex: 0 0 auto;
+  align-self: center;
+}

@@ -1,0 +1,92 @@
+.rows {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.rows li + li {
+  border-top: 1px solid var(--border-soft);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-2) 0;
+  background: transparent;
+  border: 0;
+  text-align: left;
+  font-family: inherit;
+  color: var(--ink);
+  text-decoration: none;
+  cursor: pointer;
+  min-height: var(--tap-min);
+}
+
+@media (min-width: 600px) {
+  .row {
+    padding: var(--space-3) 0;
+  }
+}
+
+.row:hover .rowIcon {
+  color: var(--mc-red);
+}
+
+.rowStatic {
+  cursor: default;
+}
+
+.rowStatic:hover .rowIcon {
+  color: var(--slate);
+}
+
+.rowDanger {
+  color: var(--mc-red);
+}
+
+.rowDanger .rowIcon {
+  background: var(--mc-red-tint);
+  color: var(--mc-red);
+}
+
+.rowIcon {
+  width: 32px;
+  height: 32px;
+  background: var(--surface);
+  color: var(--slate);
+  border-radius: var(--radius-md);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  transition: color var(--motion-fast) ease;
+}
+
+.rowBody {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.rowLabel {
+  font-size: var(--font-size-body);
+  font-weight: 600;
+  color: inherit;
+}
+
+.rowValue {
+  font-size: var(--font-size-caption);
+  color: var(--slate);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rowChevron {
+  color: var(--slate-soft);
+  flex: 0 0 auto;
+}

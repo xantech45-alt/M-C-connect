@@ -1,0 +1,254 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--section-gap);
+  padding: var(--space-3) var(--page-gutter) var(--section-gap-lg);
+}
+
+/* ── Active order card ─────────────────────────────────── */
+.activeOrder {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--mc-red);
+  border-radius: var(--radius-md);
+  box-shadow: var(--elev-1);
+}
+
+@media (min-width: 600px) {
+  .activeOrder {
+    padding: var(--space-4);
+  }
+}
+
+.activeOrderLeft {
+  flex: 1;
+  min-width: 0;
+}
+
+.activeOrderEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--mc-red);
+  font-size: var(--font-size-caption);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.activeOrderTitle {
+  font-size: var(--font-size-title-md);
+  font-weight: 600;
+  margin: 4px 0 2px;
+}
+
+.activeOrderMeta {
+  font-size: var(--font-size-caption);
+  color: var(--slate);
+  margin: 0;
+}
+
+.activeOrderCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--mc-red);
+  font-weight: 600;
+  text-decoration: none;
+  font-size: var(--font-size-body);
+  min-height: 36px;
+  padding: 0 var(--space-2);
+}
+
+/* ── Trust strip (compact 3-up, under hero) ──────────────── */
+.trustStrip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+
+/* ── Category rail ─────────────────────────────────────── */
+.catRail {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+
+.catChip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: var(--space-2);
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: var(--ink);
+  min-height: 72px;
+  text-align: center;
+}
+
+@media (min-width: 600px) {
+  .catChip {
+    padding: var(--space-3) var(--space-2);
+    min-height: 84px;
+  }
+}
+
+.catChip:hover {
+  border-color: var(--mc-red);
+}
+
+.catIcon {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--mc-red-tint);
+  color: var(--mc-red);
+  border-radius: 999px;
+}
+
+.catLabel {
+  font-size: var(--font-size-caption);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.seeAll {
+  color: var(--mc-red);
+  font-weight: 600;
+  font-size: var(--font-size-body);
+  text-decoration: none;
+  min-height: var(--tap-min);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 var(--space-1);
+}
+
+.seeAll:hover {
+  color: var(--mc-red-deep);
+}
+
+/* ── Flash sale ────────────────────────────────────────── */
+.flashCountdown {
+  margin: -4px 0 var(--space-3);
+  font-size: var(--font-size-caption);
+  color: var(--slate);
+}
+
+.flashCountdownValue {
+  color: var(--mc-red);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.flashRow {
+  display: flex;
+  gap: var(--space-3);
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.flashCard {
+  flex: 0 0 auto;
+  width: 140px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.flashImageWrap {
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.flashBadge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  background: var(--mc-red);
+  color: var(--white);
+  font-size: var(--font-size-caption);
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+}
+
+.flashTitle {
+  font-size: var(--font-size-caption);
+  color: var(--ink);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.2em;
+}
+
+.flashPriceRow {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.flashPrice {
+  font-size: var(--font-size-body);
+  font-weight: 700;
+  color: var(--mc-red);
+}
+
+.flashOriginal {
+  font-size: var(--font-size-caption);
+  color: var(--slate);
+  text-decoration: line-through;
+}
+
+/* ── Product grid ──────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+/* ── Trust block ───────────────────────────────────────── */
+.trustGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.trustNote {
+  font-size: var(--font-size-caption);
+  color: var(--slate);
+  margin: 0;
+  text-align: center;
+}
+
+/* ── Tablet ────────────────────────────────────────────── */
+@media (min-width: 600px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .trustGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}

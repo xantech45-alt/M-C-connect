@@ -1,0 +1,135 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--page-gutter) var(--space-8);
+}
+
+.addLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--mc-red);
+  font-size: var(--font-size-body);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.card {
+  padding: var(--space-3);
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: pointer;
+}
+
+.cardHead input {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+}
+
+.cardLabel {
+  font-size: var(--font-size-body);
+  font-weight: 600;
+  color: var(--ink);
+  flex: 1;
+}
+
+.cardLine {
+  margin: var(--space-2) 0 0;
+  font-size: var(--font-size-body);
+  color: var(--ink);
+}
+
+.cardMuted {
+  margin: 2px 0 0;
+  font-size: var(--font-size-caption);
+  color: var(--slate);
+}
+
+.cardActions {
+  display: flex;
+  gap: var(--space-4);
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border-soft);
+}
+
+.actionBtn,
+.actionBtnDanger {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: 0;
+  font-family: inherit;
+  font-size: var(--font-size-caption);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 0;
+}
+
+.actionBtn {
+  color: var(--ink);
+}
+
+.actionBtnDanger {
+  color: var(--mc-red);
+}
+
+.deliveryCard {
+  padding: 0;
+}
+
+.deliveryRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+}
+
+.deliveryRow + .deliveryRow {
+  border-top: 1px solid var(--border-soft);
+}
+
+.deliveryIcon {
+  width: 32px;
+  height: 32px;
+  background: var(--surface);
+  color: var(--slate);
+  border-radius: var(--radius-md);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.deliveryBody {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.deliveryLabel {
+  font-size: var(--font-size-body);
+  color: var(--ink);
+}
+
+.deliveryPrice {
+  font-size: var(--font-size-body);
+  font-weight: 600;
+  color: var(--success);
+}

@@ -1,0 +1,43 @@
+.container {
+  padding: var(--space-3) var(--page-gutter) var(--space-8);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.card {
+  padding: var(--space-3);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.productTitle {
+  font-size: var(--font-size-body);
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.productTitle:hover {
+  text-decoration: underline;
+}
+
+.comment {
+  margin: var(--space-2) 0 0;
+  font-size: var(--font-size-body);
+  color: var(--ink);
+}
+
+.date {
+  margin: var(--space-2) 0 0;
+  font-size: var(--font-size-caption);
+  color: var(--slate);
+}

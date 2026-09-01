@@ -1,0 +1,191 @@
+# Implementation Decision Log
+
+> Implementation-side decisions only. Architectural ADRs live in `blueprint/21_DECISIONS.md`.
+
+---
+
+## IDI-001 - Stack choice
+- **Status:** Accepted
+- **Context:** No existing React project; we build from scratch.
+- **Decision:** Vite + React 18 + TypeScript + React Router v6 + Lucide React + Recharts + Vitest.
+- **Rationale:** Vite is the fastest modern dev server; React Router is the de-facto standard; Lucide matches the blueprint's outline icon requirement (1.5 px stroke); Recharts is the lightest accessible chart lib; Vitest pairs naturally with Vite.
+- **Consequences:** Plain CSS (CSS variables + modules) instead of Tailwind to keep tokens authoritative.
+
+## IDI-002 - Bottom-nav tab set
+- **Status:** Accepted
+- **Context:** Blueprint specifies 5 tabs.
+- **Decision:** Routes `/(tabs)/home`, `/(tabs)/orders`, `/(tabs)/products`, `/(tabs)/messages`, `/(tabs)/profile`.
+- **Consequences:** "Products" tab nests the catalog entry (categories + search + image search).
+
+## IDI-003 - Mock data layer
+- **Status:** Accepted
+- **Context:** No backend.
+- **Decision:** All async data flows through `src/data/mock/*` returning typed promises with simulated latency. Each provider has a single seam to swap for a real API client.
+- **Consequences:** Zero backend coupling. UI is fully exercisable.
+
+## IDI-004 - Localization seam
+- **Status:** Accepted
+- **Context:** Need a single seam for `fr-ML` / `en` / `bm`.
+- **Decision:** `LocaleProvider` exposes `{ locale, setLocale, t }`; `t(key)` returns the string for the active locale and falls back to `fr` then `en`. Strings live in `src/i18n/strings/{fr-ML,en,bm}.ts`.
+- **Consequences:** No screen reaches into raw strings; copy freeze is straightforward.
+
+## IDI-005 - Image fallback policy
+- **Status:** Accepted
+- **Context:** Industrial photography gap.
+- **Decision:** Use supplied photography where it fits; render a `PlaceholderImage` (clean neutral background + product silhouette icon) for missing industrial categories. UI never shows a broken-image icon.
+- **Consequences:** Visual consistency preserved; queue industrial photography capture.
+
+## IDI-006 - Sticky-bar component
+- **Status:** Accepted
+- **Context:** Spec mandates 72 dp + safe-area, mutually exclusive with bottom nav.
+- **Decision:** `<StickyBar>` component handles safe-area inset and renders primary CTA + optional secondary. Layout wrappers (`TabsLayout`, `DetailLayout`) ensure mutual exclusion.
+- **Consequences:** Predictable thumb-zone behaviour.
+
+## IDI-007 - Status mapping (single source of truth)
+- **Status:** Accepted
+- **Context:** Order status is referenced across tracking, dashboard, orders list.
+- **Decision:** `src/data/statusMap.ts` exports `ORDER_STATUS_META`, `PAYMENT_STATUS_META`, `QC_VERDICT_META` - each is `{ key, label, tone, icon }`. `StatusChip` consumes this.
+- **Consequences:** No drift between screens; one place to add a status.
+
+## IDI-008 - Gate A: mockups define visuals, B2B model defines information architecture
+- **Status:** Accepted (Phase 0 sign-off)
+- **Context:** `frontend desing and logic/` mockups depict a consumer marketplace (cart, buy-now, promo codes, flash sales, favourites, social sign-in). The codebase and `M^0C Connect.docx` describe a managed B2B sourcing platform (MOQ, RFQ, landed cost, HS codes, QC, no direct supplier contact) - already encoded in `blueprint/21_DECISIONS.md` D-005.
+- **Decision:** Adopt mockup layout, spacing, card anatomy, chip rows, sticky action bars, bottom-nav treatment. Keep every B2B surface: MOQ on cards/PDP, `/product/:id/landed-cost`, `/compare`, `/rfq/new`, `/rfq/received`, `/orders/:id/qc`, `/dashboard`, `/profile-setup`. PDP sticky pair is "Ajouter au panier" + "Acheter maintenant", where "Acheter maintenant" routes to `/checkout/review` (not a direct-purchase flow). No supplier profiles, storefronts, or supplier chat; the mockup PDP "Boutique" icon is replaced with "Devis" → `/rfq/new`.
+- **Consequences:** All new Phase 2+ screens (auth, profile, commerce) must be built B2B-first even where the mockup wording reads B2C. Supersedes nothing; reinforces D-005.
+
+## IDI-009 - Gate B: bottom nav keeps Set B (Accueil, Commandes, Produits, Messages, Profil)
+- **Status:** Accepted (Phase 0 sign-off) - already implemented, confirmed not re-derived
+- **Context:** Mockups contain two incompatible tab sets. `BottomNav.tsx` / `TabsLayout` and `blueprint/21_DECISIONS.md` D-020 already ship Set B.
+- **Decision:** Keep Set B. Cart stays a persistent header badge (`CartButton.tsx`) rather than a tab. The "Produits" tab's active-match prefix array must keep covering `/cart`, `/checkout/*`, `/product/*`, `/rfq/*`.
+- **Consequences:** No BottomNav changes required in Phase 0. Verify the match-prefix array when Phase 4/5 add new commerce routes.
+
+## IDI-010 - Gate C: re-seed catalogue to match available photography
+- **Status:** Accepted (Phase 0 sign-off) - execution deferred to Phase 1
+- **Context:** Seeded catalogue (wax fabric, TVs, fridges, phones, mills) has no matching photography; available photography (39 product photos, 4 square) is fashion/footwear/watches/jewellery/sportswear/perfume/shampoo.
+- **Decision:** Re-weight `src/state/catalog.ts` toward Textile & Mode, Beauté & Hygiène, and footwear/accessories under Textile & Mode, keeping the same 8 `CatalogCategory` records. Categories with no photography (Électronique, Maison, Machines, Téléphones, Auto, Industriel) keep the Lucide icon fallback with `imageUrl: undefined` - never a mislabelled photo.
+- **Consequences:** Phase 1 must log every zero-photography category in `implementation/ASSET_IMPLEMENTATION_MAP.md` as a capture request.
+
+## IDI-011 - Gate D: image budget allocated by product tier, zero duplicates
+- **Status:** Accepted (Phase 0 sign-off) - execution deferred to Phase 1
+- **Context:** 43 unique product-grade photos available; naive 19-products × 4-image gallery demands 76.
+- **Decision:** Tier 1 (8 hero products): 4 unique gallery images each = 32. Tier 2 (11 products): 1 unique primary image each = 11. Total 43, exact budget, zero reuse. Any future increase in product count lowers Tier 1 gallery depth rather than reusing a file.
+- **Consequences:** Phase 1's `registry.test.ts` enforces this as a build-breaking invariant, not a convention.
+
+## IDI-012 - tsconfig `baseUrl` deprecation removed
+- **Status:** Accepted
+- **Context:** `tsc -b` warned that `baseUrl` is deprecated as of TS 6.0; the only alias in use is `@/*` → `src/*`.
+- **Decision:** Removed `baseUrl` from `tsconfig.json` and made the `@/*` path mapping explicitly relative (`./src/*`), which TypeScript resolves against the tsconfig's own directory without `baseUrl`. Chosen over `"ignoreDeprecations": "6.0"` because it fixes the root cause instead of silencing it.
+- **Consequences:** `tsc -b` now exits 0 with no warnings. No other code changes needed since `@/*` was already the only alias.
+
+## IDI-013 - ESLint migrated from `.eslintrc.cjs` to flat `eslint.config.js`
+- **Status:** Accepted
+- **Context:** `package.json` pins `eslint@^9`, which no longer reads legacy `.eslintrc.*` by default; `npm run lint` failed outright ("couldn't find eslint.config.js"), so the lint gate had never actually run green under ESLint 9. `typescript-eslint@8.68.0` (flat-config helper) and `@eslint/js` were already present in `node_modules` as transitive deps of `eslint`/`typescript-eslint`, so no new dependency was added.
+- **Decision:** Added `eslint.config.js` (flat config, using `tseslint.config(...)`) preserving the exact same rule set as the old `.eslintrc.cjs`, then deleted `.eslintrc.cjs`. Also added targeted `eslint-disable-next-line react-refresh/only-export-components` comments (with inline justification) on the 6 provider/hook co-location exports (`AuthProvider`/`useAuth`, `CartProvider`/`useCart`, `LocaleProvider`/`useLocale`/`useT`, `OfflineProvider`/`useOffline`, `Toast`/`useToast`) and on `AppRouter`'s `router` export, since splitting each into a second file to satisfy fast-refresh would be an abstraction beyond what the codebase needs.
+- **Consequences:** `npm run lint` now exits 0 at `--max-warnings=0`. Any new provider/hook pair added in later phases should follow the same disable-with-justification pattern rather than reintroducing warnings.
+
+## IDI-014 - Baseline Vitest smoke test added
+- **Status:** Accepted
+- **Context:** `npm test` failed outright ("No test files found") - Vitest/Testing Library were configured but zero test files existed anywhere in the repo, so the `npm test` quality gate had never passed.
+- **Decision:** Added `src/components/primitives/Button.test.tsx` (render + click) as a minimal passing baseline. Per-page render tests (heading + primary CTA) are added incrementally as each new route ships in Phases 2–4, and `registry.test.ts` lands in Phase 1, per §7 of the execution prompt.
+- **Consequences:** `npm test` now exits 0. This is a floor, not the target coverage - do not treat it as satisfying the Phase 7 test-coverage requirement.
+
+## IDI-015 - Phase 2 auth cluster scoping
+- **Status:** Accepted
+- **Context:** §4.1 of the execution prompt asks for a terms checkbox on `/register` "linking to
+  CGU + privacy," but no CGU/privacy-policy route exists anywhere in the prompt's 21-screen list
+  (§4.2–§4.3), and inventing one would violate the "zero dead internal links" Definition of Done.
+- **Decision:** `RegisterPage`'s terms checkbox renders the required copy as plain text (not a
+  link). Both `register` and `loginWithPassword`/`verifyOtp` success routes navigate to
+  `/profile-setup`, mirroring the existing OTP flow's terminus, so the B2B business-profile step
+  is never skipped regardless of which auth path was used.
+- **Consequences:** If/when a CGU or privacy-policy screen is ever added, wire this checkbox's
+  text into real links at that point - tracked here, not forgotten.
+
+## IDI-016 - Phase 3 profile-cluster scoping
+- **Status:** Accepted
+- **Context:** §4.2 lists rows for "Préférences," "Notifications," "Langue," and "Devise" inside
+  `/settings`, and a "Read + edit personal info" description for `/settings/personal` that
+  overlaps with `/profile/edit`. No dedicated routes for Préférences/Notifications exist anywhere
+  in the prompt's 21-screen list, and duplicating the personal-info form as two components would
+  contradict "don't repeat yourself."
+- **Decision:** Préférences and Notifications render as non-interactive `NavRow`s (no `to`, no
+  chevron - `NavRow` renders a plain `<div>` in that case) rather than linking to non-existent
+  routes. Langue/Devise render as display-only rows showing the current value. `/profile/edit`
+  and `/settings/personal` both render the same shared `PersonalInfoForm` composite.
+- **Consequences:** If Préférences/Notifications screens are added later, wire their `NavRow`s to
+  real routes at that point.
+
+## IDI-017 - Destructive address deletion uses `window.confirm`, not a bottom sheet
+- **Status:** Accepted (interim)
+- **Context:** `blueprint/21_DECISIONS.md` D-019 requires destructive actions to confirm via a
+  bottom sheet, but no bottom-sheet primitive exists in this codebase yet. Building one now for a
+  single delete button (`/addresses`) would be a disproportionate new-component investment for
+  Phase 3.
+- **Decision:** `AddressesPage`'s "Supprimer" action uses `window.confirm()` as a pragmatic
+  stand-in.
+- **Consequences:** Revisit once a bottom-sheet primitive is built for some other screen (D-019
+  applies to every destructive action app-wide, not just this one) - swap this call for it then,
+  rather than building the primitive speculatively here.
+
+## IDI-018 - `NavRow`/`NavRowList` extracted from `ProfilePage` into a shared composite
+- **Status:** Accepted
+- **Context:** The icon+label+value+chevron row pattern was previously local to `ProfilePage.tsx`.
+  Phase 3 reuses it verbatim across `ProfilePage`, `SettingsPage`, and would have duplicated it in
+  `AddressesPage`/`PaymentMethodsPage` had it stayed private.
+- **Decision:** Moved to `src/components/composite/NavRow.tsx`, extended with a `danger` variant
+  (red "Se déconnecter"/"Déconnexion" rows) and a non-interactive display mode (no `to`/`onClick`
+  → renders a `<div>`, no chevron) for rows like "Langue : Français" that have no target screen.
+- **Consequences:** Any future account/settings-style list should reuse `NavRow` rather than
+  hand-rolling another row component.
+
+## IDI-019 - `/filters` implemented as a top-level route, not a true overlay
+- **Status:** Accepted
+- **Context:** `blueprint/screens/08_FILTERS.md` specifies a `BottomSheet` component (`role="dialog"`,
+  focus-trapped, Esc closes) layered over the calling screen. This router (`createBrowserRouter`,
+  single `<Outlet>`, no parallel/modal routes) has no mechanism to render a route "on top of"
+  another route still mounted underneath.
+- **Decision:** `/filters` is a full top-level route (sibling of `/login`), styled to read as a
+  bottom sheet (rounded top corners, drag handle, half-width centered card at ≥900px per the
+  spec's tablet behavior) with `role="dialog" aria-modal="true"`. State (which filters, where to
+  return) travels via `navigate(..., { state })` and the return trip via URL query params - not a
+  true overlay, but the calling screen's `CommerceHeader`/`BottomNav` are simply absent rather than
+  incorrectly visible behind a non-functional sheet.
+- **Consequences:** No focus-trap or Esc-to-close yet (both listed in the blueprint's Accessibility
+  section) - the close (X) button and native browser back both work as escape hatches today.
+  Revisit if/when a true modal-route pattern is needed elsewhere.
+
+## IDI-020 - `Switch` extracted as a shared primitive
+- **Status:** Accepted
+- **Context:** Phase 3's `SettingsSecurityPage` (2FA toggle) and Phase 4's `FiltersPage` (Vérifié
+  M&C toggle) both need an accessible on/off switch; no such primitive existed.
+- **Decision:** Added `src/components/primitives/Switch.tsx` (`role="switch"`, `aria-checked`,
+  required `aria-label`) and refactored `SettingsSecurityPage` to use it instead of its inline
+  button+CSS.
+- **Consequences:** Any future toggle (Notifications settings, etc.) should reuse `Switch`.
+
+## IDI-021 - Product rating/review-count is a deterministic hash of the product id, not hand-seeded
+- **Status:** Accepted
+- **Context:** Phase 5 fidelity (`SearchResultsPage` list rows, `ProductDetailPage` head block)
+  needs a star rating + review count per product, matching mockups `94e294e7`/`8522b234`. No
+  review system or rating field exists on `CatalogProduct`, and hand-seeding 19 products would be
+  19 near-duplicate manual edits for purely decorative demo data.
+- **Decision:** `src/state/rating.ts` exports `getRating(productId)`, deriving a stable
+  3.8-4.9 / 18-327 pair from a simple string hash of the id. Same product always shows the same
+  rating across screens; no backend or seed-data change needed.
+- **Consequences:** Not real review data - if/when a review system ships, replace this with
+  actual aggregates; the call sites (`getRating(product.id)`) are the only places to change.
+
+## IDI-022 - `swiper` added as a runtime dependency (Home hero carousel)
+- **Status:** Accepted
+- **Context:** Added by the concurrent session working this same project directory in parallel
+  during Phase 5, replacing a hand-rolled `useState` + pointer-event swipe hero (the kind already
+  used for `OnboardingPage` and the product-gallery dots) with `swiper` in
+  `src/components/composite/HeroCarousel.tsx`. Hard rule #2 requires a one-line justification for
+  any new runtime dependency; none had been logged, so recording it now rather than after the
+  fact next session.
+- **Decision:** Keep it. `swiper` provides autoplay (paused under `prefers-reduced-motion`),
+  touch swipe, keyboard nav, and accessible pagination/`a11y` roles out of the box - meaningfully
+  more robust than hand-rolling the same for one carousel, and it's already wired, tested (typecheck/lint/build all green), and working.
+- **Consequences:** One more dependency to keep patched. If a second carousel is ever needed
+  elsewhere (e.g. PDP gallery), reuse `HeroCarousel`'s pattern rather than hand-rolling again,
+  now that the library is already a dependency.

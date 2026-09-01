@@ -1,0 +1,58 @@
+.root {
+  display: block;
+  content-visibility: auto;
+  contain-intrinsic-size: 320px;
+}
+
+@media (prefers-reduced-data: reduce) {
+  .root {
+    content-visibility: visible;
+  }
+}
+
+.flat {
+  background: transparent;
+}
+
+.card {
+  background: var(--surface-3);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elev-1);
+  padding: var(--space-3);
+}
+
+.surface {
+  background: var(--surface-2);
+  padding: var(--space-3);
+}
+
+.muted {
+  background: var(--surface);
+}
+
+.spacing-none {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.spacing-sm {
+  padding-top: var(--space-3);
+  padding-bottom: var(--space-3);
+}
+
+.spacing-md {
+  padding-top: var(--section-gap);
+  padding-bottom: var(--section-gap);
+}
+
+.spacing-lg {
+  padding-top: var(--section-gap-lg);
+  padding-bottom: var(--section-gap-lg);
+}
+
+@media (min-width: 600px) {
+  .card,
+  .surface {
+    padding: var(--space-6);
+  }
+}

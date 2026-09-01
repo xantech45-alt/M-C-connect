@@ -1,0 +1,9 @@
+.banner {
+  background: var(--info-tint);
+  color: var(--info);
+  padding: var(--space-2) var(--page-gutter);
+  font-size: var(--font-size-caption);
+  line-height: var(--line-height-caption);
+  text-align: center;
+  border-bottom: var(--border-hairline);
+}
