@@ -95,6 +95,8 @@
   --app-bar-height-with-tabs: 88px;
   --bottom-nav-height: 64px;
   --sticky-bar-height: 72px;
+  /* Left rail nav (>=900px) replaces the fixed bottom nav - see LeftRailNav */
+  --rail-width: 84px;
 
   /* Tap target - WCAG / Apple HIG minimum */
   --tap-min: 44px;

@@ -97,6 +97,9 @@ export default function HomePage() {
 
   return (
     <div className={styles.container}>
+      {/* CommerceHeader (brand mark + search) is the visible page identity here;
+          this heading exists only so the document has a level-one heading. */}
+      <h1 className="sr-only">Accueil</h1>
       {/* Hero carousel - auto-playing, swipe, keyboard, reduced-motion aware */}
       <Section variant="flat" spacing="none" ariaLabel="Promotions">
         <HeroCarousel slides={HERO_SLIDES} />

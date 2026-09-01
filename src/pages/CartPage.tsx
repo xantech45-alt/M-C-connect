@@ -68,6 +68,9 @@ export default function CartPage() {
         </button>
       </div>
 
+      {/* Tablet landscape (>=1024px): items and summary sit side by side. */}
+      <div className={styles.splitRow}>
+      <div className={styles.splitLeft}>
       <Section variant="flat" spacing="md" ariaLabel="Articles">
         <ul className={styles.lines}>
           {lines.map((line) => {
@@ -124,7 +127,9 @@ export default function CartPage() {
           <Button type="submit" variant="secondary">Appliquer</Button>
         </form>
       </Section>
+      </div>
 
+      <div className={styles.splitRight}>
       <Section variant="surface" spacing="md" ariaLabel="Récapitulatif">
         <div className={styles.summaryRow}>
           <span>Sous-total</span>
@@ -148,6 +153,8 @@ export default function CartPage() {
           Aucun paiement avant validation de la facture pro forma
         </div>
       </Section>
+      </div>
+      </div>
 
       <StickyActionBar>
         <div className={styles.checkoutSlot}>

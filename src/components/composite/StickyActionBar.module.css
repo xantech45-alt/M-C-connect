@@ -15,3 +15,7 @@
   align-items: center;
   flex-wrap: wrap;
 }
+
+.railMode {
+  bottom: var(--safe-bottom);
+}

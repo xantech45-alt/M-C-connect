@@ -36,7 +36,6 @@ export interface CatalogProduct {
 }
 
 export const products: CatalogProduct[] = [
-  // --- No photography available yet (Gate C): icon fallback, queued for capture. ---
   {
     id: 'p-001',
     title: 'Téléviseur LED 43" Full HD',
@@ -45,6 +44,7 @@ export const products: CatalogProduct[] = [
     moq: 5,
     verified: true,
     hsCode: '8528.72',
+    imageUrl: asset('televiseur-led-1'),
     shortSpecs: ['1080p', 'HDMI ×3', 'USB ×2'],
   },
   {
@@ -55,6 +55,7 @@ export const products: CatalogProduct[] = [
     moq: 3,
     verified: true,
     hsCode: '8418.21',
+    imageUrl: asset('refrigerateur-1'),
     shortSpecs: ['Classe A+', 'No frost'],
   },
   {
@@ -65,6 +66,7 @@ export const products: CatalogProduct[] = [
     moq: 10,
     verified: true,
     hsCode: '8517.13',
+    imageUrl: asset('smartphone-android-1'),
     shortSpecs: ['128 GB', 'Triple caméra'],
   },
   {
@@ -75,6 +77,7 @@ export const products: CatalogProduct[] = [
     moq: 2,
     verified: true,
     hsCode: '8437.80',
+    imageUrl: asset('moulin-grain-1'),
     shortSpecs: ['220V', 'Capacité 80 kg/h'],
   },
   {
@@ -85,8 +88,10 @@ export const products: CatalogProduct[] = [
     moq: 50,
     verified: true,
     hsCode: '4011.10',
+    imageUrl: asset('pneu-auto-1'),
     shortSpecs: ['Tubeless'],
   },
+  // --- No matching photography available (Gate C): icon fallback, queued for capture. ---
   {
     id: 'p-006',
     title: "Ligne d'emballage industrielle",

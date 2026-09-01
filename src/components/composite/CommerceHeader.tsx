@@ -13,6 +13,13 @@ interface Props {
   compact?: boolean;
   /** Pre-fill the search bar (e.g. on search results). */
   initialQuery?: string;
+  /**
+   * Hide the delivery-context and search-bar rows entirely. Used on the
+   * dedicated active-search screen, which renders its own larger search
+   * bar (with suggestions/recents/camera) - showing both would duplicate
+   * the input.
+   */
+  hideSearch?: boolean;
 }
 
 /**
@@ -20,7 +27,7 @@ interface Props {
  * delivery context, prominent search bar, notification and cart affordances.
  * Becomes the persistent top navigation for tab screens.
  */
-export function CommerceHeader({ compact = false, initialQuery }: Props) {
+export function CommerceHeader({ compact = false, initialQuery, hideSearch = false }: Props) {
   const navigate = useNavigate();
   const unread = notifications.filter((n) => !n.read).length;
 
@@ -44,15 +51,17 @@ export function CommerceHeader({ compact = false, initialQuery }: Props) {
         </div>
       </div>
 
-      {!compact && (
+      {!compact && !hideSearch && (
         <div className={styles.row}>
           <DeliveryContext destination="Bamako, Mali" compact />
         </div>
       )}
 
-      <div className={styles.row}>
-        <SearchBar variant={compact ? 'compact' : 'home'} initialValue={initialQuery} />
-      </div>
+      {!hideSearch && (
+        <div className={styles.row}>
+          <SearchBar variant={compact ? 'compact' : 'home'} initialValue={initialQuery} />
+        </div>
+      )}
     </header>
   );
 }

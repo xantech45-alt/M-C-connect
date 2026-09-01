@@ -206,3 +206,24 @@
     padding: var(--space-4);
   }
 }
+
+/* Tablet landscape: items list and summary sit side by side */
+@media (min-width: 1024px) {
+  .splitRow {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--space-5);
+    align-items: start;
+  }
+
+  .splitLeft {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .splitRight {
+    position: sticky;
+    top: var(--space-4);
+  }
+}

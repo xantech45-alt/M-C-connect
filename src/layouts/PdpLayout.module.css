@@ -13,3 +13,11 @@
 .outlet {
   display: block;
 }
+
+/* Tablet landscape: left rail nav replaces the fixed bottom bar */
+@media (min-width: 900px) {
+  .railMode {
+    padding-left: var(--rail-width);
+    padding-bottom: var(--safe-bottom);
+  }
+}

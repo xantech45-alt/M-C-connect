@@ -10,6 +10,7 @@ export default function MessagesPage() {
   if (conversations.length === 0) {
     return (
       <div className={styles.container}>
+        <h1 className="sr-only">Messages</h1>
         <EmptyState
           title="Aucun message"
           body="Toute la communication passe par M&C Connect - vous n'avez jamais à traiter directement avec un fournisseur."
@@ -21,6 +22,7 @@ export default function MessagesPage() {
 
   return (
     <div className={styles.container}>
+      <h1 className="sr-only">Messages</h1>
       <Section variant="surface" spacing="sm" ariaLabel="Cadre M&C">
         <div className={styles.banner}>
           <span className={styles.bannerIcon} aria-hidden="true">

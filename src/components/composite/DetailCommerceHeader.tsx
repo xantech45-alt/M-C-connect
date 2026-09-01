@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
 import { Brand } from '@/components/primitives/Brand';
-import { CartButton } from './CartButton';
 import styles from './DetailCommerceHeader.module.css';
 
 interface Props {
@@ -13,8 +12,9 @@ interface Props {
 }
 
 /**
- * Detail-page header. Back button + page title + persistent cart affordance.
- * Used for product detail, specs, landed cost, cart, checkout, tracking, QC.
+ * Detail-page header. Back button + page title. Used for the pre-auth flow
+ * (login, register, password reset, profile setup) and the 404 page - none
+ * of which are commerce contexts, so it has no cart affordance.
  */
 export function DetailCommerceHeader({ title, hideBrand = false, asHomeLink = false }: Props) {
   const navigate = useNavigate();
@@ -42,7 +42,6 @@ export function DetailCommerceHeader({ title, hideBrand = false, asHomeLink = fa
       )}
       <h1 className={styles.title}>{title ?? ''}</h1>
       <div className={styles.spacer} />
-      <CartButton />
     </header>
   );
 }

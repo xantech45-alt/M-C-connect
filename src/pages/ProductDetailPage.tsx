@@ -134,6 +134,9 @@ export default function ProductDetailPage() {
         </div>
       </div>
 
+      {/* Tablet (>=768px): gallery and details sit side by side instead of
+          stacking, with the gallery pinned while details scroll. */}
+      <div className={styles.splitRow}>
       {/* Gallery - left vertical thumbnail rail */}
       <Section variant="flat" spacing="none" ariaLabel="Galerie produit">
         <div className={styles.galleryWrap}>
@@ -268,6 +271,7 @@ export default function ProductDetailPage() {
           <ChevronRight size={18} strokeWidth={1.5} aria-hidden="true" />
         </Link>
       </Section>
+      </div>
 
       <Section variant="flat" spacing="md" ariaLabel="Tarification par palier">
         <SectionHeader

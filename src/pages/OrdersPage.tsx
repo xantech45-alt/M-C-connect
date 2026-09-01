@@ -43,6 +43,7 @@ export default function OrdersPage() {
   if (orders.length === 0) {
     return (
       <div className={styles.container}>
+        <h1 className="sr-only">Mes commandes</h1>
         <EmptyState
           title="Aucune commande"
           body="Vos commandes apparaîtront ici dès que vous passerez à l'achat."
@@ -53,6 +54,7 @@ export default function OrdersPage() {
 
   return (
     <div className={styles.container}>
+      <h1 className="sr-only">Mes commandes</h1>
       <Section variant="flat" spacing="sm" ariaLabel="Filtres">
         <ChipFilterGroup
           ariaLabel="Statut"

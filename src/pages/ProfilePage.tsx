@@ -22,6 +22,7 @@ import { SectionHeader } from '@/components/primitives/SectionHeader';
 import { NavRow, NavRowList } from '@/components/composite/NavRow';
 import { useAuth } from '@/state/AuthProvider';
 import { useFavorites } from '@/state/FavoritesProvider';
+import { useToast } from '@/components/ui/Toast';
 import { orders } from '@/state/orders';
 import { coupons } from '@/state/coupons';
 import styles from './ProfilePage.module.css';
@@ -30,7 +31,14 @@ export default function ProfilePage() {
   const { company, logout } = useAuth();
   const { ids: favoriteIds } = useFavorites();
   const navigate = useNavigate();
+  const toast = useToast();
   const activeCoupons = coupons.filter((c) => c.status === 'active').length;
+
+  const onLogout = () => {
+    logout();
+    toast('success', 'Vous êtes déconnecté');
+    navigate('/login');
+  };
 
   return (
     <div className={styles.container}>
@@ -138,7 +146,7 @@ export default function ProfilePage() {
         <Card>
           <NavRowList>
             <li>
-              <NavRow icon={<LogOut size={18} strokeWidth={1.5} />} label="Se déconnecter" onClick={logout} danger />
+              <NavRow icon={<LogOut size={18} strokeWidth={1.5} />} label="Se déconnecter" onClick={onLogout} danger />
             </li>
           </NavRowList>
         </Card>

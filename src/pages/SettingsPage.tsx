@@ -11,15 +11,25 @@ import {
   Info,
   LogOut,
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { Card } from '@/components/primitives/Card';
 import { Section } from '@/components/primitives/Section';
 import { SectionHeader } from '@/components/primitives/SectionHeader';
 import { NavRow, NavRowList } from '@/components/composite/NavRow';
 import { useAuth } from '@/state/AuthProvider';
+import { useToast } from '@/components/ui/Toast';
 import styles from './SettingsPage.module.css';
 
 export default function SettingsPage() {
   const { logout } = useAuth();
+  const navigate = useNavigate();
+  const toast = useToast();
+
+  const onLogout = () => {
+    logout();
+    toast('success', 'Vous êtes déconnecté');
+    navigate('/login');
+  };
 
   return (
     <div className={styles.container}>
@@ -73,7 +83,7 @@ export default function SettingsPage() {
         <Card>
           <NavRowList>
             <li>
-              <NavRow icon={<LogOut size={18} strokeWidth={1.5} />} label="Déconnexion" onClick={logout} danger />
+              <NavRow icon={<LogOut size={18} strokeWidth={1.5} />} label="Déconnexion" onClick={onLogout} danger />
             </li>
           </NavRowList>
         </Card>

@@ -591,3 +591,18 @@
     width: 72px;
   }
 }
+
+/* Tablet landscape: gallery + details side by side */
+@media (min-width: 768px) {
+  .splitRow {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-5);
+    align-items: start;
+  }
+
+  .splitRow > section:first-child {
+    position: sticky;
+    top: var(--space-4);
+  }
+}

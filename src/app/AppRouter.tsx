@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react';
 import type { ReactNode } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { Spinner } from '@/components/primitives/Spinner';
 import { RootLayout } from '@/layouts/RootLayout';
 import { OnboardingLayout } from '@/layouts/OnboardingLayout';
 import { DetailLayout } from '@/layouts/DetailLayout';
@@ -57,7 +58,7 @@ const NotificationsPage = lazy(() => import('@/pages/NotificationsPage'));
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'));
 
 function withSuspense(node: ReactNode) {
-  return <Suspense fallback={null}>{node}</Suspense>;
+  return <Suspense fallback={<Spinner fullSection />}>{node}</Suspense>;
 }
 
 // eslint-disable-next-line react-refresh/only-export-components -- router singleton lives alongside the AppRouter component that consumes it
@@ -115,7 +116,7 @@ export const router = createBrowserRouter([
           { path: '/contact', element: <DetailLayout bare title="Contactez-nous">{withSuspense(<ContactPage />)}</DetailLayout> },
           { path: '/about', element: <DetailLayout bare title="À propos">{withSuspense(<AboutPage />)}</DetailLayout> },
           { path: '/products', element: withSuspense(<AllProductsPage />) },
-          { path: '/image-search', element: <DetailLayout bare>{withSuspense(<ImageSearchPage />)}</DetailLayout> },
+          { path: '/image-search', element: <DetailLayout bare title="Recherche par image">{withSuspense(<ImageSearchPage />)}</DetailLayout> },
         ],
       },
       {

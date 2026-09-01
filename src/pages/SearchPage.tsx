@@ -1,10 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Camera } from 'lucide-react';
 import { SearchBar } from '@/components/composite/SearchBar';
 import { ChipFilterGroup } from '@/components/composite/ChipFilterGroup';
 import { Button } from '@/components/primitives/Button';
-import { IconButton } from '@/components/primitives/IconButton';
 import styles from './SearchPage.module.css';
 
 const RECENT = ['tissu wax', 'téléphone', 'réfrigérateur', 'moulin'];
@@ -16,15 +14,9 @@ export default function SearchPage() {
 
   return (
     <div className={styles.container}>
+      <h1 className="sr-only">Rechercher des produits</h1>
       <header className={styles.head}>
         <SearchBar initialValue={query} onSubmit={setQuery} />
-        <div className={styles.tools}>
-          <IconButton
-            icon={<Camera size={20} strokeWidth={1.5} />}
-            aria-label="Recherche par image"
-            onClick={() => navigate('/image-search')}
-          />
-        </div>
       </header>
 
       <ChipFilterGroup

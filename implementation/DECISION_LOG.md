@@ -189,3 +189,38 @@
 - **Consequences:** One more dependency to keep patched. If a second carousel is ever needed
   elsewhere (e.g. PDP gallery), reuse `HeroCarousel`'s pattern rather than hand-rolling again,
   now that the library is already a dependency.
+
+## IDI-023 - Tablet-landscape left rail nav replaces bottom tab bar at >=900px
+- **Status:** Accepted
+- **Context:** Phase 6 (responsive mobile + tablet). The fixed bottom tab bar (Gate B, Set B)
+  works fine through tablet-portrait widths but wastes significant horizontal space once a
+  device is wide enough to show it as a full-width strip (tablet landscape, 900px+). The
+  master plan's own definition of done requires the responsive matrix to pass through 1024px
+  and calls this range "tablet adaptation (no desktop)".
+- **Decision:** Extracted the Set-B tab list to `src/components/composite/navTabs.ts` (shared by
+  both), added `LeftRailNav` (fixed left rail, same 5 routes/icons/labels) and a
+  `useMediaQuery` hook (`src/hooks/useMediaQuery.ts`, `useSyncExternalStore`-based, SSR/jsdom
+  safe). `TabsLayout` and `PdpLayout` swap `BottomNav` for `LeftRailNav` at `>=900px`;
+  `StickyActionBar` drops its bottom-nav-height offset in the same range so it sits flush with
+  the viewport bottom instead of floating above an empty gap.
+- **Consequences:** No new runtime dependency. Any future `TabsLayout`/`PdpLayout` screen gets
+  the rail swap for free; a screen that needs its own bottom-nav-aware spacing should follow
+  `StickyActionBar`'s pattern (check `useMediaQuery('(min-width: 900px)')` rather than hardcoding
+  `--bottom-nav-height`).
+
+## IDI-024 - PDP gallery/details split (>=768px) and Cart items/summary split (>=1024px)
+- **Status:** Accepted
+- **Context:** Same Phase 6 tablet pass. On `ProductDetailPage` and `CartPage`, the mobile
+  layout stacks content that would otherwise leave a lot of unused horizontal space at tablet
+  widths (gallery above details; items above the totals summary).
+- **Decision:** Wrapped the gallery+details sections on `ProductDetailPage` in a `.splitRow`
+  grid (`grid-template-columns: 1fr 1fr` at `>=768px`, gallery pinned via `position: sticky`),
+  and the items list + summary card on `CartPage` in a `.splitRow` grid
+  (`grid-template-columns: 2fr 1fr` at `>=1024px`, summary pinned). Both stay single-column
+  below their breakpoint - no JSX branching, pure CSS grid reflow of the same markup. The
+  bottom `StickyActionBar` checkout CTA is left as-is in both cases (not moved into the sidebar)
+  to avoid restructuring a working interaction pattern for a tablet-only width range.
+- **Consequences:** Live-verified in-browser at 390 / 768 / 834 / 1024 / 1200px (see
+  `RESPONSIVE_MATRIX.md` Phase 6 note). Other screens with similarly "stackable" sections
+  (e.g. Order Review, RFQ) could adopt the same `.splitRow` pattern later if a tablet-usability
+  gap is found for them - none was flagged this phase.
