@@ -5,6 +5,7 @@ import { OfflineProvider } from '@/state/OfflineProvider';
 import { CartProvider } from '@/state/CartProvider';
 import { FavoritesProvider } from '@/state/FavoritesProvider';
 import { AddressesProvider } from '@/state/AddressesProvider';
+import { CheckoutProvider } from '@/state/CheckoutProvider';
 import { ToastProvider } from '@/components/ui/Toast';
 import { AppRouter } from './AppRouter';
 
@@ -29,9 +30,11 @@ export function App() {
           <CartProvider>
             <FavoritesProvider>
               <AddressesProvider>
-                <ToastProvider>
-                  <AppRouter />
-                </ToastProvider>
+                <CheckoutProvider>
+                  <ToastProvider>
+                    <AppRouter />
+                  </ToastProvider>
+                </CheckoutProvider>
               </AddressesProvider>
             </FavoritesProvider>
           </CartProvider>

@@ -1,5 +1,12 @@
 # Screen 12 - Coût rendu Bamako
 
+> **Superseded 2026-09-02 (see `blueprint/21_DECISIONS.md` D-021 / `implementation/DECISION_LOG.md`
+> IDI-026):** `MODIFICATION FOR THE APP.pdf` prohibits showing customers an itemised cost
+> breakdown. This screen and its route (`/product/:id/landed-cost`) have been deleted from the
+> app; the PDP now shows only a single "Coût total estimé" figure via
+> `src/domain/pricing.ts::getProductCustomerTotal`. Kept below as historical record only - do not
+> reimplement this screen.
+
 ## Purpose
 Provide a transparent, itemised landed-cost breakdown delivered to Bamako.
 

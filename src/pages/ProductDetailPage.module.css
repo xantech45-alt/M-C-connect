@@ -134,17 +134,30 @@
   z-index: 2;
 }
 
+/* The dot itself stays small (6px / 18px active pill), but each button
+   gets a real 24x24 hit box (WCAG 2.5.8) via a centered ::after dot. */
 .galleryDot {
-  width: 6px;
-  height: 6px;
+  width: 24px;
+  height: 24px;
   padding: 0;
   border: 0;
-  border-radius: 50%;
-  background: var(--border-strong);
+  background: transparent;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.galleryDotActive {
+.galleryDot::after {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--border-strong);
+}
+
+.galleryDotActive::after {
   background: var(--mc-red);
   width: 18px;
   border-radius: 4px;
@@ -277,7 +290,7 @@
   color: var(--slate);
 }
 
-/* ── Trust cells (MOQ / Qualité garantie / Retours) ──────── */
+/* ── Trust cells (MOQ / Qualité garantie / Transport) ────── */
 .trustCells {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -399,59 +412,48 @@
   text-align: right;
 }
 
-/* ── Landed-cost CTA ──────────────────────────────────── */
-.landedCta {
+/* ── Total-cost block (customer sees only the final total) ─ */
+.totalCostBlock {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: var(--space-3);
   padding: var(--space-3);
   background: linear-gradient(135deg, var(--mc-red-tint) 0%, #fff5f6 100%);
   border: 1px solid var(--mc-red);
   border-radius: var(--radius-md);
-  text-decoration: none;
   color: var(--ink);
 }
 
 @media (min-width: 600px) {
-  .landedCta {
+  .totalCostBlock {
     padding: var(--space-3) var(--space-4);
   }
 }
 
-.landedIcon {
-  width: 32px;
-  height: 32px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--mc-red);
-  color: var(--white);
-  border-radius: var(--radius-md);
-  flex: 0 0 auto;
-}
-
-@media (min-width: 600px) {
-  .landedIcon {
-    width: 36px;
-    height: 36px;
-  }
-}
-
-.landedText {
+.totalCostText {
   flex: 1;
   display: flex;
   flex-direction: column;
   min-width: 0;
 }
 
-.landedTitle {
+.totalCostLabel {
   font-weight: 700;
   font-size: var(--font-size-body-lg);
 }
 
-.landedSub {
+.totalCostHint {
   font-size: var(--font-size-caption);
   color: var(--slate);
+}
+
+.totalCostValue {
+  font-size: var(--font-size-title-md);
+  font-weight: 700;
+  color: var(--mc-red-deep);
+  white-space: nowrap;
+  flex: 0 0 auto;
 }
 
 /* ── Tier pricing ──────────────────────────────────────── */

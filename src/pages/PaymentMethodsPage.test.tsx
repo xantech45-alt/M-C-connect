@@ -13,6 +13,9 @@ describe('PaymentMethodsPage', () => {
       { route: '/payment-methods' },
     );
     expect(screen.getByRole('heading', { name: 'Moyens de paiement', level: 1 })).toBeInTheDocument();
-    expect(screen.getByRole('radio', { name: /Mobile Money/ })).toBeInTheDocument();
+    expect(screen.getByRole('radio', { name: /Wave/ })).toBeInTheDocument();
+    expect(screen.getByRole('radio', { name: /Orange Money/ })).toBeInTheDocument();
+    expect(screen.getByRole('radio', { name: /Banque/ })).toBeInTheDocument();
+    expect(screen.queryByText(/paiement à la livraison/i)).not.toBeInTheDocument();
   });
 });

@@ -4,16 +4,15 @@ import {
   ShieldCheck,
   Package,
   Truck,
-  Calculator,
+  Plane,
+  Ship,
   ChevronLeft,
-  ChevronRight,
   ChevronDown,
   Layers,
   FileText,
   Heart,
   Box,
   ZoomIn,
-  Undo2,
   Tag,
   MessageCircle,
 } from 'lucide-react';
@@ -35,6 +34,8 @@ import { getRating } from '@/state/rating';
 import { useCart } from '@/state/CartProvider';
 import { useFavorites } from '@/state/FavoritesProvider';
 import { useToast } from '@/components/ui/Toast';
+import { getProductCustomerTotal, formatXof } from '@/domain/pricing';
+import { describeTransportAvailability } from '@/domain/transport';
 import styles from './ProductDetailPage.module.css';
 
 const TIER_ROWS = [
@@ -81,6 +82,8 @@ export default function ProductDetailPage() {
   const { value: rating, count: reviewCount } = getRating(product.id);
   const categoryName = categories.find((c) => c.id === product.categoryId)?.name;
   const description = `${product.title} - ${product.shortSpecs.join(', ')}. Sourcing vérifié et contrôle qualité M&C Connect avant expédition.`;
+  const customerTotal = getProductCustomerTotal(product, qty);
+  const transportLabel = describeTransportAvailability(product.transportModes);
 
   const onAdd = () => {
     add({
@@ -242,9 +245,13 @@ export default function ProductDetailPage() {
             <span className={styles.trustCellValue}>Contrôlée M&amp;C</span>
           </div>
           <div className={styles.trustCell}>
-            <Undo2 size={18} strokeWidth={1.5} aria-hidden="true" />
-            <span className={styles.trustCellLabel}>Retours</span>
-            <span className={styles.trustCellValue}>Sous 7 jours</span>
+            {product.transportModes.includes('sea') ? (
+              <Ship size={18} strokeWidth={1.5} aria-hidden="true" />
+            ) : (
+              <Plane size={18} strokeWidth={1.5} aria-hidden="true" />
+            )}
+            <span className={styles.trustCellLabel}>Transport</span>
+            <span className={styles.trustCellValue}>{transportLabel}</span>
           </div>
         </div>
 
@@ -257,19 +264,14 @@ export default function ProductDetailPage() {
 
         <Divider spacing="sm" />
 
-        {/* Landed-cost CTA */}
-        <Link to={`/product/${product.id}/landed-cost`} className={styles.landedCta}>
-          <span className={styles.landedIcon}>
-            <Calculator size={20} strokeWidth={1.5} aria-hidden="true" />
+        {/* Customer-facing total only - no freight/duty/VAT/service breakdown (getProductCustomerTotal). */}
+        <div className={styles.totalCostBlock}>
+          <span className={styles.totalCostText}>
+            <span className={styles.totalCostLabel}>Coût total estimé</span>
+            <span className={styles.totalCostHint}>Pour {qty} unité{qty > 1 ? 's' : ''} - fret, douane et livraison inclus</span>
           </span>
-          <span className={styles.landedText}>
-            <span className={styles.landedTitle}>Calculer le coût rendu</span>
-            <span className={styles.landedSub}>
-              Fret + douane + livraison jusqu&apos;à votre adresse
-            </span>
-          </span>
-          <ChevronRight size={18} strokeWidth={1.5} aria-hidden="true" />
-        </Link>
+          <strong className={styles.totalCostValue}>{formatXof(customerTotal.totalXof)}</strong>
+        </div>
       </Section>
       </div>
 
@@ -334,6 +336,17 @@ export default function ProductDetailPage() {
             <div className={styles.specRow}>
               <dt><ShieldCheck size={16} strokeWidth={1.5} aria-hidden="true" /> Vérification</dt>
               <dd>{product.verified ? 'Vérifié M&C' : 'En cours'}</dd>
+            </div>
+            <div className={styles.specRow}>
+              <dt>
+                {product.transportModes.includes('sea') ? (
+                  <Ship size={16} strokeWidth={1.5} aria-hidden="true" />
+                ) : (
+                  <Plane size={16} strokeWidth={1.5} aria-hidden="true" />
+                )}
+                Transport disponible
+              </dt>
+              <dd>{transportLabel}</dd>
             </div>
           </dl>
         </Card>

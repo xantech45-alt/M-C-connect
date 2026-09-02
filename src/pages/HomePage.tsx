@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Truck, ShieldCheck, Sparkles, Percent, Grid3x3, ChevronRight } from 'lucide-react';
+import { ArrowRight, Truck, ShieldCheck, Sparkles, Grid3x3, ChevronRight } from 'lucide-react';
 import { ProductCard } from '@/components/composite/ProductCard';
 import { SectionHeader } from '@/components/primitives/SectionHeader';
 import { Section } from '@/components/primitives/Section';
@@ -23,23 +23,30 @@ import styles from './HomePage.module.css';
 
 const HERO_SLIDES: HeroSlide[] = [
   {
-    image: asset('hero-banner-1'),
-    title: 'Sourcing clé-en-main',
-    subtitle: "De l'usine chinoise à votre porte - douane incluse",
+    image: asset('hero-marche-paiement-mobile'),
+    title: 'Paiement mobile sécurisé',
+    subtitle: 'Wave, Orange Money ou virement - encaissés par M&C Connect',
     cta: 'Découvrir',
     to: '/categories',
   },
   {
-    image: asset('hero-banner-2'),
-    title: 'Inspection qualité',
-    subtitle: 'Contrôle M&C sur chaque lot avant expédition',
+    image: asset('hero-marche-tissus-wax'),
+    title: 'Textile & Mode sourcés en direct',
+    subtitle: 'Tissus, prêt-à-porter et accessoires vérifiés par M&C',
+    cta: 'Voir les produits',
+    to: '/search/results?cat=textile',
+  },
+  {
+    image: asset('hero-marche-local-produits'),
+    title: 'Sourcing de terrain, partout au Mali',
+    subtitle: 'M&C Connect audite chaque fournisseur avant expédition',
     cta: 'En savoir plus',
     to: '/about',
   },
   {
-    image: asset('hero-banner-3'),
-    title: 'Coût total transparent',
-    subtitle: 'Produit, fret, douane et livraison - calculés avant commande',
+    image: asset('hero-marche-fruits-legumes'),
+    title: 'Proche de vous, connecté au monde',
+    subtitle: "De l'Afrique à la Chine, une seule plateforme de confiance",
     cta: 'Voir les produits',
     to: '/products',
   },
@@ -105,37 +112,25 @@ export default function HomePage() {
         <HeroCarousel slides={HERO_SLIDES} />
       </Section>
 
-      {/* Compact 3-up trust strip */}
-      <Section variant="flat" spacing="sm" ariaLabel="Nos engagements">
-        <div className={styles.trustStrip}>
-          <TrustBadge icon={<Truck size={18} strokeWidth={1.5} />} label="Livraison rapide" />
-          <TrustBadge icon={<ShieldCheck size={18} strokeWidth={1.5} />} label="Paiements sécurisés" />
-          <TrustBadge icon={<Percent size={18} strokeWidth={1.5} />} label="Meilleurs prix" />
-        </div>
-      </Section>
-
       {/* Active order card - surfaced when there's an in-flight order */}
-      <Section variant="flat" spacing="md" ariaLabel="Commande en cours">
+      <Section variant="flat" spacing="sm" ariaLabel="Commande en cours">
         <article className={styles.activeOrder}>
           <div className={styles.activeOrderLeft}>
             <span className={styles.activeOrderEyebrow}>
-              <Truck size={14} strokeWidth={1.5} aria-hidden="true" />
+              <Truck size={12} strokeWidth={1.5} aria-hidden="true" />
               En cours
             </span>
             <h2 className={styles.activeOrderTitle}>CMD-2024-0142 - Arrivée estimée le 18 oct.</h2>
-            <p className={styles.activeOrderMeta}>
-              Inspection qualité · Douane Mali · Livraison Bamako
-            </p>
           </div>
           <Link to="/orders" className={styles.activeOrderCta}>
             Suivre
-            <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
+            <ArrowRight size={14} strokeWidth={1.5} aria-hidden="true" />
           </Link>
         </article>
       </Section>
 
       {/* Category rail - 4 quick chips + "Plus" */}
-      <Section variant="flat" spacing="md" ariaLabel="Catégories">
+      <Section variant="flat" spacing="sm" ariaLabel="Catégories">
         <SectionHeader
           title="Catégories"
           trailing={
@@ -147,16 +142,16 @@ export default function HomePage() {
         />
         <div className={styles.catRail}>
           {RAIL_CATEGORIES.map((c) => (
-            <Link key={c.id} to={`/search?cat=${c.id}`} className={styles.catChip}>
+            <Link key={c.id} to={`/search/results?cat=${c.id}`} className={styles.catChip}>
               <span className={styles.catIcon}>
-                <IconRender name={c.iconName} size={22} strokeWidth={1.5} />
+                <IconRender name={c.iconName} size={26} strokeWidth={1.5} />
               </span>
               <span className={styles.catLabel}>{c.name}</span>
             </Link>
           ))}
           <Link to="/categories" className={styles.catChip}>
             <span className={styles.catIcon}>
-              <Grid3x3 size={22} strokeWidth={1.5} aria-hidden="true" />
+              <Grid3x3 size={26} strokeWidth={1.5} aria-hidden="true" />
             </span>
             <span className={styles.catLabel}>Plus</span>
           </Link>

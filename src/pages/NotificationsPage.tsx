@@ -79,8 +79,8 @@ export default function NotificationsPage() {
         <div>
           <h2 className={styles.protectionTitle}>Protection acheteur</h2>
           <p className={styles.protectionBody}>
-            Chaque commande est couverte par M&amp;C Connect, du contrôle qualité jusqu&apos;à la
-            livraison - remboursement garanti en cas de non-conformité.
+            Chaque commande est couverte par M&amp;C Connect, du contrôle qualité avant expédition
+            jusqu&apos;à la livraison à Bamako.
           </p>
         </div>
       </Card>

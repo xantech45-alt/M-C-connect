@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Package, MapPin } from 'lucide-react';
+import { Package, MapPin, AlertTriangle } from 'lucide-react';
 import { Input } from '@/components/primitives/Input';
 import { Divider } from '@/components/primitives/Divider';
 import { Button } from '@/components/primitives/Button';
@@ -8,12 +8,12 @@ import { Section } from '@/components/primitives/Section';
 import { StickyActionBar } from '@/components/composite/StickyActionBar';
 import { useCart } from '@/state/CartProvider';
 import { getProductById } from '@/state/catalog';
+import { getCartCustomerTotal, formatXof } from '@/domain/pricing';
+import { getCommonTransportModes } from '@/domain/transport';
 import styles from './OrderReviewPage.module.css';
 
-const fmt = (n: number) => `${n.toLocaleString('fr-FR')} XOF`;
-
 export default function OrderReviewPage() {
-  const { lines, subtotalXof } = useCart();
+  const { lines } = useCart();
   const navigate = useNavigate();
   const [delivery, setDelivery] = useState({
     address: '',
@@ -22,11 +22,12 @@ export default function OrderReviewPage() {
     notes: '',
   });
 
-  const freight = Math.round(subtotalXof * 0.12);
-  const duty = Math.round(subtotalXof * 0.05);
-  const vat = Math.round((subtotalXof + freight + duty) * 0.18);
-  const service = Math.round((subtotalXof + freight + duty + vat) * 0.04);
-  const total = subtotalXof + freight + duty + vat + service;
+  const total = getCartCustomerTotal(lines);
+  const commonTransportModes = useMemo(
+    () => getCommonTransportModes(lines.map((l) => getProductById(l.productId)?.transportModes ?? [])),
+    [lines],
+  );
+  const hasIncompatibleTransport = lines.length > 1 && commonTransportModes.length === 0;
 
   if (lines.length === 0) {
     return (
@@ -55,18 +56,30 @@ export default function OrderReviewPage() {
                   <div>
                     <span className={styles.lineTitle}>{p?.title ?? line.productId}</span>
                     <span className={styles.lineMeta}>
-                      {line.quantity} × {fmt(line.unitPriceXof)}
+                      {line.quantity} × {formatXof(line.unitPriceXof)}
                     </span>
                   </div>
                 </div>
                 <span className={styles.lineRight}>
-                  {fmt(line.unitPriceXof * line.quantity)}
+                  {formatXof(line.unitPriceXof * line.quantity)}
                 </span>
               </li>
             );
           })}
         </ul>
       </Section>
+
+      {hasIncompatibleTransport && (
+        <Section variant="card" spacing="md" ariaLabel="Transport incompatible">
+          <div className={styles.warning}>
+            <AlertTriangle size={20} strokeWidth={1.5} aria-hidden="true" />
+            <p>
+              Ces produits n&apos;ont aucun mode de transport en commun. Séparez-les en deux
+              commandes distinctes pour pouvoir procéder au paiement.
+            </p>
+          </div>
+        </Section>
+      )}
 
       <Section variant="card" spacing="md" ariaLabel="Adresse de livraison">
         <h2 className={styles.h2}>
@@ -105,27 +118,15 @@ export default function OrderReviewPage() {
 
       <Section variant="card" spacing="md" ariaLabel="Total">
         <h2 className={styles.h2}>Total rendu Bamako</h2>
-        <dl className={styles.totals}>
-          <dt>Marchandises</dt>
-          <dd>{fmt(subtotalXof)}</dd>
-          <dt>Transport maritime</dt>
-          <dd>{fmt(freight)}</dd>
-          <dt>Droits de douane (5 %)</dt>
-          <dd>{fmt(duty)}</dd>
-          <dt>TVA (18 %)</dt>
-          <dd>{fmt(vat)}</dd>
-          <dt>Service M&amp;C Connect</dt>
-          <dd>{fmt(service)}</dd>
-        </dl>
         <Divider spacing="sm" />
         <div className={styles.total}>
           <span>Total à payer</span>
-          <strong>{fmt(total)}</strong>
+          <strong>{formatXof(total.totalXof)}</strong>
         </div>
       </Section>
 
       <StickyActionBar>
-        <Button variant="primary" size="large" block onClick={onProceed}>
+        <Button variant="primary" size="large" block onClick={onProceed} disabled={hasIncompatibleTransport}>
           Procéder au paiement
         </Button>
       </StickyActionBar>

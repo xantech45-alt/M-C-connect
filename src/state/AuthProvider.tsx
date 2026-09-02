@@ -2,9 +2,7 @@ import { createContext, useCallback, useContext, useMemo, useState } from 'react
 import type { ReactNode } from 'react';
 
 export interface CompanyProfile {
-  legalName: string;
-  registrationNumber?: string;
-  taxId?: string;
+  name: string;
   industry?: string;
   contactName: string;
   phone: string;
@@ -80,7 +78,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       expiresAt: Date.now() + 1000 * 60 * 60 * 24,
     });
     setCompany((prev) => ({
-      legalName: prev?.legalName ?? '',
+      name: prev?.name ?? '',
       contactName: input.fullName,
       phone: input.phone,
       email: input.email,

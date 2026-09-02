@@ -1,6 +1,6 @@
 .hero {
   position: relative;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 4 / 3;
   color: var(--white);
   border-radius: var(--radius-xl);
   padding: var(--space-4);
@@ -107,6 +107,24 @@
   color: var(--white);
 }
 
+/* Pins the eyebrow to the top-left of the slide, clear of the bottom
+ * copy block. The slide has no padding of its own, so an explicit
+ * top/left offset here is real breathing room beyond the hero's own
+ * inset - not flush against the rounded corner. */
+.eyebrowTop {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-2);
+  z-index: 2;
+}
+
+@media (min-width: 600px) {
+  .eyebrowTop {
+    top: var(--space-4);
+    left: var(--space-3);
+  }
+}
+
 /* ── Title ──────────────────────────────────────────────
  * One step down from the page display scale, but with the
  * same display weight and tight tracking for editorial feel.
@@ -192,22 +210,39 @@
   transform: translateY(0);
 }
 
-/* ── Swiper pagination - design-token driven ─────────── */
+/* ── Swiper pagination - design-token driven ───────────
+ * The bullet itself stays visually small (7px / 20px active), but each
+ * <button> gets a real 24x24 hit box (WCAG 2.5.8) via a centered ::after
+ * dot rather than sizing the background directly on the button. */
 :global(.swiper-pagination-bullet) {
-  background: rgba(255, 255, 255, 0.55);
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  min-height: 24px;
+  margin: 0 !important;
+  padding: 0;
+  background: transparent;
+  border-radius: var(--radius-full);
+  opacity: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:global(.swiper-pagination-bullet)::after {
+  content: '';
+  display: block;
   width: 7px;
   height: 7px;
   border-radius: var(--radius-full);
-  opacity: 1;
-  margin: 0 4px !important;
+  background: rgba(255, 255, 255, 0.55);
   transition:
     width 200ms ease,
     background-color 200ms ease,
     border-radius 200ms ease;
 }
 
-:global(.swiper-pagination-bullet-active) {
+:global(.swiper-pagination-bullet-active)::after {
   background: var(--white);
   width: 20px;
-  border-radius: var(--radius-full);
 }

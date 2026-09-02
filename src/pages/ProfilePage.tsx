@@ -7,7 +7,6 @@ import {
   Heart,
   Ticket,
   Star,
-  Undo2,
   ClipboardList,
   HelpCircle,
   Mail,
@@ -53,7 +52,7 @@ export default function ProfilePage() {
             </span>
           </div>
           <div className={styles.identityBody}>
-            <h1 className={styles.identityName}>{company?.legalName ?? 'Votre entreprise'}</h1>
+            <h1 className={styles.identityName}>{company?.name ?? 'Votre entreprise'}</h1>
             <p className={styles.identityMeta}>{company?.contactName ?? 'Profil à compléter'}</p>
             <p className={styles.identityMeta}>{company?.email ?? company?.phone ?? ''}</p>
           </div>
@@ -106,9 +105,6 @@ export default function ProfilePage() {
             </li>
             <li>
               <NavRow icon={<Star size={18} strokeWidth={1.5} />} label="Mes avis" to="/reviews" />
-            </li>
-            <li>
-              <NavRow icon={<Undo2 size={18} strokeWidth={1.5} />} label="Retours et remboursements" to="/returns" />
             </li>
           </NavRowList>
         </Card>

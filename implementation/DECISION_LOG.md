@@ -225,6 +225,42 @@
   (e.g. Order Review, RFQ) could adopt the same `.splitRow` pattern later if a tablet-usability
   gap is found for them - none was flagged this phase.
 
+## IDI-026 - `MODIFICATION FOR THE APP.pdf` implementation (supersedes conflicting Phase 0-13 output)
+- **Status:** Accepted
+- **Context:** A later modification specification (`MODIFICATION FOR THE APP.pdf`) was delivered
+  after the initial 13-phase build and treated as the new highest-priority source of truth (see
+  `blueprint/21_DECISIONS.md` D-021). It conflicted with several already-shipped screens: the
+  business-profile screen collected `legalName`/RCCM/NIF; `AuthProvider`'s `CompanyProfile`
+  modeled the same fields; the hero carousel showed "Nouveau · Programme Sourcing" over Western
+  fashion imagery and a 3-item trust strip; `LandedCostPage` and `OrderReviewPage` exposed a full
+  freight/insurance/duty/VAT/service-fee breakdown; `ProductDetailPage` advertised a 7-day returns
+  window and a `/product/:id/landed-cost` CTA; a full `/returns` feature existed; product/PDP/help
+  copy claimed a single maritime-only 28-45 day delivery window; `PaymentPage` exposed four flat
+  payment methods (COD, Wave, Orange, bank) with no plan/transport distinction.
+- **Decision:** Implemented every requirement from the PDF as a real code change, not a
+  recommendation-only pass: `CompanyProfile.name` replaces `legalName`/`registrationNumber`/`taxId`
+  (`src/state/AuthProvider.tsx`); a new `src/domain/pricing.ts` is the single customer-facing total
+  abstraction (`getProductCustomerTotal`/`getCartCustomerTotal`, internal freight/duty/VAT/service
+  math never exported); a new `src/domain/transport.ts` defines `TransportMode`, per-mode timing
+  (air 2 weeks-1 month, sea 3-4 months, 10,000 XOF/kg air rate - informational only, never
+  multiplied by an invented weight) and `getCommonTransportModes` for multi-product cart
+  compatibility; `CatalogProduct.transportModes` is now data-driven per product; `CatalogCategory`
+  gained `imageUrl` for the Categories-page photo grid; a new `CheckoutProvider`
+  (`src/state/CheckoutProvider.tsx`) holds `{paymentPlan, transportMode, paymentMethod}` shared
+  between `PaymentPage` and `OrderConfirmationPage`; `PaymentPage` was rebuilt as a 3-step
+  progressive-disclosure flow (plan → transport → Wave/Orange Money/Banque); `LandedCostPage` and
+  the entire `/returns` feature (`ReturnsPage`, `src/state/returns.ts`, the Profile nav link, the
+  `/product/:id/landed-cost` route) were deleted outright, not just hidden.
+- **Consequences:** `screens/12_LANDED_COST.md`, the RCCM/NIF business-profile spec in
+  `screens/03_BUSINESS_PROFILE.md`, and any returns-related content in `screens/10_PRODUCT_DETAIL.md`
+  are superseded per D-021 - left in place as historical record, not deleted, not authoritative.
+  Any future screen work must read the PDF requirements (mirrored in the PR/session description)
+  and this entry before re-deriving business rules from the pre-PDF blueprint screens. Onboarding
+  and hero imagery still need real photography sourced/commissioned - no image-generation or
+  -sourcing tool was available in this session, so the existing asset files remain in place under
+  their current registry keys pending replacement (see the session's final report for the exact
+  list).
+
 ## IDI-025 - Route-transition Suspense fallback: `Spinner` primitive instead of `null`
 - **Status:** Accepted
 - **Context:** Every lazy-loaded route (`withSuspense` in `AppRouter.tsx`) fell back to `null` while its

@@ -1,39 +1,40 @@
 import { useEffect, useState } from 'react';
-import { Smartphone, Landmark, Truck } from 'lucide-react';
+import { Smartphone, Landmark } from 'lucide-react';
 import { Card } from '@/components/primitives/Card';
 import { Chip } from '@/components/primitives/Chip';
 import { Section } from '@/components/primitives/Section';
 import { SectionHeader } from '@/components/primitives/SectionHeader';
 import { useToast } from '@/components/ui/Toast';
+import type { PaymentMethod } from '@/state/CheckoutProvider';
 import styles from './PaymentMethodsPage.module.css';
 
 const STORAGE_KEY = 'mc.paymentMethod';
 
-const METHODS = [
+const METHODS: { id: PaymentMethod; icon: typeof Smartphone; label: string; body: string }[] = [
   {
-    id: 'mobile-money',
+    id: 'wave',
     icon: Smartphone,
-    label: 'Mobile Money',
-    body: 'Paiement via votre opérateur mobile habituel.',
+    label: 'Wave',
+    body: 'Mobile money instantané.',
   },
   {
-    id: 'bank-transfer',
+    id: 'orange_money',
+    icon: Smartphone,
+    label: 'Orange Money',
+    body: 'Paiement via votre compte Orange Money.',
+  },
+  {
+    id: 'bank',
     icon: Landmark,
-    label: 'Virement bancaire',
+    label: 'Banque',
     body: 'Virement vers le compte séquestre M&C Connect.',
   },
-  {
-    id: 'cash-on-delivery',
-    icon: Truck,
-    label: 'Paiement à la livraison',
-    body: 'Réglez en espèces à la réception de votre commande.',
-  },
-] as const;
+];
 
-function load(): string {
+function load(): PaymentMethod {
   if (typeof window === 'undefined') return METHODS[0].id;
   try {
-    return window.localStorage.getItem(STORAGE_KEY) ?? METHODS[0].id;
+    return (window.localStorage.getItem(STORAGE_KEY) as PaymentMethod | null) ?? METHODS[0].id;
   } catch {
     return METHODS[0].id;
   }
@@ -41,7 +42,7 @@ function load(): string {
 
 export default function PaymentMethodsPage() {
   const toast = useToast();
-  const [selected, setSelected] = useState<string>(load);
+  const [selected, setSelected] = useState<PaymentMethod>(load);
 
   useEffect(() => {
     try {
@@ -51,7 +52,7 @@ export default function PaymentMethodsPage() {
     }
   }, [selected]);
 
-  const onSelect = (id: string) => {
+  const onSelect = (id: PaymentMethod) => {
     setSelected(id);
     toast('success', 'Moyen de paiement par défaut mis à jour');
   };

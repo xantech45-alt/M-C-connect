@@ -1,6 +1,11 @@
 # Route Implementation Map
 
 > Route + layout + sticky-CTA + bottom-nav visibility per screen.
+>
+> **Superseded (2026-09-02):** per `MODIFICATION FOR THE APP.pdf` (see
+> `blueprint/21_DECISIONS.md` D-021 / `implementation/DECISION_LOG.md` IDI-026), the
+> `/product/:id/landed-cost` route (row 12) and the entire `/returns` route + `ReturnsPage` were
+> deleted outright - not hidden. Rows below referencing them are historical record only.
 
 ---
 
@@ -19,7 +24,7 @@
 | 09 | Recherche par image | `/image-search` | Detail full-screen | Lancer la recherche | hidden |
 | 10 | Fiche produit | `/product/:id` | Detail | Add to cart / Demander un devis | hidden |
 | 11 | Spécifications & paliers | `/product/:id/specs` | Detail | Add to cart | hidden |
-| 12 | Coût rendu Bamako | `/product/:id/landed-cost` | Detail | Demander un devis | hidden |
+| 12 | ~~Coût rendu Bamako~~ | ~~`/product/:id/landed-cost`~~ | - | - | **removed** - see note above |
 | 13 | Comparer | `/compare` | Detail | Continuer / Demander devis | hidden |
 | 14 | Demander un devis | `/product/:id/rfq` | Detail | Envoyer la demande | hidden |
 | 15 | Panier | `/cart` | Detail | Passer à la commande | hidden |
@@ -91,7 +96,7 @@ this app's routes currently hide the bottom nav, so this phase doesn't introduce
 | Favoris | `/favorites` | `FavoritesPage` | (remove via heart toggle) |
 | Coupons | `/coupons` | `CouponsPage` | (tabs: Actifs/Utilisés/Expirés) |
 | Mes avis | `/reviews` | `ReviewsPage` | - |
-| Retours et remboursements | `/returns` | `ReturnsPage` | - |
+| ~~Retours et remboursements~~ | ~~`/returns`~~ | ~~`ReturnsPage`~~ | **removed** - see note above |
 | Centre d'aide | `/help` | `HelpPage` | Contactez-nous |
 | Contactez-nous | `/contact` | `ContactPage` | Envoyer le message |
 | À propos | `/about` | `AboutPage` | - |
@@ -102,7 +107,8 @@ now reused across Profile/Settings/Addresses/Payment methods), `PersonalInfoForm
 `/profile/edit` and `/settings/personal`).
 
 `BottomNav`'s "Profil" tab `match` array was extended to cover `/settings`, `/addresses`,
-`/payment-methods`, `/favorites`, `/coupons`, `/reviews`, `/returns`, `/help`, `/contact`, `/about`
+`/payment-methods`, `/favorites`, `/coupons`, `/reviews`, `/help`, `/contact`, `/about`
+(`/returns` removed 2026-09-02 per IDI-026)
 - otherwise none of these sub-pages would have highlighted any tab as active.
 
 ## Phase 4 - Commerce and messaging gaps (added)

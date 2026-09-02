@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
 import { categories } from '@/state/catalog';
 import { IconRender } from '@/components/primitives/IconRender';
+import { Image } from '@/components/primitives/Image';
 import styles from './CategoriesPage.module.css';
 
 export default function CategoriesPage() {
@@ -15,15 +15,21 @@ export default function CategoriesPage() {
       </header>
       <div className={styles.grid}>
         {categories.map((c) => (
-          <Link key={c.id} to={`/search?cat=${c.id}`} className={styles.card}>
-            <span className={styles.icon}>
-              <IconRender name={c.iconName} size={22} strokeWidth={1.5} />
-            </span>
+          <Link key={c.id} to={`/search/results?cat=${c.id}`} className={styles.card}>
+            <Image
+              src={c.imageUrl}
+              alt=""
+              width={72}
+              height={72}
+              ratio="1/1"
+              loading="lazy"
+              className={styles.image}
+              fallbackIcon={<IconRender name={c.iconName} size={24} strokeWidth={1.5} />}
+            />
             <span className={styles.text}>
               <span className={styles.name}>{c.name}</span>
               <span className={styles.count}>{c.productCount} produits</span>
             </span>
-            <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
           </Link>
         ))}
       </div>

@@ -1,20 +1,27 @@
 import { asset } from '@/assets/registry';
+import type { TransportMode } from '@/domain/transport';
 
 export interface CatalogCategory {
   id: string;
   name: string;
   iconName: 'shirt' | 'tv' | 'wrench' | 'package' | 'laptop' | 'factory' | 'home' | 'phone' | 'sparkles' | 'car';
   productCount: number;
+  /** Representative category photo. Undefined renders the icon fallback - never a mismatched photo. */
+  imageUrl?: string;
 }
 
 export const categories: CatalogCategory[] = [
-  { id: 'textile', name: 'Textile & Mode', iconName: 'shirt', productCount: 1240 },
-  { id: 'electronics', name: 'Électronique', iconName: 'tv', productCount: 980 },
-  { id: 'machinery', name: 'Machines', iconName: 'wrench', productCount: 312 },
-  { id: 'home', name: 'Maison & Cuisine', iconName: 'home', productCount: 1640 },
-  { id: 'phones', name: 'Téléphones & Accessoires', iconName: 'phone', productCount: 720 },
-  { id: 'beauty', name: 'Beauté & Hygiène', iconName: 'sparkles', productCount: 540 },
-  { id: 'auto', name: 'Auto & Moto', iconName: 'car', productCount: 410 },
+  // category-strip-* assets are promo banners with baked-in English ad copy ("SHOP NOW") - not
+  // suitable as clean category tiles, so these two use real product photography instead, like
+  // every other category below.
+  { id: 'textile', name: 'Textile & Mode', iconName: 'shirt', productCount: 1240, imageUrl: asset('tissu-wax-africain') },
+  { id: 'electronics', name: 'Électronique', iconName: 'tv', productCount: 980, imageUrl: asset('televiseur-led-1') },
+  { id: 'machinery', name: 'Machines', iconName: 'wrench', productCount: 312, imageUrl: asset('moulin-grain-1') },
+  { id: 'home', name: 'Maison & Cuisine', iconName: 'home', productCount: 1640, imageUrl: asset('refrigerateur-1') },
+  { id: 'phones', name: 'Téléphones & Accessoires', iconName: 'phone', productCount: 720, imageUrl: asset('smartphone-android-1') },
+  { id: 'beauty', name: 'Beauté & Hygiène', iconName: 'sparkles', productCount: 540, imageUrl: asset('coffret-parfum-4-flacons') },
+  { id: 'auto', name: 'Auto & Moto', iconName: 'car', productCount: 410, imageUrl: asset('pneu-auto-1') },
+  // --- No matching photography available (Gate C): icon fallback, queued for capture. ---
   { id: 'industrial', name: 'Équipement industriel', iconName: 'factory', productCount: 180 },
 ];
 
@@ -33,6 +40,8 @@ export interface CatalogProduct {
   verified: boolean;
   hsCode?: string;
   shortSpecs: string[];
+  /** Transport modes this product can ship by. Drives PDP display and checkout availability. */
+  transportModes: TransportMode[];
 }
 
 export const products: CatalogProduct[] = [
@@ -46,6 +55,7 @@ export const products: CatalogProduct[] = [
     hsCode: '8528.72',
     imageUrl: asset('televiseur-led-1'),
     shortSpecs: ['1080p', 'HDMI ×3', 'USB ×2'],
+    transportModes: ['sea'],
   },
   {
     id: 'p-002',
@@ -57,6 +67,7 @@ export const products: CatalogProduct[] = [
     hsCode: '8418.21',
     imageUrl: asset('refrigerateur-1'),
     shortSpecs: ['Classe A+', 'No frost'],
+    transportModes: ['sea'],
   },
   {
     id: 'p-003',
@@ -68,6 +79,7 @@ export const products: CatalogProduct[] = [
     hsCode: '8517.13',
     imageUrl: asset('smartphone-android-1'),
     shortSpecs: ['128 GB', 'Triple caméra'],
+    transportModes: ['air', 'sea'],
   },
   {
     id: 'p-004',
@@ -79,6 +91,7 @@ export const products: CatalogProduct[] = [
     hsCode: '8437.80',
     imageUrl: asset('moulin-grain-1'),
     shortSpecs: ['220V', 'Capacité 80 kg/h'],
+    transportModes: ['sea'],
   },
   {
     id: 'p-005',
@@ -90,6 +103,7 @@ export const products: CatalogProduct[] = [
     hsCode: '4011.10',
     imageUrl: asset('pneu-auto-1'),
     shortSpecs: ['Tubeless'],
+    transportModes: ['sea'],
   },
   // --- No matching photography available (Gate C): icon fallback, queued for capture. ---
   {
@@ -101,6 +115,7 @@ export const products: CatalogProduct[] = [
     verified: true,
     hsCode: '8422.30',
     shortSpecs: ['Sur mesure'],
+    transportModes: ['sea'],
   },
 
   // --- Tier 1 - 8 hero products, 4 unique gallery images each (Gate D). ---
@@ -116,6 +131,7 @@ export const products: CatalogProduct[] = [
     imageUrl: asset('veste-coupe-vent-1'),
     gallery: [asset('veste-coupe-vent-2'), asset('veste-coupe-vent-3'), asset('veste-coupe-vent-4')],
     shortSpecs: ['Déperlant', 'Doublure filet', 'S–XXL'],
+    transportModes: ['air', 'sea'],
   },
   {
     id: 'p-008',
@@ -128,6 +144,7 @@ export const products: CatalogProduct[] = [
     imageUrl: asset('ensemble-sportswear-1'),
     gallery: [asset('ensemble-sportswear-2'), asset('ensemble-sportswear-3'), asset('ensemble-sportswear-4')],
     shortSpecs: ['Tissu respirant', 'Coutures plates', 'S–XXL'],
+    transportModes: ['air', 'sea'],
   },
   {
     id: 'p-009',
@@ -141,6 +158,7 @@ export const products: CatalogProduct[] = [
     imageUrl: asset('chaussure-ville-cuir-1'),
     gallery: [asset('chaussure-ville-cuir-2'), asset('chaussure-ville-cuir-3'), asset('chaussure-ville-cuir-4')],
     shortSpecs: ['Cuir véritable', 'Semelle antidérapante', '39–46'],
+    transportModes: ['air', 'sea'],
   },
   {
     id: 'p-010',
@@ -153,6 +171,7 @@ export const products: CatalogProduct[] = [
     imageUrl: asset('robe-tendance-1'),
     gallery: [asset('robe-tendance-2'), asset('robe-tendance-3'), asset('robe-tendance-4')],
     shortSpecs: ['100% viscose', '4 coloris', 'S–XL'],
+    transportModes: ['air', 'sea'],
   },
   {
     id: 'p-011',
@@ -166,6 +185,7 @@ export const products: CatalogProduct[] = [
     imageUrl: asset('montre-chronographe-1'),
     gallery: [asset('montre-chronographe-2'), asset('montre-chronographe-3'), asset('montre-chronographe-4')],
     shortSpecs: ['Boîtier acier inox', 'Étanche 5 ATM', 'Bracelet réglable'],
+    transportModes: ['air'],
   },
   {
     id: 'p-012',
@@ -178,6 +198,7 @@ export const products: CatalogProduct[] = [
     imageUrl: asset('soiree-elegante-1'),
     gallery: [asset('soiree-elegante-2'), asset('soiree-elegante-3'), asset('soiree-elegante-4')],
     shortSpecs: ['Finition satinée', 'Doublure intégrale', 'S–XL'],
+    transportModes: ['air', 'sea'],
   },
   {
     id: 'p-013',
@@ -194,6 +215,7 @@ export const products: CatalogProduct[] = [
       asset('veste-survetement-collection-4'),
     ],
     shortSpecs: ['Ensemble 2 pièces', 'Molleton gratté', 'S–XXL'],
+    transportModes: ['air', 'sea'],
   },
   {
     id: 'p-014',
@@ -206,6 +228,7 @@ export const products: CatalogProduct[] = [
     imageUrl: asset('tenue-habillee-1'),
     gallery: [asset('tenue-habillee-2'), asset('tenue-habillee-3'), asset('tenue-habillee-4')],
     shortSpecs: ['Coton mélangé', 'Repassage facile', 'S–XXL'],
+    transportModes: ['air', 'sea'],
   },
 
   // --- Tier 2 - 11 products, 1 unique primary image each (Gate D). ---
@@ -219,6 +242,7 @@ export const products: CatalogProduct[] = [
     hsCode: '6404.11',
     imageUrl: asset('chaussure-sport-tissu'),
     shortSpecs: ['Semelle EVA', 'Tissu mesh', '38–45'],
+    transportModes: ['air', 'sea'],
   },
   {
     id: 'p-016',
@@ -230,6 +254,7 @@ export const products: CatalogProduct[] = [
     hsCode: '6403.91',
     imageUrl: asset('chaussure-randonnee'),
     shortSpecs: ['Tige haute', 'Semelle crantée', '39–46'],
+    transportModes: ['air', 'sea'],
   },
   {
     id: 'p-017',
@@ -241,6 +266,7 @@ export const products: CatalogProduct[] = [
     hsCode: '6402.99',
     imageUrl: asset('sandale-confort'),
     shortSpecs: ['Semelle amortissante', 'Sangles ajustables'],
+    transportModes: ['air', 'sea'],
   },
   {
     id: 'p-018',
@@ -252,6 +278,7 @@ export const products: CatalogProduct[] = [
     hsCode: '7117.19',
     imageUrl: asset('bijou-collier-plaque-or'),
     shortSpecs: ['Plaqué or 18K', 'Hypoallergénique'],
+    transportModes: ['air'],
   },
   {
     id: 'p-019',
@@ -263,6 +290,7 @@ export const products: CatalogProduct[] = [
     hsCode: '7117.90',
     imageUrl: asset('bijou-bracelet-perles'),
     shortSpecs: ['Perles synthétiques', 'Élastique renforcé'],
+    transportModes: ['air'],
   },
   {
     id: 'p-020',
@@ -274,6 +302,7 @@ export const products: CatalogProduct[] = [
     hsCode: '7117.19',
     imageUrl: asset('bijou-boucles-oreilles'),
     shortSpecs: ['Sans nickel', 'Présentoir carton inclus'],
+    transportModes: ['air'],
   },
   {
     id: 'p-021',
@@ -285,6 +314,7 @@ export const products: CatalogProduct[] = [
     hsCode: '6103.43',
     imageUrl: asset('short-sport-homme'),
     shortSpecs: ['Séchage rapide', 'Poche zippée'],
+    transportModes: ['air', 'sea'],
   },
   {
     id: 'p-022',
@@ -296,6 +326,7 @@ export const products: CatalogProduct[] = [
     hsCode: '6104.63',
     imageUrl: asset('short-cycliste'),
     shortSpecs: ['Peau de pêche', 'Bande réfléchissante'],
+    transportModes: ['air', 'sea'],
   },
   {
     id: 'p-023',
@@ -308,6 +339,7 @@ export const products: CatalogProduct[] = [
     hsCode: '4203.30',
     imageUrl: asset('ceinture-cuir'),
     shortSpecs: ['Cuir pleine fleur', 'Boucle métal'],
+    transportModes: ['air', 'sea'],
   },
   {
     id: 'p-024',
@@ -319,6 +351,7 @@ export const products: CatalogProduct[] = [
     hsCode: '3303.00',
     imageUrl: asset('parfum-eau-de-toilette'),
     shortSpecs: ['Vaporisateur 100ml', 'Tenue longue durée'],
+    transportModes: ['sea'],
   },
   {
     id: 'p-025',
@@ -330,11 +363,242 @@ export const products: CatalogProduct[] = [
     hsCode: '3305.10',
     imageUrl: asset('shampoing-professionnel'),
     shortSpecs: ['Marque blanche disponible', 'Formule sans sulfate'],
+    transportModes: ['sea'],
+  },
+
+  // --- New sourcing batch (2026-09-02) - one primary photo each. ---
+  {
+    id: 'p-026',
+    title: 'Chemise homme imprimé wax africain',
+    categoryId: 'textile',
+    priceMinXof: 12000,
+    moq: 60,
+    verified: true,
+    hsCode: '6205.20',
+    imageUrl: asset('chemise-motif-africain'),
+    shortSpecs: ['Coton mélangé', 'Boutonnage complet', 'S–XXL'],
+    transportModes: ['air', 'sea'],
+  },
+  {
+    id: 'p-027',
+    title: 'Kimono long imprimé africain femme',
+    categoryId: 'textile',
+    priceMinXof: 15500,
+    moq: 50,
+    verified: true,
+    hsCode: '6204.49',
+    imageUrl: asset('kimono-long-motif-africain'),
+    shortSpecs: ['Coupe ample', 'Manches 3/4', 'Taille unique'],
+    transportModes: ['air', 'sea'],
+  },
+  {
+    id: 'p-028',
+    title: 'T-shirt imprimé motif africain',
+    categoryId: 'textile',
+    priceMinXof: 7800,
+    moq: 100,
+    verified: true,
+    hsCode: '6109.10',
+    imageUrl: asset('tshirt-motif-africain'),
+    shortSpecs: ['100% coton', 'Impression grand format', 'S–XXL'],
+    transportModes: ['air', 'sea'],
+  },
+  {
+    id: 'p-029',
+    title: 'Tissu wax imprimé 6 yards',
+    categoryId: 'textile',
+    priceMinXof: 11900,
+    moq: 50,
+    verified: true,
+    hsCode: '5208.52',
+    imageUrl: asset('tissu-wax-africain'),
+    shortSpecs: ['100% coton', 'Pièce 6 yards', 'Coloris teal & or'],
+    transportModes: ['air', 'sea'],
+  },
+  {
+    id: 'p-030',
+    title: "Boucles d'oreilles bois silhouette Afrique",
+    categoryId: 'textile',
+    priceMinXof: 3200,
+    moq: 150,
+    verified: true,
+    hsCode: '7117.90',
+    imageUrl: asset('boucles-oreilles-bois-afrique'),
+    shortSpecs: ['Bois léger', 'Motifs assortis', 'Crochet acier inoxydable'],
+    transportModes: ['air'],
+  },
+  {
+    id: 'p-031',
+    title: 'Boubou tie-dye femme',
+    categoryId: 'textile',
+    priceMinXof: 21000,
+    moq: 40,
+    verified: true,
+    hsCode: '6204.49',
+    imageUrl: asset('boubou-tie-dye-femme'),
+    shortSpecs: ['Coupe kaftan', 'Broderie col', 'Taille unique'],
+    transportModes: ['air', 'sea'],
+  },
+  {
+    id: 'p-032',
+    title: 'Bandeaux cheveux imprimé africain (lot)',
+    categoryId: 'textile',
+    priceMinXof: 2600,
+    moq: 200,
+    verified: true,
+    hsCode: '6117.80',
+    imageUrl: asset('bandeaux-cheveux-motif-africain'),
+    shortSpecs: ['Élastique extensible', 'Coloris assortis', 'Lot de 4'],
+    transportModes: ['air'],
+  },
+  {
+    id: 'p-033',
+    title: 'Bandeau cheveux motif graphique',
+    categoryId: 'textile',
+    priceMinXof: 1800,
+    moq: 250,
+    verified: true,
+    hsCode: '6117.80',
+    imageUrl: asset('bandeau-cheveux-rouge'),
+    shortSpecs: ['Tissu extensible', 'Nœud torsadé', 'Taille unique'],
+    transportModes: ['air'],
+  },
+  {
+    id: 'p-034',
+    title: 'Foulard carré en satin imprimé',
+    categoryId: 'textile',
+    priceMinXof: 5900,
+    moq: 120,
+    verified: true,
+    hsCode: '6214.90',
+    imageUrl: asset('foulard-carre-soie'),
+    shortSpecs: ['Finition satinée', '90 × 90 cm', 'Coloris assortis'],
+    transportModes: ['air'],
+  },
+  {
+    id: 'p-035',
+    title: 'Boîte à bijoux bois et verre 4 tiroirs',
+    categoryId: 'home',
+    priceMinXof: 18500,
+    moq: 20,
+    verified: true,
+    hsCode: '4420.90',
+    imageUrl: asset('boite-bijoux-bois-vitree'),
+    shortSpecs: ['Finition bois', 'Couvercle vitré', '4 tiroirs compartimentés'],
+    transportModes: ['sea'],
+  },
+  {
+    id: 'p-036',
+    title: 'Gobelet isotherme strass avec anse',
+    categoryId: 'home',
+    priceMinXof: 8200,
+    moq: 100,
+    verified: true,
+    hsCode: '9617.00',
+    imageUrl: asset('gobelet-isotherme-strass'),
+    shortSpecs: ['Paille + couvercle', 'Double paroi isotherme', 'Coloris assortis'],
+    transportModes: ['air', 'sea'],
+  },
+  {
+    id: 'p-037',
+    title: 'Housse bandoulière pour gobelet isotherme',
+    categoryId: 'home',
+    priceMinXof: 3100,
+    moq: 150,
+    verified: true,
+    hsCode: '4202.92',
+    imageUrl: asset('housse-bandouliere-gobelet'),
+    shortSpecs: ['Néoprène', 'Bandoulière réglable', 'Mousquetons métal'],
+    transportModes: ['air', 'sea'],
+  },
+  {
+    id: 'p-038',
+    title: 'Coffret parfum 4 flacons',
+    categoryId: 'beauty',
+    priceMinXof: 24500,
+    moq: 40,
+    verified: true,
+    hsCode: '3303.00',
+    imageUrl: asset('coffret-parfum-4-flacons'),
+    shortSpecs: ['4 flacons 50ml', 'Coffret cadeau', 'Fragrances assorties'],
+    transportModes: ['sea'],
+  },
+  {
+    id: 'p-039',
+    title: 'Ensemble bonnet et sac fausse fourrure',
+    categoryId: 'textile',
+    priceMinXof: 13200,
+    moq: 60,
+    verified: true,
+    hsCode: '6505.00',
+    imageUrl: asset('ensemble-bonnet-sac-fourrure'),
+    shortSpecs: ['Fausse fourrure', 'Sac + bonnet assortis', 'Coloris assortis'],
+    transportModes: ['air', 'sea'],
+  },
+  {
+    id: 'p-040',
+    title: 'Set pinceaux maquillage 12 pièces',
+    categoryId: 'beauty',
+    priceMinXof: 6400,
+    moq: 150,
+    verified: true,
+    hsCode: '9603.30',
+    imageUrl: asset('set-pinceaux-maquillage'),
+    shortSpecs: ['12 pièces', 'Manche marbré', 'Poils synthétiques doux'],
+    transportModes: ['air', 'sea'],
+  },
+  {
+    id: 'p-041',
+    title: 'Coque de protection dorée pour smartphone',
+    categoryId: 'phones',
+    priceMinXof: 4500,
+    moq: 200,
+    verified: true,
+    hsCode: '3926.90',
+    imageUrl: asset('coque-telephone-dore-luxe'),
+    shortSpecs: ['Finition métallisée', 'Protection caméra', 'Coloris or'],
+    transportModes: ['air', 'sea'],
+  },
+  {
+    id: 'p-042',
+    title: 'Lotion corporelle hydratante duo 473ml',
+    categoryId: 'beauty',
+    priceMinXof: 5200,
+    moq: 180,
+    verified: true,
+    hsCode: '3304.99',
+    imageUrl: asset('lotion-corporelle-duo'),
+    shortSpecs: ['7 huiles nourrissantes', 'Peaux sensibles', 'Lot de 2 parfums'],
+    transportModes: ['sea'],
+  },
+  {
+    id: 'p-043',
+    title: 'Perruque lace front carré dégradé',
+    categoryId: 'beauty',
+    priceMinXof: 32000,
+    moq: 20,
+    verified: true,
+    hsCode: '6704.20',
+    imageUrl: asset('perruque-lace-front-carre'),
+    shortSpecs: ['Cheveux naturels', 'Dentelle frontale', 'Coupe carré dégradé'],
+    transportModes: ['air'],
+  },
+  {
+    id: 'p-044',
+    title: 'Boîte à bijoux cuir blanc multi-tiroirs',
+    categoryId: 'home',
+    priceMinXof: 16800,
+    moq: 25,
+    verified: true,
+    hsCode: '4202.92',
+    imageUrl: asset('boite-bijoux-cuir-blanc'),
+    shortSpecs: ['Simili cuir', '3 tiroirs + plateau', 'Fermoir à clé'],
+    transportModes: ['sea'],
   },
 ];
 
-export const featuredIds = ['p-007', 'p-009', 'p-011', 'p-024'];
-export const trendingIds = ['p-010', 'p-015', 'p-001'];
+export const featuredIds = ['p-007', 'p-009', 'p-029', 'p-038'];
+export const trendingIds = ['p-010', 'p-036', 'p-041'];
 export const flashSaleIds = ['p-007', 'p-009', 'p-011', 'p-023'];
 
 export function getProductById(id: string): CatalogProduct | undefined {

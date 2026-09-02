@@ -19,16 +19,13 @@ export function UserChip() {
     .replace(/[^A-ZÀ-ÖØ-Þ]/g, (m) => m);
 
   return (
-    <button
-      type="button"
-      className={styles.root}
-      onClick={() => navigate('/profile')}
-      aria-label={isAuthenticated ? `Profil de ${displayName}` : 'Se connecter'}
-    >
+    <button type="button" className={styles.root} onClick={() => navigate('/profile')}>
       <span className={styles.avatar} aria-hidden="true">
         {initials || 'U'}
       </span>
+      {isAuthenticated && <span className="sr-only">Profil de </span>}
       <span className={styles.name}>{firstName}</span>
+      {!isAuthenticated && <span className="sr-only">, se connecter</span>}
     </button>
   );
 }

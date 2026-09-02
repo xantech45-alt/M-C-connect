@@ -1,9 +1,10 @@
-import { useMemo } from 'react';
+import { Fragment, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { Chip } from '@/components/primitives/Chip';
 import { Card } from '@/components/primitives/Card';
 import { Divider } from '@/components/primitives/Divider';
 import { getProductById } from '@/state/catalog';
+import { TRANSPORT_LABELS, TRANSPORT_TIMING } from '@/domain/transport';
 import styles from './ProductSpecsPage.module.css';
 
 export default function ProductSpecsPage() {
@@ -43,9 +44,14 @@ export default function ProductSpecsPage() {
 
       <h2 className={styles.section}>Logistique</h2>
       <Card>
-        <p className={styles.body}>
-          Maritime : 28–35 jours (port de Cotonou → Bamako) - coordination douane par M&amp;C Connect.
-        </p>
+        <dl className={styles.dl}>
+          {product.transportModes.map((mode) => (
+            <Fragment key={mode}>
+              <dt>{TRANSPORT_LABELS[mode]}</dt>
+              <dd>{TRANSPORT_TIMING[mode]} - coordination douane par M&amp;C Connect</dd>
+            </Fragment>
+          ))}
+        </dl>
       </Card>
     </div>
   );

@@ -7,6 +7,7 @@ import { AuthProvider } from '@/state/AuthProvider';
 import { CartProvider } from '@/state/CartProvider';
 import { FavoritesProvider } from '@/state/FavoritesProvider';
 import { AddressesProvider } from '@/state/AddressesProvider';
+import { CheckoutProvider } from '@/state/CheckoutProvider';
 import { ToastProvider } from '@/components/ui/Toast';
 
 interface Options {
@@ -27,7 +28,9 @@ export function renderWithProviders(ui: ReactElement, { route = '/', state }: Op
             <CartProvider>
               <FavoritesProvider>
                 <AddressesProvider>
-                  <ToastProvider>{ui}</ToastProvider>
+                  <CheckoutProvider>
+                    <ToastProvider>{ui}</ToastProvider>
+                  </CheckoutProvider>
                 </AddressesProvider>
               </FavoritesProvider>
             </CartProvider>

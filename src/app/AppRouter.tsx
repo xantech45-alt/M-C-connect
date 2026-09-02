@@ -7,6 +7,11 @@ import { OnboardingLayout } from '@/layouts/OnboardingLayout';
 import { DetailLayout } from '@/layouts/DetailLayout';
 import { TabsLayout } from '@/layouts/TabsLayout';
 import { PdpLayout } from '@/layouts/PdpLayout';
+// Not lazy: /home is the most likely first-visited route, and every other
+// route already pays one dynamic-import round-trip before its content (and
+// LCP image, if any) becomes discoverable. Skipping that round-trip here
+// measurably improves Home's LCP (see PERFORMANCE_REPORT.md).
+import HomePage from '@/pages/HomePage';
 
 const OnboardingPage = lazy(() => import('@/pages/OnboardingPage'));
 const LoginPage = lazy(() => import('@/pages/LoginPage'));
@@ -16,14 +21,12 @@ const VerifyCodePage = lazy(() => import('@/pages/VerifyCodePage'));
 const ResetPasswordPage = lazy(() => import('@/pages/ResetPasswordPage'));
 const ResetSuccessPage = lazy(() => import('@/pages/ResetSuccessPage'));
 const BusinessProfilePage = lazy(() => import('@/pages/BusinessProfilePage'));
-const HomePage = lazy(() => import('@/pages/HomePage'));
 const CategoriesPage = lazy(() => import('@/pages/CategoriesPage'));
 const SearchPage = lazy(() => import('@/pages/SearchPage'));
 const SearchResultsPage = lazy(() => import('@/pages/SearchResultsPage'));
 const ImageSearchPage = lazy(() => import('@/pages/ImageSearchPage'));
 const ProductDetailPage = lazy(() => import('@/pages/ProductDetailPage'));
 const ProductSpecsPage = lazy(() => import('@/pages/ProductSpecsPage'));
-const LandedCostPage = lazy(() => import('@/pages/LandedCostPage'));
 const ComparePage = lazy(() => import('@/pages/ComparePage'));
 const RequestQuotePage = lazy(() => import('@/pages/RequestQuotePage'));
 const CartPage = lazy(() => import('@/pages/CartPage'));
@@ -47,7 +50,6 @@ const PaymentMethodsPage = lazy(() => import('@/pages/PaymentMethodsPage'));
 const FavoritesPage = lazy(() => import('@/pages/FavoritesPage'));
 const CouponsPage = lazy(() => import('@/pages/CouponsPage'));
 const ReviewsPage = lazy(() => import('@/pages/ReviewsPage'));
-const ReturnsPage = lazy(() => import('@/pages/ReturnsPage'));
 const HelpPage = lazy(() => import('@/pages/HelpPage'));
 const ContactPage = lazy(() => import('@/pages/ContactPage'));
 const AboutPage = lazy(() => import('@/pages/AboutPage'));
@@ -79,12 +81,11 @@ export const router = createBrowserRouter([
       {
         element: <TabsLayout />,
         children: [
-          { path: '/home', element: withSuspense(<HomePage />) },
+          { path: '/home', element: <HomePage /> },
           { path: '/categories', element: withSuspense(<CategoriesPage />) },
           { path: '/search', element: withSuspense(<SearchPage />) },
           { path: '/search/results', element: <DetailLayout bare title="Résultats">{withSuspense(<SearchResultsPage />)}</DetailLayout> },
           { path: '/product/:id/specs', element: <DetailLayout bare title="Spécifications">{withSuspense(<ProductSpecsPage />)}</DetailLayout> },
-          { path: '/product/:id/landed-cost', element: <DetailLayout bare title="Coût total rendu">{withSuspense(<LandedCostPage />)}</DetailLayout> },
           { path: '/compare', element: <DetailLayout bare title="Comparer">{withSuspense(<ComparePage />)}</DetailLayout> },
           { path: '/rfq/new', element: <DetailLayout bare title="Demande de devis">{withSuspense(<RequestQuotePage />)}</DetailLayout> },
           { path: '/rfq/received', element: <DetailLayout bare title="Demande reçue">{withSuspense(<QuoteReceivedPage />)}</DetailLayout> },
@@ -111,7 +112,6 @@ export const router = createBrowserRouter([
           { path: '/favorites', element: <DetailLayout bare title="Favoris">{withSuspense(<FavoritesPage />)}</DetailLayout> },
           { path: '/coupons', element: <DetailLayout bare title="Coupons">{withSuspense(<CouponsPage />)}</DetailLayout> },
           { path: '/reviews', element: <DetailLayout bare title="Mes avis">{withSuspense(<ReviewsPage />)}</DetailLayout> },
-          { path: '/returns', element: <DetailLayout bare title="Retours et remboursements">{withSuspense(<ReturnsPage />)}</DetailLayout> },
           { path: '/help', element: <DetailLayout bare title="Centre d'aide">{withSuspense(<HelpPage />)}</DetailLayout> },
           { path: '/contact', element: <DetailLayout bare title="Contactez-nous">{withSuspense(<ContactPage />)}</DetailLayout> },
           { path: '/about', element: <DetailLayout bare title="À propos">{withSuspense(<AboutPage />)}</DetailLayout> },

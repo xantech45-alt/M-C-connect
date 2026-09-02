@@ -13,6 +13,7 @@ import { useCart } from '@/state/CartProvider';
 import { useToast } from '@/components/ui/Toast';
 import { getProductById } from '@/state/catalog';
 import { coupons } from '@/state/coupons';
+import { getCartCustomerTotal, formatXof } from '@/domain/pricing';
 import styles from './CartPage.module.css';
 
 export default function CartPage() {
@@ -44,8 +45,7 @@ export default function CartPage() {
   }
 
   const itemCount = lines.reduce((sum, l) => sum + l.quantity, 0);
-  const freight = Math.round(subtotalXof * 0.12);
-  const estimatedTotal = subtotalXof + freight;
+  const estimatedTotal = getCartCustomerTotal(lines);
 
   const onApplyPromo = (e: FormEvent) => {
     e.preventDefault();
@@ -145,7 +145,7 @@ export default function CartPage() {
         <div className={styles.summaryRow}>
           <span>Total estimé</span>
           <strong className={styles.summaryTotal}>
-            ≈ {estimatedTotal.toLocaleString('fr-FR')} XOF
+            ≈ {formatXof(estimatedTotal.totalXof)}
           </strong>
         </div>
         <div className={styles.guarantee}>

@@ -40,9 +40,7 @@ export function PersonalInfoForm({ redirectTo = '/profile' }: Props) {
     e.preventDefault();
     setLoading(true);
     completeProfile({
-      legalName: company?.legalName ?? '',
-      registrationNumber: company?.registrationNumber,
-      taxId: company?.taxId,
+      name: company?.name ?? '',
       industry: company?.industry,
       address: company?.address,
       contactName: fullName,

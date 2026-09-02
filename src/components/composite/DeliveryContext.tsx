@@ -19,7 +19,6 @@ export function DeliveryContext({ destination, onPress, compact = false }: Props
       type="button"
       className={`${styles.root} ${compact ? styles.compact : ''}`}
       onClick={onPress}
-      aria-label={`Destination de livraison : ${destination}. Modifier.`}
     >
       <span className={styles.icon}>
         <MapPin size={compact ? 14 : 16} strokeWidth={1.5} aria-hidden="true" />
@@ -29,6 +28,7 @@ export function DeliveryContext({ destination, onPress, compact = false }: Props
         <span className={styles.destination}>{destination}</span>
       </span>
       <ChevronDown size={14} strokeWidth={1.5} aria-hidden="true" />
+      <span className="sr-only">, modifier</span>
     </button>
   );
 }

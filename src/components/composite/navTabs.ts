@@ -36,7 +36,6 @@ export const navTabs: readonly NavTabDef[] = [
       '/favorites',
       '/coupons',
       '/reviews',
-      '/returns',
       '/help',
       '/contact',
       '/about',

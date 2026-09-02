@@ -62,7 +62,7 @@ export function HeroCarousel({ slides }: Props) {
         pagination={{
           clickable: true,
           renderBullet: (index, className) =>
-            `<button type="button" role="tab" aria-label="Bannière ${index + 1} sur ${slides.length}" class="${className}"></button>`,
+            `<button type="button" aria-label="Bannière ${index + 1} sur ${slides.length}" class="${className}"></button>`,
         }}
         a11y={{
           slideRole: 'group',
@@ -78,19 +78,19 @@ export function HeroCarousel({ slides }: Props) {
               src={s.image}
               alt=""
               width={960}
-              height={400}
+              height={720}
               decoding="async"
               loading={i === 0 ? 'eager' : 'lazy'}
               className={styles.image}
               {...({ fetchpriority: i === 0 ? 'high' : 'low' } as Record<string, string>)}
             />
             <div className={styles.scrim} aria-hidden="true" />
+            <span className={`${styles.eyebrow} ${styles.eyebrowTop}`}>
+              <Sparkles size={14} strokeWidth={1.5} aria-hidden="true" />
+              MC Connect the Connection beyond Borders
+            </span>
             <div className={styles.copy}>
-              <span className={styles.eyebrow}>
-                <Sparkles size={14} strokeWidth={1.5} aria-hidden="true" />
-                Nouveau · Programme Sourcing
-              </span>
-              <h1 className={styles.title} aria-live="polite">{s.title}</h1>
+              <h2 className={styles.title}>{s.title}</h2>
               <p className={styles.subtitle}>{s.subtitle}</p>
               <Link to={s.to} className={styles.cta}>
                 {s.cta}

@@ -9,9 +9,7 @@ export default function BusinessProfilePage() {
   const { completeProfile } = useAuth();
   const navigate = useNavigate();
   const [form, setForm] = useState({
-    legalName: '',
-    registrationNumber: '',
-    taxId: '',
+    name: '',
     industry: '',
     contactName: '',
     phone: '',
@@ -32,12 +30,8 @@ export default function BusinessProfilePage() {
     <div className={styles.container}>
       <h1 className={styles.title}>Profil entreprise</h1>
       <form onSubmit={onSubmit} className={styles.form}>
-        <label className={styles.label}>Raison sociale *</label>
-        <input className={styles.input} required value={form.legalName} onChange={onChange('legalName')} />
-        <label className={styles.label}>Numéro RCCM</label>
-        <input className={styles.input} value={form.registrationNumber} onChange={onChange('registrationNumber')} />
-        <label className={styles.label}>NIF</label>
-        <input className={styles.input} value={form.taxId} onChange={onChange('taxId')} />
+        <label className={styles.label}>Nom *</label>
+        <input className={styles.input} required value={form.name} onChange={onChange('name')} />
         <label className={styles.label}>Secteur d&apos;activité</label>
         <input className={styles.input} value={form.industry} onChange={onChange('industry')} />
         <label className={styles.label}>Personne de contact *</label>

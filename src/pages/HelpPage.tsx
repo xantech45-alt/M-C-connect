@@ -17,19 +17,19 @@ const FAQ = [
   },
   {
     q: 'Quels sont les délais de livraison habituels ?',
-    a: 'Comptez généralement 30 à 45 jours pour un fret maritime standard, douane et livraison à Bamako incluses. Le délai exact est indiqué sur chaque commande.',
+    a: 'Le délai dépend du mode de transport choisi à la commande : 2 semaines à 1 mois par avion, ou 3 à 4 mois par bateau. Le mode disponible dépend du produit.',
   },
   {
-    q: 'Comment est calculé le coût total rendu ?',
-    a: "Le coût rendu additionne le prix produit, le fret international, les droits de douane et la livraison finale - calculable pour chaque produit avant commande.",
+    q: 'Comment est calculé le coût total ?',
+    a: "M&C Connect calcule pour vous le prix produit, le fret international, les droits de douane et la livraison finale, et affiche un coût total unique pour chaque produit avant commande.",
   },
   {
     q: 'Que se passe-t-il si un produit ne passe pas le contrôle qualité ?',
-    a: "M&C Connect bloque l'expédition, vous en informe avec le rapport de contrôle qualité, et coordonne une correction ou un remboursement avec le fournisseur.",
+    a: "M&C Connect bloque l'expédition avant qu'elle ne quitte la Chine, vous en informe avec le rapport de contrôle qualité, et coordonne une correction avec le fournisseur.",
   },
   {
     q: 'Quels moyens de paiement sont acceptés ?',
-    a: 'Mobile Money, virement bancaire, ou paiement à la livraison - tous gérés et sécurisés par M&C Connect.',
+    a: 'Wave, Orange Money ou virement bancaire - tous gérés et sécurisés par M&C Connect. Vous choisissez aussi entre un paiement en une fois ou 60% à la commande avec le solde à la livraison.',
   },
 ];
 

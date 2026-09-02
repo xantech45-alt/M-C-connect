@@ -56,7 +56,13 @@ export default function SearchResultsPage() {
     <div className={styles.container}>
       <header className={styles.head}>
         <div>
-          <h1 className={styles.title}>{q ? `${results.length} résultats pour « ${q} »` : `${results.length} résultats`}</h1>
+          <h1 className={styles.title}>
+            {q
+              ? `${results.length} résultats pour « ${q} »`
+              : activeCat !== 'all'
+                ? `${results.length} résultats dans ${categories.find((c) => c.id === activeCat)?.name ?? ''}`
+                : `${results.length} résultats`}
+          </h1>
         </div>
         <button
           type="button"

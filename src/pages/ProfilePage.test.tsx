@@ -9,4 +9,9 @@ describe('ProfilePage', () => {
     expect(screen.getByRole('heading', { name: 'Votre entreprise' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Se déconnecter' })).toBeInTheDocument();
   });
+
+  it('has no link to the discontinued returns feature', () => {
+    renderWithProviders(<ProfilePage />, { route: '/profile' });
+    expect(screen.queryByRole('link', { name: /Retours/ })).not.toBeInTheDocument();
+  });
 });

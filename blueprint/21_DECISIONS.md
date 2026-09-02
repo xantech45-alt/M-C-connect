@@ -136,6 +136,12 @@ Consequences: …
 **Decision:** Bottom nav persists across all tab-rooted screens. Hidden only on detail/form screens.
 **Consequences:** Five tabs: Accueil · Commandes · Produits · Messages · Profil.
 
+## D-021 - `MODIFICATION FOR THE APP.pdf` supersedes conflicting blueprint rules
+**Status:** Accepted
+**Context:** A later modification specification (`MODIFICATION FOR THE APP.pdf`, 2026-09-02) changes several product rules this blueprint originally encoded: it removes the customer-facing landed-cost breakdown (conflicts with the "coût rendu" calculator described in `screens/12_LANDED_COST.md`), disables the returns/refund feature for launch, replaces the four-method payment screen with a two-step payment-plan → transport-mode → payment-method flow (Wave / Orange Money / Banque only), makes transport mode (air/sea) a per-product attribute with fixed timing (air 2 weeks-1 month, sea 3-4 months), and drops the `legalName`/`registrationNumber`/`taxId` (RCCM/NIF) business-profile fields in favour of a single `name` field.
+**Decision:** Per the project's documented source-of-truth priority, the modification PDF is a later, higher-priority change request and overrides any blueprint screen/flow spec it conflicts with. `screens/12_LANDED_COST.md` and the returns-related sections of `screens/10_PRODUCT_DETAIL.md` / `flows/CART_CHECKOUT_FLOW.md` are superseded, not deleted - they remain as historical record of the pre-PDF design. New behavior is documented in `implementation/DECISION_LOG.md` IDI-026.
+**Consequences:** Where this file (or any `screens/*`, `flows/*`, `states/*` doc) still describes the old landed-cost breakdown, the four-method payment screen, RCCM/NIF fields, or a customer return program, treat that text as historical and defer to the PDF/IDI-026 instead of re-deriving the old behavior from these docs.
+
 ---
 
 ## Open decisions (not yet resolved)
