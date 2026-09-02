@@ -86,15 +86,15 @@ export function HeroCarousel({ slides }: Props) {
             />
             <div className={styles.scrim} aria-hidden="true" />
             <span className={`${styles.eyebrow} ${styles.eyebrowTop}`}>
-              <Sparkles size={14} strokeWidth={1.5} aria-hidden="true" />
-              MC Connect the Connection beyond Borders
+              <Sparkles size={11} strokeWidth={1.5} aria-hidden="true" />
+              <span className={styles.eyebrowText}>MC Connect the Connection beyond Borders</span>
             </span>
             <div className={styles.copy}>
               <h2 className={styles.title}>{s.title}</h2>
               <p className={styles.subtitle}>{s.subtitle}</p>
               <Link to={s.to} className={styles.cta}>
                 {s.cta}
-                <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
+                <ArrowRight size={12} strokeWidth={1.5} aria-hidden="true" />
               </Link>
             </div>
           </SwiperSlide>

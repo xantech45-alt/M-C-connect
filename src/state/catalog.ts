@@ -105,19 +105,6 @@ export const products: CatalogProduct[] = [
     shortSpecs: ['Tubeless'],
     transportModes: ['sea'],
   },
-  // --- No matching photography available (Gate C): icon fallback, queued for capture. ---
-  {
-    id: 'p-006',
-    title: "Ligne d'emballage industrielle",
-    categoryId: 'industrial',
-    priceMinXof: 4500000,
-    moq: 1,
-    verified: true,
-    hsCode: '8422.30',
-    shortSpecs: ['Sur mesure'],
-    transportModes: ['sea'],
-  },
-
   // --- Tier 1 - 8 hero products, 4 unique gallery images each (Gate D). ---
   {
     id: 'p-007',
