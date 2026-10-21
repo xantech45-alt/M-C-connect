@@ -1,14 +1,10 @@
 import { useMemo, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { SlidersHorizontal, ArrowDownUp, ShoppingCart } from 'lucide-react';
+import { SlidersHorizontal, ArrowDownUp } from 'lucide-react';
 import { Image } from '@/components/primitives/Image';
-import { StarRating } from '@/components/composite/StarRating';
 import { ChipFilterGroup } from '@/components/composite/ChipFilterGroup';
 import { EmptyState } from '@/components/primitives/EmptyState';
 import { Button } from '@/components/primitives/Button';
-import { useCart } from '@/state/CartProvider';
-import { useToast } from '@/components/ui/Toast';
-import { getRating } from '@/state/rating';
 import { categories, products, getProductById } from '@/state/catalog';
 import styles from './SearchResultsPage.module.css';
 
@@ -16,8 +12,6 @@ type Sort = 'relevance' | 'price-asc' | 'price-desc' | 'moq-asc';
 
 export default function SearchResultsPage() {
   const navigate = useNavigate();
-  const { add } = useCart();
-  const toast = useToast();
   const [params] = useSearchParams();
   const q = params.get('q') ?? '';
   const cat = params.get('cat');
@@ -46,11 +40,6 @@ export default function SearchResultsPage() {
     if (sort === 'moq-asc') list = [...list].sort((a, b) => a.moq - b.moq);
     return list;
   }, [q, activeCat, sort, verifiedOnly, priceMin, priceMax, moqMin, moqMax]);
-
-  const onQuickAdd = (p: NonNullable<ReturnType<typeof getProductById>>) => {
-    add({ productId: p.id, quantity: p.moq, unitPriceXof: p.priceMinXof, moq: p.moq });
-    toast('success', `Ajouté au panier (${p.moq} unité${p.moq > 1 ? 's' : ''})`);
-  };
 
   return (
     <div className={styles.container}>
@@ -120,7 +109,6 @@ export default function SearchResultsPage() {
         <ul className={styles.list}>
           {results.map((raw) => {
             const p = getProductById(raw.id) ?? raw;
-            const { value: rating, count: reviewCount } = getRating(p.id);
             const discountPct = p.originalPriceXof
               ? Math.round((1 - p.priceMinXof / p.originalPriceXof) * 100)
               : null;
@@ -133,24 +121,15 @@ export default function SearchResultsPage() {
                   <div className={styles.rowBody}>
                     <h2 className={styles.rowTitle}>{p.title}</h2>
                     {p.shortSpecs[0] && <p className={styles.rowSubtitle}>{p.shortSpecs[0]}</p>}
-                    <StarRating rating={rating} reviewCount={reviewCount} size={12} />
                     <div className={styles.priceRow}>
-                      <strong className={styles.price}>{p.priceMinXof.toLocaleString('fr-FR')} XOF</strong>
+                      <strong className={styles.price}>{p.priceMinXof.toLocaleString('fr-FR')} FCFA</strong>
                       {p.originalPriceXof && (
-                        <span className={styles.original}>{p.originalPriceXof.toLocaleString('fr-FR')} XOF</span>
+                        <span className={styles.original}>{p.originalPriceXof.toLocaleString('fr-FR')} FCFA</span>
                       )}
                       {discountPct !== null && <span className={styles.discountBadge}>-{discountPct}%</span>}
                     </div>
                   </div>
                 </Link>
-                <button
-                  type="button"
-                  className={styles.quickAdd}
-                  aria-label={`Ajouter ${p.title} au panier`}
-                  onClick={() => onQuickAdd(p)}
-                >
-                  <ShoppingCart size={16} strokeWidth={1.8} aria-hidden="true" />
-                </button>
               </li>
             );
           })}

@@ -5,7 +5,7 @@ import { renderWithProviders } from '@/test/renderWithProviders';
 import SearchResultsPage from './SearchResultsPage';
 
 describe('SearchResultsPage', () => {
-  it('renders result rows with a quick-add button', () => {
+  it('renders result rows linking to the product detail page, with no list-level cart action', () => {
     renderWithProviders(
       <DetailLayout bare title="Résultats">
         <SearchResultsPage />
@@ -13,6 +13,7 @@ describe('SearchResultsPage', () => {
       { route: '/search/results' },
     );
     expect(screen.getByRole('heading', { name: 'Résultats', level: 1 })).toBeInTheDocument();
-    expect(screen.getAllByRole('button', { name: /Ajouter .* au panier/ }).length).toBeGreaterThan(0);
+    expect(screen.getAllByRole('link').length).toBeGreaterThan(0);
+    expect(screen.queryByRole('button', { name: /Ajouter .* au panier/ })).not.toBeInTheDocument();
   });
 });

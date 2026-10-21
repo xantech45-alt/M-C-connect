@@ -56,7 +56,7 @@ export default function CouponsPage() {
                   </span>
                 </div>
                 {c.minOrderXof && (
-                  <p className={styles.minOrder}>Dès {c.minOrderXof.toLocaleString('fr-FR')} XOF d&apos;achat</p>
+                  <p className={styles.minOrder}>Dès {c.minOrderXof.toLocaleString('fr-FR')} FCFA d&apos;achat</p>
                 )}
               </Card>
             ))}

@@ -19,7 +19,7 @@ export default function ComparePage() {
         {list.map((p) => p && (
           <Card key={p.id} elevation="elevated">
             <h2 className={styles.name}>{p.title}</h2>
-            <p className={styles.price}>À partir de {p.priceMinXof.toLocaleString('fr-FR')} XOF</p>
+            <p className={styles.price}>À partir de {p.priceMinXof.toLocaleString('fr-FR')} FCFA</p>
             <p className={styles.moq}>MOQ : {p.moq}</p>
             <ul className={styles.specs}>
               {p.shortSpecs.map((s) => <li key={s}>{s}</li>)}

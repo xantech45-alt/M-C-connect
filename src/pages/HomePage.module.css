@@ -1,8 +1,16 @@
 .container {
+  /* One local gap for the dense top stack (hero -> order -> categories -> flash). */
+  --home-stack-gap: var(--space-4);
   display: flex;
   flex-direction: column;
   gap: var(--section-gap);
   padding: var(--space-3) var(--page-gutter) var(--section-gap-lg);
+}
+
+.topStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--home-stack-gap);
 }
 
 /* ── Active order card (compact) ──────────────────────────
@@ -59,54 +67,52 @@
   flex: 0 0 auto;
 }
 
-/* ── Category rail ─────────────────────────────────────── */
-.catRail {
+/* ── Two-row category grid ─────────────────────────────
+ * Exactly two rows of four at every width. Columns stretch with the
+ * viewport but the photo is capped so tablet tiles don't balloon. */
+.catGrid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: var(--space-2);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: var(--space-2);
+  row-gap: var(--space-3);
 }
 
-.catChip {
+.catTile {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  padding: var(--space-2);
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
   text-decoration: none;
   color: var(--ink);
-  min-height: 72px;
   text-align: center;
+  min-height: var(--tap-min);
+  border-radius: var(--radius-md);
 }
 
-@media (min-width: 600px) {
-  .catChip {
-    padding: var(--space-3) var(--space-2);
-    min-height: 84px;
-  }
+.catImage {
+  max-width: 96px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  transition: border-color 120ms ease;
 }
 
-.catChip:hover {
+.catTile:hover .catImage {
   border-color: var(--mc-red);
-}
-
-.catIcon {
-  width: 44px;
-  height: 44px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--mc-red-tint);
-  color: var(--mc-red);
-  border-radius: 999px;
 }
 
 .catLabel {
   font-size: var(--font-size-caption);
   font-weight: 600;
   line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  hyphens: auto;
 }
 
 .seeAll {
@@ -127,7 +133,7 @@
 
 /* ── Flash sale ────────────────────────────────────────── */
 .flashCountdown {
-  margin: -4px 0 var(--space-3);
+  margin: 0 0 var(--space-2);
   font-size: var(--font-size-caption);
   color: var(--slate);
 }
@@ -238,5 +244,51 @@
 @media (min-width: 900px) {
   .grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+/* ── Desktop ──────────────────────────────────────────────
+ * Same markup, denser composition: categories on one row of eight,
+ * flash offers as a grid instead of a horizontal scroller (no hidden
+ * content behind a scrollbar on a mouse-driven screen). */
+@media (min-width: 1024px) {
+  .container {
+    --home-stack-gap: var(--space-6);
+    padding-top: var(--space-6);
+  }
+
+  .catGrid {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    column-gap: var(--space-4);
+  }
+
+  .catImage {
+    max-width: 112px;
+  }
+
+  .catLabel {
+    font-size: var(--font-size-body);
+  }
+
+  .flashRow {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: var(--space-4);
+    overflow: visible;
+  }
+
+  .flashCard {
+    width: auto;
+  }
+
+  .flashTitle {
+    font-size: var(--font-size-body);
+  }
+
+  .grid {
+    gap: var(--space-5);
+  }
+
+  .trustNote {
+    font-size: var(--font-size-body);
   }
 }

@@ -47,10 +47,13 @@ export default function OrderConfirmationPage() {
             className={styles.icon}
             aria-hidden="true"
           />
-          <h1 className={styles.title}>Commande confirmée</h1>
+          <h1 className={styles.title}>Commande enregistrée</h1>
+          {/* Master Spec 4.2/INV-2: after the customer pays outside the app the order
+              is PAYMENT_VERIFYING, never "confirmed"; nothing is bought before that. */}
           <p className={styles.body}>
-            M&amp;C Connect a confirmé votre commande <strong>CMD-2024-0142</strong>. Vous pouvez
-            suivre son avancement depuis l&apos;onglet Commandes.
+            Paiement en cours de vérification, réponse sous 2 h. M&amp;C Connect n&apos;achète vos
+            articles qu&apos;après confirmation de votre paiement. Suivez l&apos;avancement depuis
+            l&apos;onglet Commandes.
           </p>
           {paymentPlan && (
             <p className={styles.body}>{PAYMENT_PLAN_LABELS[paymentPlan]}</p>

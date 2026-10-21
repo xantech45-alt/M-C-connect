@@ -23,4 +23,11 @@ describe('OrderConfirmationPage', () => {
     expect(screen.getByText(/60% réglé à la commande/)).toBeInTheDocument();
     expect(screen.queryByText('Livraison Bamako 30–45 j')).not.toBeInTheDocument();
   });
+
+  it('never presents an unverified payment as a confirmed order', () => {
+    renderWithProviders(<OrderConfirmationPage />, { route: '/checkout/confirmation' });
+    expect(screen.getByRole('heading', { name: 'Commande enregistrée' })).toBeInTheDocument();
+    expect(screen.getByText(/Paiement en cours de vérification, réponse sous 2 h/)).toBeInTheDocument();
+    expect(screen.queryByText(/Commande confirmée/)).not.toBeInTheDocument();
+  });
 });

@@ -24,6 +24,8 @@ Drive discovery, repeat purchases, and order engagement.
 - Profile (Profile tab)
 - Notifications
 
+> **Superseded in part (D-022 / IDI-027):** the category strip is now a curated two-row (2×4) photo grid placed directly after a compact active-order card and followed by Offres flash, with a tight shared gap. Items 4 and "no decorative photo" / "max 6 items" below are historical.
+
 ## Layout hierarchy
 1. App bar - logo · notifications · profile avatar
 2. Search bar (sticky)

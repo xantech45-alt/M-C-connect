@@ -1,5 +1,7 @@
 # Screen 17 - Paiement
 
+> **Superseded (D-021, D-022 / IDI-026, IDI-027):** payment is a 3-step flow - plan (60% / 100%) → transport (always both Avion and Bateau shown; an ineligible mode is disabled with a reason) → method (Wave / Orange Money / Banque). The method-only spec below is historical.
+
 ## Purpose
 Collect the payment method via M&C-managed channels.
 

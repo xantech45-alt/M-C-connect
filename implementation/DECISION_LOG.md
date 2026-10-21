@@ -261,6 +261,16 @@
   their current registry keys pending replacement (see the session's final report for the exact
   list).
 
+## IDI-027 - `new modification.pdf`: two-choice transport step + dense two-row Home categories
+- **Status:** Accepted
+- **Context:** The latest change request (`new modification.pdf`, supersedes `MODIFICATION FOR THE APP.pdf` where they conflict - see `blueprint/21_DECISIONS.md` D-022) flagged two issues on the live build: with a sea-only cart, `PaymentPage` step 2 showed a single "Bateau" card, so the customer never saw a choice; and the Home category rail (4 icon chips + "Plus") plus stacked section padding left large gaps between the active-order card, categories and Offres flash.
+- **Decision:**
+  - `src/domain/transport.ts` gained `getTransportOptions(lines)`, which always returns both modes (Avion, Bateau) with `available` and a customer-facing `reason` naming the blocking product(s). `PaymentPage` renders both as mutually exclusive radio cards; an ineligible mode is `disabled` with the reason wired via `aria-describedby`. No mode is preselected. An incompatible cart shows both disabled plus a `role="alert"` split-order message, and step 3 stays hidden.
+  - `HomePage` wraps hero → active order → categories → Offres flash in a `.topStack` sharing one local token, `--home-stack-gap` (16px); those sections use `spacing="none"` and a new `SectionHeader compact` option, so the page-level `--section-gap` no longer stacks with section padding there. Lower Home sections keep the global rhythm.
+  - Categories are a curated 8-item (`HOME_CATEGORY_COUNT`) 4×2 photo grid driven by `CatalogCategory.imageUrl`; photos are capped at 96px so tablet tiles don't balloon; "Voir tout" links to `/categories`. `industrial` keeps the documented icon fallback (no matching photo exists).
+  - PDP "Livraison rapide" replaced by "Livraison suivie par M&C" (sea freight is 3-4 months, "rapide" was misleading).
+- **Consequences:** Verified two rows and no horizontal overflow at 320/360/390/414/600/768/1024px. Tests: `transport.test.ts` (option/reason logic), `PaymentPage.test.tsx` (two choices, exclusivity, disabled-with-reason, air-only, incompatible cart), `HomePage.test.tsx` (2×4 grid, stack order, no section padding in the stack).
+
 ## IDI-025 - Route-transition Suspense fallback: `Spinner` primitive instead of `null`
 - **Status:** Accepted
 - **Context:** Every lazy-loaded route (`withSuspense` in `AppRouter.tsx`) fell back to `null` while its
@@ -269,3 +279,9 @@
   ring, `prefers-reduced-motion`-aware - static ring instead of spin) and used it as the `withSuspense`
   fallback (`<Spinner fullSection />`, `min-height: 60vh` so it doesn't collapse the layout mid-transition).
 - **Consequences:** No new dependency. Reusable for any other async-loading state that needs a spinner.
+
+## IDI-028 - Desktop shell (>=1024px) and spec-compliance pass against Master Spec v1.0
+- **Status:** Accepted
+- **Context:** On desktop the app read as a phone app: no content container (body lines up to 1714px), a three-row mobile header plus the 84px rail from IDI-023, a 4:3 hero about 960px tall, and single-column flows stretched horizontally. A Drive knowledge-base audit (Master Spec v1.0, 21 Oct 2026) also found customer-visible violations: XOF instead of FCFA and ISO dates (INV-8), "Commande confirmée" before payment verification (spec 4.2 / INV-2), hash-generated ratings shown as reviews (MS-CAT-10), and onboarding forcing /login (spec 2.2 public browsing).
+- **Decision:** Three nav modes from shared queries in `useMediaQuery.ts`: bottom bar <900, rail 900-1023 (IDI-023 narrowed), and desktop shell >=1024 (one-row `CommerceHeader` grid plus `DesktopNav` plus `SiteFooter`, content centred at `--content-max` 1280). `DetailLayout` gains `width="narrow"` (760) for 19 routes, renders a 440 card for pre-auth pages, and owns the horizontal gutter for nested pages. Onboarding persists `mc.onboarding.done`, and skip/finish go to /home. FCFA labels and `domain/format.ts` dates. Confirmation wording per spec 4.2. Ratings removed from the PDP and search.
+- **Consequences:** Mobile below 900px is unchanged apart from label, date and a11y fixes and the corrected nested-page gutter. Spec-vs-owner conflicts (landed-cost breakdown removed in IDI-026, payment methods, OTP-only auth) were **not** resolved and are logged for an owner decision. Full audit, evidence and test results: `mc knowledge/frontend-modernization-2026/00-MASTER-AUDIT-AND-IMPLEMENTATION.md`.

@@ -85,16 +85,20 @@ export default function AllProductsPage() {
       {results.length === 0 ? (
         <EmptyState title="Aucun produit dans cette catégorie" body="Changez de filtre pour voir d'autres produits." />
       ) : (
-        <div className={styles.grid}>
-          {results.map((p) => (
-            <ProductCard
-              key={p.id}
-              product={p}
-              favorite={isFavorite(p.id)}
-              onToggleFavorite={(prod) => toggle(prod.id)}
-            />
-          ))}
-        </div>
+        <>
+          {/* Cards use h3 titles; this keeps the outline h1 > h2 > h3 (axe heading-order). */}
+          <h2 className="sr-only">Liste des produits</h2>
+          <div className={styles.grid}>
+            {results.map((p) => (
+              <ProductCard
+                key={p.id}
+                product={p}
+                favorite={isFavorite(p.id)}
+                onToggleFavorite={(prod) => toggle(prod.id)}
+              />
+            ))}
+          </div>
+        </>
       )}
     </div>
   );

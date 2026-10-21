@@ -8,14 +8,29 @@
 }
 
 .outlet {
-  /* Page gutter is applied per-page; outlet is just a flex column */
+  /* Page gutter is applied per-page; outlet is just a block */
   display: block;
 }
 
 /* Tablet landscape: left rail nav replaces the fixed bottom bar */
-@media (min-width: 900px) {
-  .railMode {
-    padding-left: var(--rail-width);
-    padding-bottom: var(--safe-bottom);
-  }
+.railMode {
+  padding-left: var(--rail-width);
+  padding-bottom: var(--safe-bottom);
+}
+
+/* Desktop: no fixed chrome to reserve space for; content is centered at
+   the shared content width so lines and grids stay proportionate. */
+.desktopMode {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 0;
+}
+
+.desktopMode .outlet {
+  flex: 1;
+  width: 100%;
+  /* Pages pad themselves by --page-gutter; adding it here keeps page
+     content edges aligned with the header row above. */
+  max-width: calc(var(--content-max) + 2 * var(--page-gutter));
+  margin: 0 auto;
 }

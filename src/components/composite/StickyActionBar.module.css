@@ -19,3 +19,19 @@
 .railMode {
   bottom: var(--safe-bottom);
 }
+
+/* Desktop: the bar is still sticky, but its actions align to the right edge
+   of the content column (primary action last, nearest the eye's exit point)
+   instead of stretching across a 1280px row. */
+@media (min-width: 1024px) {
+  .bar {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--elev-2);
+    margin-top: var(--space-4);
+  }
+
+  .inner {
+    justify-content: flex-end;
+  }
+}

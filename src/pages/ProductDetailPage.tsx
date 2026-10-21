@@ -24,13 +24,11 @@ import { Divider } from '@/components/primitives/Divider';
 import { Image } from '@/components/primitives/Image';
 import { Section } from '@/components/primitives/Section';
 import { SectionHeader } from '@/components/primitives/SectionHeader';
-import { StarRating } from '@/components/composite/StarRating';
 import { QuantityStepper } from '@/components/composite/QuantityStepper';
 import { StickyActionBar } from '@/components/composite/StickyActionBar';
 import { CartButton } from '@/components/composite/CartButton';
 import { ProductCard } from '@/components/composite/ProductCard';
 import { categories, getProductById, products } from '@/state/catalog';
-import { getRating } from '@/state/rating';
 import { useCart } from '@/state/CartProvider';
 import { useFavorites } from '@/state/FavoritesProvider';
 import { useToast } from '@/components/ui/Toast';
@@ -79,7 +77,6 @@ export default function ProductDetailPage() {
     );
   }
 
-  const { value: rating, count: reviewCount } = getRating(product.id);
   const categoryName = categories.find((c) => c.id === product.categoryId)?.name;
   const description = `${product.title} - ${product.shortSpecs.join(', ')}. Sourcing vérifié et contrôle qualité M&C Connect avant expédition.`;
   const customerTotal = getProductCustomerTotal(product, qty);
@@ -210,11 +207,12 @@ export default function ProductDetailPage() {
             {product.hsCode && <Chip tone="neutral">HS {product.hsCode}</Chip>}
           </div>
           <h1 className={styles.title}>{product.title}</h1>
-          <StarRating rating={rating} reviewCount={reviewCount} size={14} />
+          {/* No star rating: ratings were a hash of the product id (IDI-021), i.e. fabricated.
+              Verified reviews arrive with real delivered orders (Master Spec MS-CAT-10, Phase 4). */}
           <div className={styles.priceStockRow}>
             <div className={styles.priceBlock}>
               <strong className={styles.price}>
-                {product.priceMinXof.toLocaleString('fr-FR')} <span>XOF</span>
+                {product.priceMinXof.toLocaleString('fr-FR')} <span>FCFA</span>
               </strong>
               <span className={styles.priceLabel}>Prix TTC</span>
             </div>
@@ -225,7 +223,7 @@ export default function ProductDetailPage() {
               </span>
               <span className={styles.deliveryNote}>
                 <Truck size={14} strokeWidth={1.5} aria-hidden="true" />
-                Livraison rapide
+                Livraison suivie par M&amp;C
               </span>
             </div>
           </div>
@@ -293,7 +291,7 @@ export default function ProductDetailPage() {
                 <tr key={row.qty}>
                   <td>{row.qty} unités</td>
                   <td className={styles.tierRight}>
-                    {row.price.toLocaleString('fr-FR')} XOF
+                    {row.price.toLocaleString('fr-FR')} FCFA
                   </td>
                 </tr>
               ))}
@@ -375,7 +373,7 @@ export default function ProductDetailPage() {
           </li>
           <li>
             <Truck size={14} strokeWidth={1.8} aria-hidden="true" />
-            M&amp;C Logistics - fret maritime, douane, livraison
+            M&amp;C Logistics - fret aérien ou maritime, douane, livraison
           </li>
           <li>
             <FileText size={14} strokeWidth={1.8} aria-hidden="true" />

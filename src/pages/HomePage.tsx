@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Truck, ShieldCheck, Sparkles, Grid3x3, ChevronRight } from 'lucide-react';
+import { ArrowRight, Truck, ShieldCheck, Sparkles, ChevronRight } from 'lucide-react';
 import { ProductCard } from '@/components/composite/ProductCard';
 import { SectionHeader } from '@/components/primitives/SectionHeader';
 import { Section } from '@/components/primitives/Section';
@@ -19,7 +19,12 @@ import {
   getProductById,
   products,
 } from '@/state/catalog';
+import { orders, STAGE_LABELS } from '@/state/orders';
+import { formatDateFr } from '@/domain/format';
 import styles from './HomePage.module.css';
+
+/** Suivi rapide: first in-flight order from the same fixtures /orders shows. */
+const activeOrder = orders.find((o) => o.currentStage !== 'delivered' && o.currentStage !== 'cancelled') ?? orders[0];
 
 const HERO_SLIDES: HeroSlide[] = [
   {
@@ -57,7 +62,9 @@ const FLASH_SALE_DURATION_MS = 1000 * (60 * 60 * 2 + 60 * 45 + 18);
 /** Cap each grid section at this many items before showing "Voir plus". */
 const MAX_ITEMS = 4;
 
-const RAIL_CATEGORIES = categories.slice(0, 4);
+/** Curated Home shortcut set - exactly two rows of four. The full list lives on /categories. */
+const HOME_CATEGORY_COUNT = 8;
+const HOME_CATEGORIES = categories.slice(0, HOME_CATEGORY_COUNT);
 
 function useCountdown(durationMs: number) {
   const [endsAt] = useState(() => Date.now() + durationMs);
@@ -107,91 +114,103 @@ export default function HomePage() {
       {/* CommerceHeader (brand mark + search) is the visible page identity here;
           this heading exists only so the document has a level-one heading. */}
       <h1 className="sr-only">Accueil</h1>
-      {/* Hero carousel - auto-playing, swipe, keyboard, reduced-motion aware */}
-      <Section variant="flat" spacing="none" ariaLabel="Promotions">
-        <HeroCarousel slides={HERO_SLIDES} />
-      </Section>
+      {/* Top commerce stack: hero -> compact active order -> two-row categories
+          -> flash offers. These four share one tight local gap (--home-stack-gap)
+          instead of the page-level section rhythm used further down. */}
+      <div className={styles.topStack}>
+        <Section variant="flat" spacing="none" ariaLabel="Promotions">
+          <HeroCarousel slides={HERO_SLIDES} />
+        </Section>
 
-      {/* Active order card - surfaced when there's an in-flight order */}
-      <Section variant="flat" spacing="sm" ariaLabel="Commande en cours">
-        <article className={styles.activeOrder}>
-          <div className={styles.activeOrderLeft}>
-            <span className={styles.activeOrderEyebrow}>
-              <Truck size={12} strokeWidth={1.5} aria-hidden="true" />
-              En cours
-            </span>
-            <h2 className={styles.activeOrderTitle}>CMD-2024-0142 - Arrivée estimée le 18 oct.</h2>
-          </div>
-          <Link to="/orders" className={styles.activeOrderCta}>
-            Suivre
-            <ArrowRight size={14} strokeWidth={1.5} aria-hidden="true" />
-          </Link>
-        </article>
-      </Section>
-
-      {/* Category rail - 4 quick chips + "Plus" */}
-      <Section variant="flat" spacing="sm" ariaLabel="Catégories">
-        <SectionHeader
-          title="Catégories"
-          trailing={
-            <Link to="/categories" className={styles.seeAll}>
-              Voir tout
-              <ChevronRight size={16} strokeWidth={1.5} aria-hidden="true" />
-            </Link>
-          }
-        />
-        <div className={styles.catRail}>
-          {RAIL_CATEGORIES.map((c) => (
-            <Link key={c.id} to={`/search/results?cat=${c.id}`} className={styles.catChip}>
-              <span className={styles.catIcon}>
-                <IconRender name={c.iconName} size={26} strokeWidth={1.5} />
+        {/* Active order card - surfaced when there's an in-flight order */}
+        <Section variant="flat" spacing="none" ariaLabel="Commande en cours">
+          <article className={styles.activeOrder}>
+            <div className={styles.activeOrderLeft}>
+              <span className={styles.activeOrderEyebrow}>
+                <Truck size={12} strokeWidth={1.5} aria-hidden="true" />
+                En cours
               </span>
-              <span className={styles.catLabel}>{c.name}</span>
+              <h2 className={styles.activeOrderTitle}>
+                {activeOrder.id} · {STAGE_LABELS[activeOrder.currentStage]} - arrivée estimée le{' '}
+                {formatDateFr(activeOrder.eta, { day: 'numeric', month: 'short' })}
+              </h2>
+            </div>
+            <Link to={`/orders/${activeOrder.id}`} className={styles.activeOrderCta}>
+              Suivre
+              <ArrowRight size={14} strokeWidth={1.5} aria-hidden="true" />
             </Link>
-          ))}
-          <Link to="/categories" className={styles.catChip}>
-            <span className={styles.catIcon}>
-              <Grid3x3 size={26} strokeWidth={1.5} aria-hidden="true" />
-            </span>
-            <span className={styles.catLabel}>Plus</span>
-          </Link>
-        </div>
-      </Section>
+          </article>
+        </Section>
 
-      {/* Flash sale - live countdown, horizontally scrollable discount cards */}
-      <Section variant="flat" spacing="md" ariaLabel="Offres flash">
-        <SectionHeader
-          title="Offres flash"
-          trailing={
-            <Link to="/products" className={styles.seeAll}>
-              Voir tout
-              <ChevronRight size={16} strokeWidth={1.5} aria-hidden="true" />
-            </Link>
-          }
-        />
-        <p className={styles.flashCountdown}>
-          Se termine dans <span className={styles.flashCountdownValue}>{countdown}</span>
-        </p>
-        <div className={styles.flashRow}>
-          {flashSale.map((p) => {
-            if (!p || !p.originalPriceXof) return null;
-            const discountPct = Math.round((1 - p.priceMinXof / p.originalPriceXof) * 100);
-            return (
-              <Link key={p.id} to={`/product/${p.id}`} className={styles.flashCard}>
-                <div className={styles.flashImageWrap}>
-                  <Image src={p.imageUrl} alt="" width={140} height={140} ratio="1/1" loading="lazy" />
-                  <span className={styles.flashBadge}>-{discountPct}%</span>
-                </div>
-                <span className={styles.flashTitle}>{p.title}</span>
-                <span className={styles.flashPriceRow}>
-                  <strong className={styles.flashPrice}>{p.priceMinXof.toLocaleString('fr-FR')} XOF</strong>
-                  <span className={styles.flashOriginal}>{p.originalPriceXof.toLocaleString('fr-FR')} XOF</span>
-                </span>
+        {/* Category shortcuts - two rows of four photo tiles */}
+        <Section variant="flat" spacing="none" ariaLabel="Catégories">
+          <SectionHeader
+            compact
+            title="Catégories"
+            trailing={
+              <Link to="/categories" className={styles.seeAll}>
+                Voir tout
+                <ChevronRight size={16} strokeWidth={1.5} aria-hidden="true" />
               </Link>
-            );
-          })}
-        </div>
-      </Section>
+            }
+          />
+          <ul className={styles.catGrid} data-testid="home-category-grid">
+            {HOME_CATEGORIES.map((c) => (
+              <li key={c.id}>
+                <Link to={`/search/results?cat=${c.id}`} className={styles.catTile}>
+                  <Image
+                    src={c.imageUrl}
+                    alt=""
+                    width={96}
+                    height={96}
+                    ratio="1/1"
+                    loading="lazy"
+                    className={styles.catImage}
+                    fallbackIcon={<IconRender name={c.iconName} size={30} strokeWidth={1.5} />}
+                  />
+                  <span className={styles.catLabel}>{c.name}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Section>
+
+        {/* Flash sale - live countdown, horizontally scrollable discount cards */}
+        <Section variant="flat" spacing="none" ariaLabel="Offres flash">
+          <SectionHeader
+            compact
+            title="Offres flash"
+            trailing={
+              <Link to="/products" className={styles.seeAll}>
+                Voir tout
+                <ChevronRight size={16} strokeWidth={1.5} aria-hidden="true" />
+              </Link>
+            }
+          />
+          <p className={styles.flashCountdown}>
+            Se termine dans <span className={styles.flashCountdownValue}>{countdown}</span>
+          </p>
+          <div className={styles.flashRow}>
+            {flashSale.map((p) => {
+              if (!p || !p.originalPriceXof) return null;
+              const discountPct = Math.round((1 - p.priceMinXof / p.originalPriceXof) * 100);
+              return (
+                <Link key={p.id} to={`/product/${p.id}`} className={styles.flashCard}>
+                  <div className={styles.flashImageWrap}>
+                    <Image src={p.imageUrl} alt="" width={140} height={140} ratio="1/1" loading="lazy" />
+                    <span className={styles.flashBadge}>-{discountPct}%</span>
+                  </div>
+                  <span className={styles.flashTitle}>{p.title}</span>
+                  <span className={styles.flashPriceRow}>
+                    <strong className={styles.flashPrice}>{p.priceMinXof.toLocaleString('fr-FR')} FCFA</strong>
+                    <span className={styles.flashOriginal}>{p.originalPriceXof.toLocaleString('fr-FR')} FCFA</span>
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+        </Section>
+      </div>
 
       {/* Featured (À la une) */}
       <Section variant="flat" spacing="md" ariaLabel="À la une">
@@ -214,10 +233,10 @@ export default function HomePage() {
       {/* Trust banner - replaces the bare MarketplaceTile with a value statement */}
       <Section variant="card" spacing="md" ariaLabel="Pourquoi M&C">
         <div className={styles.trustGrid}>
-          <TrustBadge icon={<ShieldCheck size={20} strokeWidth={1.5} />} label="M&C Verification" />
-          <TrustBadge icon={<ShieldCheck size={20} strokeWidth={1.5} />} label="M&C Quality Control" />
-          <TrustBadge icon={<Truck size={20} strokeWidth={1.5} />} label="M&C Logistics" />
-          <TrustBadge icon={<Sparkles size={20} strokeWidth={1.5} />} label="M&C Sourcing" />
+          <TrustBadge icon={<ShieldCheck size={20} strokeWidth={1.5} />} label="Vendu et géré par M&C" />
+          <TrustBadge icon={<ShieldCheck size={20} strokeWidth={1.5} />} label="Contrôle qualité inclus" />
+          <TrustBadge icon={<Truck size={20} strokeWidth={1.5} />} label="Livraison suivie jusqu'au Mali" />
+          <TrustBadge icon={<Sparkles size={20} strokeWidth={1.5} />} label="Sourcing géré par M&C" />
         </div>
         <p className={styles.trustNote}>
           M&amp;C Connect gère la totalité de la chaîne - vous ne traitez jamais avec un fournisseur

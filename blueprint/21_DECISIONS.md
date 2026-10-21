@@ -142,6 +142,12 @@ Consequences: …
 **Decision:** Per the project's documented source-of-truth priority, the modification PDF is a later, higher-priority change request and overrides any blueprint screen/flow spec it conflicts with. `screens/12_LANDED_COST.md` and the returns-related sections of `screens/10_PRODUCT_DETAIL.md` / `flows/CART_CHECKOUT_FLOW.md` are superseded, not deleted - they remain as historical record of the pre-PDF design. New behavior is documented in `implementation/DECISION_LOG.md` IDI-026.
 **Consequences:** Where this file (or any `screens/*`, `flows/*`, `states/*` doc) still describes the old landed-cost breakdown, the four-method payment screen, RCCM/NIF fields, or a customer return program, treat that text as historical and defer to the PDF/IDI-026 instead of re-deriving the old behavior from these docs.
 
+## D-022 - `new modification.pdf` supersedes the Home category strip and single-mode transport display
+**Status:** Accepted
+**Context:** A second, later change request (`new modification.pdf`) asks for (1) the checkout transport step to always present two choices - Bateau and Avion - for the customer to choose between, and (2) the Home screen to follow a denser reference: compact active-order card, then categories in **two rows**, then Offres flash, with tighter spacing between these elements.
+**Decision:** It is the highest-priority source and overrides `screens/04_HOME.md` (6-tile icon strip, "no decorative photo") and the D-021/IDI-026 behaviour of listing only the cart-compatible transport modes. Implementation detail is in `implementation/DECISION_LOG.md` IDI-027.
+**Consequences:** Home category shortcuts are a curated 2×4 photo grid (full list stays on `/categories`); checkout always renders both transport modes, disabling an ineligible one with a stated reason instead of hiding it.
+
 ---
 
 ## Open decisions (not yet resolved)

@@ -118,3 +118,22 @@
   margin: 0;
   font-size: var(--font-size-body);
 }
+.optionDisabled {
+  cursor: not-allowed;
+  background: var(--surface);
+}
+
+.optionDisabled .optionText strong,
+.optionDisabled .optionIcon {
+  opacity: 0.55;
+}
+
+.optionReason {
+  font-size: var(--font-size-caption);
+  font-weight: 600;
+  color: var(--mc-red-deep);
+}
+
+.list + .warning {
+  margin-top: var(--space-3);
+}

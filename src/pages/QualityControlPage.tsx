@@ -99,7 +99,7 @@ export default function QualityControlPage() {
         <SectionHeader title="Photos d'inspection" />
         <div className={styles.photos}>
           {[1, 2, 3].map((i) => (
-            <div key={i} className={styles.photo} aria-label={`Photo ${i}`}>
+            <div key={i} className={styles.photo} role="img" aria-label={`Photo d'inspection ${i} (aperçu de démonstration)`}>
               <Camera size={20} strokeWidth={1.5} aria-hidden="true" />
             </div>
           ))}

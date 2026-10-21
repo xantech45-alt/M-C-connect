@@ -56,7 +56,7 @@ export function ProductCard({ product, onAdd, favorite, onToggleFavorite }: Prop
         <div className={styles.priceRow}>
           <span className={styles.priceLabel}>À partir de</span>
           <strong className={styles.price}>
-            {formatted} <span className={styles.currency}>{product.currency ?? 'XOF'}</span>
+            {formatted} <span className={styles.currency}>{(product.currency ?? 'XOF') === 'XOF' ? 'FCFA' : product.currency}</span>
           </strong>
         </div>
         {product.moq !== undefined && (

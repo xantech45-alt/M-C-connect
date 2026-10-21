@@ -152,7 +152,7 @@ export default function FiltersPage() {
         <Divider spacing="sm" />
 
         <section className={styles.section} aria-labelledby="filters-price">
-          <h2 id="filters-price" className={styles.sectionTitle}>Prix (XOF)</h2>
+          <h2 id="filters-price" className={styles.sectionTitle}>Prix (FCFA)</h2>
           <div className={styles.rangeRow}>
             <Input
               label="Min"

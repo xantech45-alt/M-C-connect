@@ -59,7 +59,7 @@ export default function RequestQuotePage() {
             required
           />
           <Input
-            label="Prix cible unitaire (XOF)"
+            label="Prix cible unitaire (FCFA)"
             type="number"
             inputMode="numeric"
             value={form.targetPriceXof}

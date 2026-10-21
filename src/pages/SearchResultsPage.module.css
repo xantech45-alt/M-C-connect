@@ -168,21 +168,27 @@
   border-radius: var(--radius-sm);
 }
 
-.quickAdd {
-  flex: 0 0 auto;
-  align-self: flex-end;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: var(--mc-red);
-  color: var(--white);
-  border: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
 
-.quickAdd:hover {
-  background: var(--mc-red-deep);
+/* ── Desktop: two-column result cards instead of one long phone list ── */
+@media (min-width: 1024px) {
+  .list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4);
+  }
+
+  .row {
+    padding: var(--space-3);
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+  }
+
+  .row:hover {
+    border-color: color-mix(in srgb, var(--mc-red) 40%, var(--border));
+  }
+
+  .thumbWrap {
+    width: 120px;
+  }
 }

@@ -11,7 +11,8 @@ export default defineConfig({
   },
   server: {
     host: true,
-    port: 5173,
+    // Honour PORT (set by preview tooling) so a second copy can run alongside 5173.
+    port: process.env.PORT ? Number(process.env.PORT) : 5173,
   },
   test: {
     globals: true,

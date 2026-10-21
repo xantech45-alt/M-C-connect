@@ -6,6 +6,7 @@ import { Section } from '@/components/primitives/Section';
 import { SectionHeader } from '@/components/primitives/SectionHeader';
 import { Button } from '@/components/primitives/Button';
 import { getOrderById, STAGE_LABELS, type OrderStage } from '@/state/orders';
+import { formatDateFr } from '@/domain/format';
 import styles from './OrderTrackingPage.module.css';
 
 const STAGES: OrderStage[] = [
@@ -46,9 +47,9 @@ export default function OrderTrackingPage() {
         <p className={styles.id}>Commande {order.id}</p>
         <h1 className={styles.title}>{order.productTitle}</h1>
         <div className={styles.chips}>
-          <Chip tone="info">ETA {order.eta}</Chip>
+          <Chip tone="info">Arrivée estimée : {formatDateFr(order.eta)}</Chip>
           <Chip tone="neutral">
-            {order.quantity} unités · {order.totalXof.toLocaleString('fr-FR')} XOF
+            {order.quantity} unités · {order.totalXof.toLocaleString('fr-FR')} FCFA
           </Chip>
         </div>
       </Section>
@@ -91,7 +92,7 @@ export default function OrderTrackingPage() {
         <ul className={styles.timeline}>
           {order.events.map((e, idx) => (
             <li key={idx} className={styles.event}>
-              <time className={styles.date}>{e.date}</time>
+              <time className={styles.date} dateTime={e.date}>{formatDateFr(e.date)}</time>
               <span className={styles.eventDesc}>{e.description}</span>
             </li>
           ))}

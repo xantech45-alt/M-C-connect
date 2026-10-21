@@ -88,7 +88,7 @@ export default function AddressesPage() {
             </span>
             <span className={styles.deliveryBody}>
               <span className={styles.deliveryLabel}>Express - 1 à 2 jours</span>
-              <span className={styles.deliveryPrice}>5 000 XOF</span>
+              <span className={styles.deliveryPrice}>5 000 FCFA</span>
             </span>
           </div>
         </Card>

@@ -123,12 +123,6 @@ body {
   }
 }
 
-/* Tablet ≥768px: 3-col grids */
-@media (min-width: 768px) {
-  :root {
-    --page-gutter: 24px;
-  }
-}
 
 /* Forced colors / high-contrast (Windows High Contrast, Firefox forced-colors) */
 @media (forced-colors: active) {
