@@ -21,6 +21,13 @@ interface DetailLayoutProps {
    * visible and the bottom nav is preserved.
    */
   bare?: boolean;
+  /**
+   * Desktop (>=1024px) content width for `bare` pages. `default` uses the
+   * shell's full content width (lists, grids, split layouts); `narrow`
+   * centers forms, settings and reading pages in a 760px column so inputs
+   * and lines don't stretch across a 1280px screen. Mobile is unaffected.
+   */
+  width?: 'default' | 'narrow';
 }
 
 /**
@@ -37,6 +44,7 @@ export function DetailLayout({
   useNewHeader = true,
   homeLink,
   bare = false,
+  width = 'default',
 }: DetailLayoutProps) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -47,7 +55,7 @@ export function DetailLayout({
 
   if (bare) {
     return (
-      <div className={styles.bare}>
+      <div className={`${styles.bare} ${width === 'narrow' ? styles.narrow : ''}`}>
         {(useNewHeader || title || !hideBack) && (
           <div className={styles.bareHeader}>
             {!hideBack && (

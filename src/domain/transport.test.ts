@@ -1,5 +1,44 @@
 import { describe, expect, it } from 'vitest';
-import { describeTransportAvailability, getCommonTransportModes } from './transport';
+import { describeTransportAvailability, getCommonTransportModes, getTransportOptions } from './transport';
+
+describe('getTransportOptions', () => {
+  it('always returns both modes, air first, available when every line supports them', () => {
+    const opts = getTransportOptions([{ title: 'A', transportModes: ['air', 'sea'] }]);
+    expect(opts).toEqual([
+      { mode: 'air', available: true },
+      { mode: 'sea', available: true },
+    ]);
+  });
+
+  it('disables air with a reason naming the sea-only product', () => {
+    const [air, sea] = getTransportOptions([
+      { title: 'Réfrigérateur 350L', transportModes: ['sea'] },
+      { title: 'Montre', transportModes: ['air', 'sea'] },
+    ]);
+    expect(air).toEqual({ mode: 'air', available: false, reason: 'Non disponible pour « Réfrigérateur 350L »' });
+    expect(sea.available).toBe(true);
+  });
+
+  it('counts several blocking products', () => {
+    const [, sea] = getTransportOptions([
+      { title: 'A', transportModes: ['air'] },
+      { title: 'B', transportModes: ['air'] },
+    ]);
+    expect(sea.reason).toBe('Non disponible pour 2 produits de votre panier');
+  });
+
+  it('marks both modes unavailable for an incompatible cart', () => {
+    const opts = getTransportOptions([
+      { title: 'A', transportModes: ['air'] },
+      { title: 'B', transportModes: ['sea'] },
+    ]);
+    expect(opts.every((o) => !o.available)).toBe(true);
+  });
+
+  it('keeps both modes available for an empty cart', () => {
+    expect(getTransportOptions([]).every((o) => o.available)).toBe(true);
+  });
+});
 
 describe('transport', () => {
   it('describes an air-only product', () => {

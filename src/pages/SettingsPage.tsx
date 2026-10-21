@@ -59,7 +59,7 @@ export default function SettingsPage() {
               <NavRow icon={<Globe size={18} strokeWidth={1.5} />} label="Langue" value="Français" />
             </li>
             <li>
-              <NavRow icon={<Coins size={18} strokeWidth={1.5} />} label="Devise" value="XOF" />
+              <NavRow icon={<Coins size={18} strokeWidth={1.5} />} label="Devise" value="FCFA (XOF)" />
             </li>
           </NavRowList>
         </Card>

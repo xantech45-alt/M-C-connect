@@ -84,7 +84,7 @@
   background: var(--white);
   border-bottom: var(--border-hairline);
   position: sticky;
-  top: var(--app-bar-height); /* sit directly under the CommerceHeader */
+  top: var(--commerce-header-h); /* sit directly under the CommerceHeader */
   z-index: 30;
 }
 
@@ -104,8 +104,67 @@
   padding: var(--space-3) var(--page-gutter) var(--space-6);
 }
 
+/* 18 of the nested pages also pad their root by --page-gutter, which
+   doubled the inset (32px on phones, 64px on desktop) and misaligned
+   content with the back button and header. The layout owns the gutter.
+   Two classes: page CSS is lazy-loaded later, so equal specificity loses. */
+.bare .bareContent > * {
+  padding-left: 0;
+  padding-right: 0;
+}
+
 @media (min-width: 600px) {
   .bareContent {
     padding: var(--space-4) var(--page-gutter) var(--space-8);
+  }
+}
+
+/* ── Desktop ───────────────────────────────────────────────
+ * The header + section nav are already sticky, so the back/title row
+ * becomes an ordinary page heading instead of a third sticky white bar.
+ * Pre-auth pages (non-bare) render as a centered card, not a
+ * full-width form. */
+@media (min-width: 1024px) {
+  .bareHeader {
+    position: static;
+    height: auto;
+    padding: var(--space-6) var(--page-gutter) 0;
+    background: transparent;
+    border-bottom: 0;
+  }
+
+  .bareTitle {
+    font-size: var(--font-size-display-md);
+    line-height: var(--line-height-display-md);
+    font-weight: 700;
+  }
+
+  .bareContent {
+    padding: var(--space-5) var(--page-gutter) var(--space-10);
+  }
+
+  .narrow {
+    width: 100%;
+    max-width: calc(var(--content-narrow) + 2 * var(--page-gutter));
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 600px) {
+  .root .content {
+    max-width: calc(var(--content-form) + 2 * var(--space-8));
+    margin: var(--space-8) auto var(--space-10);
+    padding: var(--space-8);
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--elev-1);
+  }
+
+  /* Pre-auth pages size their root for a phone screen (min-height 100vh +
+     gutter padding); inside the card that made it taller than the viewport. */
+  .root .content > * {
+    min-height: 0;
+    padding: 0;
   }
 }

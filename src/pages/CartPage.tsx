@@ -86,7 +86,7 @@ export default function CartPage() {
                   </Link>
                   {product?.shortSpecs[0] && <p className={styles.variant}>{product.shortSpecs[0]}</p>}
                   <p className={styles.unit}>
-                    {line.unitPriceXof.toLocaleString('fr-FR')} XOF / unité
+                    {line.unitPriceXof.toLocaleString('fr-FR')} FCFA / unité
                   </p>
                   <div className={styles.qtyRow}>
                     <QuantityStepper
@@ -96,7 +96,7 @@ export default function CartPage() {
                       label={`Quantité ${product?.title ?? ''}`}
                     />
                     <span className={styles.subtotal}>
-                      {(line.unitPriceXof * line.quantity).toLocaleString('fr-FR')} XOF
+                      {(line.unitPriceXof * line.quantity).toLocaleString('fr-FR')} FCFA
                     </span>
                   </div>
                 </div>
@@ -133,7 +133,7 @@ export default function CartPage() {
       <Section variant="surface" spacing="md" ariaLabel="Récapitulatif">
         <div className={styles.summaryRow}>
           <span>Sous-total</span>
-          <strong>{subtotalXof.toLocaleString('fr-FR')} XOF</strong>
+          <strong>{subtotalXof.toLocaleString('fr-FR')} FCFA</strong>
         </div>
         <div className={styles.summaryRow}>
           <span className={styles.summaryMuted}>

@@ -33,7 +33,7 @@ export const coupons: Coupon[] = [
     id: 'cp-3',
     code: 'RENTREE5000',
     title: 'Remise rentrée',
-    discountLabel: '−5 000 XOF',
+    discountLabel: '−5 000 FCFA',
     minOrderXof: 30000,
     status: 'used',
     expiresAt: '2026-08-01',

@@ -70,6 +70,7 @@ export const frML = {
   'onboarding.next': 'Suivant',
   'onboarding.start': 'Commencer',
   'onboarding.skip': 'Passer',
+  'onboarding.login': 'Déjà client ? Se connecter',
   'onboarding.slide1.title': 'Bienvenue sur M&C Connect',
   'onboarding.slide1.body': "Le sourcing géré, de l'usine chinoise à votre porte au Mali.",
   'onboarding.slide2.title': 'Un large catalogue vérifié',
@@ -80,7 +81,7 @@ export const frML = {
     'Comparez le coût total rendu - produit, fret, douane et livraison inclus.',
   'onboarding.slide4.title': "Livraison suivie jusqu'à Bamako",
   'onboarding.slide4.body':
-    'Fret maritime, dédouanement et livraison finale gérés de bout en bout.',
+    'Fret aérien ou maritime, dédouanement et livraison finale gérés de bout en bout.',
   'onboarding.slide5.title': 'Simple, sécurisé, en un seul endroit',
   'onboarding.slide5.body':
     'Créez votre compte et gérez toutes vos commandes avec un seul interlocuteur M&C Connect.',
@@ -152,6 +153,7 @@ export const en = {
   'onboarding.next': 'Next',
   'onboarding.start': 'Get started',
   'onboarding.skip': 'Skip',
+  'onboarding.login': 'Already a customer? Sign in',
   'onboarding.slide1.title': 'Welcome to M&C Connect',
   'onboarding.slide1.body': 'Managed sourcing, from the Chinese factory to your door in Mali.',
   'onboarding.slide2.title': 'A wide, verified catalog',
@@ -162,7 +164,7 @@ export const en = {
     'Compare the full landed cost - product, freight, customs and delivery included.',
   'onboarding.slide4.title': 'Tracked delivery to Bamako',
   'onboarding.slide4.body':
-    'Ocean freight, customs clearance and final delivery, handled end to end.',
+    'Air or sea freight, customs clearance and final delivery, handled end to end.',
   'onboarding.slide5.title': 'Simple, secure, all in one place',
   'onboarding.slide5.body':
     'Create your account and manage every order with a single M&C Connect contact.',

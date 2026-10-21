@@ -48,5 +48,5 @@ export function getCartCustomerTotal(lines: PricedLine[]): CustomerPrice {
 }
 
 export function formatXof(n: number): string {
-  return `${n.toLocaleString('fr-FR')} XOF`;
+  return `${n.toLocaleString('fr-FR')} FCFA`;
 }

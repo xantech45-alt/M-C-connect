@@ -46,7 +46,7 @@ export const notifications: AppNotification[] = [
     id: 'n-5',
     category: 'promo',
     title: 'Coupon de bienvenue',
-    body: 'BIENVENUE10 : -10% dès 50 000 XOF d’achat.',
+    body: 'BIENVENUE10 : -10% dès 50 000 FCFA d’achat.',
     sentAt: '2026-07-25T12:00:00Z',
     read: true,
   },

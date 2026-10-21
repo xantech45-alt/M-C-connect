@@ -32,7 +32,7 @@ import styles from './DashboardPage.module.css';
 
 type Range = '30d' | '90d' | '6m' | 'ytd';
 
-const fmt = (n: number) => `${n.toLocaleString('fr-FR')} XOF`;
+const fmt = (n: number) => `${n.toLocaleString('fr-FR')} FCFA`;
 
 const TREND: Record<Range, { month: string; spend: number; orders: number }[]> = {
   '30d': [

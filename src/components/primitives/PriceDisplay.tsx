@@ -39,7 +39,7 @@ export function PriceDisplay({
     <span className={`${styles.price} ${styles[size]} ${className ?? ''}`} style={style}>
       {prefix && <span className={styles.prefix}>{PREFIX_TEXT[prefix]} </span>}
       <strong>{formatted}</strong>
-      <span className={styles.currency}> {currency}</span>
+      <span className={styles.currency}> {currency === 'XOF' ? 'FCFA' : currency}</span>
     </span>
   );
 }

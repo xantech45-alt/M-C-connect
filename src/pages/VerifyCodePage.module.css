@@ -24,7 +24,8 @@
 
 .otpGroup {
   display: flex;
-  gap: var(--space-2);
+  /* 6 x 44px tap targets + 5 gaps overflowed a 320px screen at space-2 */
+  gap: clamp(4px, 1.5vw, var(--space-2));
   justify-content: space-between;
 }
 

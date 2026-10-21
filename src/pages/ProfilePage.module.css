@@ -111,3 +111,28 @@
   font-size: var(--font-size-caption);
   color: var(--slate);
 }
+
+.aside,
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+/* Desktop: account summary on the left (sticky), menus on the right,
+   instead of one 1280px-wide stack of full-width rows and buttons. */
+@media (min-width: 1024px) {
+  .container {
+    display: grid;
+    grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+    gap: var(--space-6);
+    align-items: start;
+    padding-top: var(--space-6);
+  }
+
+  .aside {
+    position: sticky;
+    top: calc(var(--commerce-header-h) + var(--space-4));
+  }
+}

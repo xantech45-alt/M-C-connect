@@ -6,6 +6,10 @@
   padding: var(--space-3) 0;
 }
 
+.compact {
+  padding: 0;
+}
+
 .title {
   font-size: var(--font-size-title-md);
   font-weight: 700;

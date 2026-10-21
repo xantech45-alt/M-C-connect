@@ -19,7 +19,7 @@ const PILLARS = [
   {
     icon: Truck,
     title: 'M&C Logistics',
-    body: 'Fret maritime, dédouanement et livraison jusqu’à Bamako, de bout en bout.',
+    body: 'Fret aérien ou maritime, dédouanement et livraison jusqu’à Bamako, de bout en bout.',
   },
   {
     icon: FileText,

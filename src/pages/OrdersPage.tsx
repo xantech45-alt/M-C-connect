@@ -6,6 +6,7 @@ import { Chip } from '@/components/primitives/Chip';
 import { ChipFilterGroup } from '@/components/composite/ChipFilterGroup';
 import { Section } from '@/components/primitives/Section';
 import { orders, STAGE_LABELS } from '@/state/orders';
+import { formatDateFr } from '@/domain/format';
 import styles from './OrdersPage.module.css';
 
 type Tab = 'all' | 'in_progress' | 'delivered';
@@ -93,9 +94,9 @@ export default function OrdersPage() {
                     <div className={styles.meta}>
                       <span>Qté {o.quantity}</span>
                       <span aria-hidden="true">•</span>
-                      <span>{o.totalXof.toLocaleString('fr-FR')} XOF</span>
+                      <span>{o.totalXof.toLocaleString('fr-FR')} FCFA</span>
                       <span aria-hidden="true">•</span>
-                      <span>ETA {o.eta}</span>
+                      <span>Arrivée estimée : {formatDateFr(o.eta)}</span>
                     </div>
                   </div>
                   <ChevronRight

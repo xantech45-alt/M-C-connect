@@ -42,3 +42,31 @@ export function getCommonTransportModes(lineModes: TransportMode[][]): Transport
   if (lineModes.length === 0) return [...TRANSPORT_MODES];
   return TRANSPORT_MODES.filter((mode) => lineModes.every((modes) => modes.includes(mode)));
 }
+
+export interface TransportLine {
+  title: string;
+  transportModes: TransportMode[];
+}
+
+export interface TransportOption {
+  mode: TransportMode;
+  available: boolean;
+  /** Short customer-facing reason, set only when the mode is unavailable. */
+  reason?: string;
+}
+
+/**
+ * Checkout always presents both modes (Avion, Bateau) so the transport
+ * decision stays visible. A mode that some cart line cannot ship by is
+ * returned as unavailable with a reason naming the blocking product(s).
+ */
+export function getTransportOptions(lines: TransportLine[]): TransportOption[] {
+  return TRANSPORT_MODES.map((mode) => {
+    const blocking = lines.filter((l) => !l.transportModes.includes(mode));
+    if (blocking.length === 0) return { mode, available: true };
+    const reason = blocking.length === 1
+      ? `Non disponible pour « ${blocking[0].title} »`
+      : `Non disponible pour ${blocking.length} produits de votre panier`;
+    return { mode, available: false, reason };
+  });
+}

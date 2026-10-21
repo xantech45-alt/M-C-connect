@@ -6,8 +6,11 @@
   /* Reserve space for the fixed bottom nav */
   padding-bottom: calc(var(--bottom-nav-height) + var(--safe-bottom));
   /* Prevent any child overflow from causing horizontal scroll
-     that could appear to move the fixed bottom nav. */
+     that could appear to move the fixed bottom nav. `clip` (not `hidden`)
+     so this box does not become a scroll container - `hidden` silently
+     disabled the PDP's sticky header row. */
   overflow-x: hidden;
+  overflow-x: clip;
 }
 
 .outlet {
@@ -15,9 +18,22 @@
 }
 
 /* Tablet landscape: left rail nav replaces the fixed bottom bar */
-@media (min-width: 900px) {
-  .railMode {
-    padding-left: var(--rail-width);
-    padding-bottom: var(--safe-bottom);
-  }
+.railMode {
+  padding-left: var(--rail-width);
+  padding-bottom: var(--safe-bottom);
+}
+
+/* Desktop: shared shell; the PDP's own sticky row sits under the header. */
+.desktopMode {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 0;
+  --pdp-sticky-top: var(--commerce-header-h);
+}
+
+.desktopMode .outlet {
+  flex: 1;
+  width: 100%;
+  max-width: calc(var(--content-max) + 2 * var(--page-gutter));
+  margin: 0 auto;
 }

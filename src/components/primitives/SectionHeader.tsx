@@ -6,11 +6,13 @@ interface Props {
   seeAllLabel?: string;
   onSeeAll?: () => void;
   trailing?: ReactNode;
+  /** Drop the vertical padding - for dense stacks that own their own spacing. */
+  compact?: boolean;
 }
 
-export function SectionHeader({ title, seeAllLabel, onSeeAll, trailing }: Props) {
+export function SectionHeader({ title, seeAllLabel, onSeeAll, trailing, compact }: Props) {
   return (
-    <header className={styles.header}>
+    <header className={compact ? `${styles.header} ${styles.compact}` : styles.header}>
       <h2 className={styles.title}>{title}</h2>
       <div className={styles.actions}>
         {trailing}

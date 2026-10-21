@@ -6,7 +6,7 @@ import { Section } from '@/components/primitives/Section';
 import { StickyActionBar } from '@/components/composite/StickyActionBar';
 import { useCart } from '@/state/CartProvider';
 import { getProductById } from '@/state/catalog';
-import { getCommonTransportModes, TRANSPORT_LABELS, TRANSPORT_TIMING, AIR_RATE_XOF_PER_KG } from '@/domain/transport';
+import { getTransportOptions, TRANSPORT_LABELS, TRANSPORT_TIMING, AIR_RATE_XOF_PER_KG } from '@/domain/transport';
 import type { TransportMode } from '@/domain/transport';
 import { useCheckout, type PaymentPlan, type PaymentMethod } from '@/state/CheckoutProvider';
 import styles from './PaymentPage.module.css';
@@ -48,9 +48,18 @@ export default function PaymentPage() {
     isComplete,
   } = useCheckout();
 
-  const availableTransportModes = useMemo(
-    () => getCommonTransportModes(lines.map((l) => getProductById(l.productId)?.transportModes ?? [])),
+  const transportOptions = useMemo(
+    () => getTransportOptions(
+      lines.map((l) => {
+        const product = getProductById(l.productId);
+        return { title: product?.title ?? l.productId, transportModes: product?.transportModes ?? [] };
+      }),
+    ),
     [lines],
+  );
+  const availableTransportModes = useMemo(
+    () => transportOptions.filter((o) => o.available).map((o) => o.mode),
+    [transportOptions],
   );
   const hasNoCommonTransport = lines.length > 0 && availableTransportModes.length === 0;
 
@@ -110,35 +119,31 @@ export default function PaymentPage() {
         </div>
       </Section>
 
-      {/* Step 2 - Transport mode (revealed once a plan is chosen) */}
-      {paymentPlan && hasNoCommonTransport && (
-        <Section variant="card" spacing="md" ariaLabel="Transport indisponible">
-          <div className={styles.warning}>
-            <AlertTriangle size={20} strokeWidth={1.5} aria-hidden="true" />
-            <p>
-              Les produits de votre panier n&apos;ont aucun mode de transport en commun.
-              Retournez au panier et séparez-les en deux commandes distinctes.
-            </p>
-          </div>
-        </Section>
-      )}
-      {paymentPlan && !hasNoCommonTransport && (
+      {/* Step 2 - Transport mode (revealed once a plan is chosen). Both modes
+          are always shown; one the cart can't ship by is disabled with a reason. */}
+      {paymentPlan && (
         <Section variant="flat" spacing="md" ariaLabel="Mode de transport">
           <h2 className={styles.h2}>2. Mode de transport</h2>
           <div role="radiogroup" aria-label="Mode de transport" className={styles.list}>
-            {availableTransportModes.map((mode) => {
+            {transportOptions.map(({ mode, available, reason }) => {
               const Icon = TRANSPORT_ICONS[mode];
               const active = transportMode === mode;
               const costLine = mode === 'air'
-                ? `Coût : 1 kg = ${AIR_RATE_XOF_PER_KG.toLocaleString('fr-FR')} XOF`
+                ? `Coût : 1 kg = ${AIR_RATE_XOF_PER_KG.toLocaleString('fr-FR')} FCFA`
                 : 'Coût inclus dans le total affiché';
+              const reasonId = `transport-${mode}-reason`;
               return (
-                <label key={mode} className={`${styles.option} ${active ? styles.optionActive : ''}`}>
+                <label
+                  key={mode}
+                  className={`${styles.option} ${active ? styles.optionActive : ''} ${available ? '' : styles.optionDisabled}`}
+                >
                   <input
                     type="radio"
                     name="transport-mode"
                     value={mode}
                     checked={active}
+                    disabled={!available}
+                    aria-describedby={available ? undefined : reasonId}
                     onChange={() => setTransportMode(mode)}
                     className={styles.radio}
                   />
@@ -149,12 +154,24 @@ export default function PaymentPage() {
                     <strong>{TRANSPORT_LABELS[mode]}</strong>
                     <span className={styles.optionSub}>Délai : {TRANSPORT_TIMING[mode]}</span>
                     <span className={styles.optionSub}>{costLine}</span>
+                    {!available && (
+                      <span id={reasonId} className={styles.optionReason}>{reason}</span>
+                    )}
                   </span>
                   {active && <CheckCircle2 size={20} strokeWidth={1.8} className={styles.check} aria-hidden="true" />}
                 </label>
               );
             })}
           </div>
+          {hasNoCommonTransport && (
+            <div className={styles.warning} role="alert">
+              <AlertTriangle size={20} strokeWidth={1.5} aria-hidden="true" />
+              <p>
+                Les produits de votre panier n&apos;ont aucun mode de transport en commun.
+                Retournez au panier et séparez-les en deux commandes distinctes.
+              </p>
+            </div>
+          )}
         </Section>
       )}
 

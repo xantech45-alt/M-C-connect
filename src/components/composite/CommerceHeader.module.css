@@ -4,24 +4,24 @@
   z-index: 40;
   background: var(--white);
   border-bottom: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
   padding: var(--safe-top, 0px) var(--page-gutter) var(--space-2);
 }
 
-.row {
-  display: flex;
+/* Mobile/tablet: brand + user + actions, then delivery, then search */
+.bar {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    'brand user actions'
+    'delivery delivery delivery'
+    'search search search';
   align-items: center;
-  gap: var(--space-2);
-}
-
-.rowTop {
-  justify-content: space-between;
-  min-height: 44px;
+  column-gap: var(--space-2);
+  row-gap: var(--space-2);
 }
 
 .brandBtn {
+  grid-area: brand;
   background: transparent;
   border: 0;
   padding: 0;
@@ -31,21 +31,80 @@
   align-items: center;
 }
 
-.actions {
-  display: flex;
-  align-items: center;
-  gap: var(--space-1);
-  margin-left: auto;
-}
-
 .userArea {
+  grid-area: user;
   display: inline-flex;
   align-items: center;
   margin-left: var(--space-2);
+  min-width: 0;
+}
+
+.actions {
+  grid-area: actions;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  justify-self: end;
+}
+
+.delivery {
+  grid-area: delivery;
+  display: flex;
+  min-width: 0;
+}
+
+.search {
+  grid-area: search;
+  min-width: 0;
+}
+
+.navRow {
+  display: none;
 }
 
 @media (max-width: 359px) {
   .userArea {
     margin-left: var(--space-1);
+  }
+}
+
+/* Desktop: a single row, centered at the content width, then the nav row */
+@media (min-width: 1024px) {
+  .header {
+    padding-bottom: 0;
+  }
+
+  .bar,
+  .navRow {
+    max-width: var(--content-max);
+    margin: 0 auto;
+  }
+
+  .bar {
+    grid-template-columns: auto auto minmax(0, 1fr) auto auto;
+    grid-template-areas: 'brand delivery search user actions';
+    column-gap: var(--space-5);
+    min-height: 72px;
+  }
+
+  .bar.noSearch {
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
+    grid-template-areas: 'brand . user actions';
+  }
+
+  .search {
+    max-width: 720px;
+    width: 100%;
+    justify-self: center;
+  }
+
+  .userArea {
+    margin-left: 0;
+  }
+
+  .navRow {
+    display: block;
+    padding: var(--space-2) 0;
+    border-top: 1px solid var(--border-soft);
   }
 }

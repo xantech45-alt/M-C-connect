@@ -159,3 +159,95 @@
 .skipLink:hover {
   color: var(--ink);
 }
+
+.copy {
+  display: flex;
+  flex-direction: column;
+}
+
+.loginLink {
+  color: var(--mc-red);
+  font-size: var(--font-size-body);
+  font-weight: 600;
+  text-decoration: none;
+  min-height: var(--tap-min);
+  display: inline-flex;
+  align-items: center;
+}
+
+.loginLink:hover {
+  text-decoration: underline;
+}
+
+/* ── Desktop / tablet landscape ─────────────────────────────
+ * The phone layout (art stacked over copy, full-width CTA, ~1000px of
+ * empty space at 1440px) becomes a centered two-column panel: art on the
+ * left, logo + copy + controls on the right. Same markup, grid areas. */
+@media (min-width: 900px) {
+  .container {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas:
+      'art logo'
+      'art copy'
+      'art dots'
+      'art actions';
+    align-content: center;
+    column-gap: var(--space-14);
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: var(--space-10) var(--page-gutter);
+    text-align: left;
+  }
+
+  .logoLockup {
+    grid-area: logo;
+    justify-content: flex-start;
+    margin-bottom: var(--space-8);
+  }
+
+  .art {
+    grid-area: art;
+    margin: 0;
+    min-height: 480px;
+    padding: var(--space-6);
+    background: var(--surface);
+    border-radius: var(--radius-xl);
+  }
+
+  .artImage {
+    max-width: 440px;
+  }
+
+  .copy {
+    grid-area: copy;
+  }
+
+  .title {
+    font-size: var(--font-size-display-lg);
+    line-height: var(--line-height-display-lg);
+  }
+
+  .body {
+    margin-left: 0;
+    max-width: 40ch;
+  }
+
+  .dots {
+    grid-area: dots;
+    justify-content: flex-start;
+  }
+
+  .actions {
+    grid-area: actions;
+    align-items: flex-start;
+    align-self: start;
+  }
+
+  .primaryCta {
+    width: auto;
+    min-width: 240px;
+  }
+}

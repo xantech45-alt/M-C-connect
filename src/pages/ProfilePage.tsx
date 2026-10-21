@@ -41,6 +41,9 @@ export default function ProfilePage() {
 
   return (
     <div className={styles.container}>
+      {/* aside/main only matter on desktop (two columns); on mobile they are
+          plain stacked blocks with the same gap as before. */}
+      <div className={styles.aside}>
       <Section variant="card" spacing="md" ariaLabel="Identité">
         <Link to="/profile/edit" className={styles.identity}>
           <div className={styles.identityAvatarWrap}>
@@ -84,6 +87,9 @@ export default function ProfilePage() {
         </div>
       </Section>
 
+      </div>
+
+      <div className={styles.main}>
       <Section variant="flat" spacing="md" ariaLabel="Mon compte">
         <SectionHeader title="Mon compte" />
         <Card>
@@ -147,6 +153,7 @@ export default function ProfilePage() {
           </NavRowList>
         </Card>
       </Section>
+      </div>
     </div>
   );
 }
